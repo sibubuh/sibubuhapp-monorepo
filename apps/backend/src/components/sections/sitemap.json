@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_sections_sitemaps",
+  "info": {
+    "displayName": "Sitemap",
+    "icon": "bulletList",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "sitemap_list": {
+      "type": "component",
+      "repeatable": true,
+      "component": "repeatable.double-anchor"
+    }
+  }
+}

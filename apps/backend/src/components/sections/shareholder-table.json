@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_sections_shareholder_tables",
+  "info": {
+    "displayName": "ShareholderTable",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "note": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "header": {
+      "displayName": "ShareholderTableHeader",
+      "type": "component",
+      "repeatable": false,
+      "component": "repeatable.shareholder-table-header",
+      "required": true
+    },
+    "shareholder_block": {
+      "type": "component",
+      "repeatable": true,
+      "component": "repeatable.shareholder-block"
+    }
+  }
+}

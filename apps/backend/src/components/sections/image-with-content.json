@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_sections_image_with_contents",
+  "info": {
+    "displayName": "ImageWithContent",
+    "icon": "calendar"
+  },
+  "options": {},
+  "attributes": {
+    "image": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": true
+    },
+    "content": {
+      "type": "blocks",
+      "required": true
+    }
+  }
+}

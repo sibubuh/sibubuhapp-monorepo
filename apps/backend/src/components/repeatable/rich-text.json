@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_repeatable_rich_texts",
+  "info": {
+    "displayName": "Rich Text",
+    "icon": "book",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "address": {
+      "type": "blocks"
+    }
+  }
+}

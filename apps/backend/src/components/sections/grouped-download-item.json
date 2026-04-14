@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_sections_grouped_download_items",
+  "info": {
+    "displayName": "GroupedDownloadItem",
+    "icon": "dashboard",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "groups": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.group-download-items",
+      "required": true
+    }
+  }
+}

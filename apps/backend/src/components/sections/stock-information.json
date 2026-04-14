@@ -1,0 +1,45 @@
+{
+  "collectionName": "components_sections_stock_informations",
+  "info": {
+    "displayName": "StockInformation",
+    "icon": "chartCircle",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "description": {
+      "type": "blocks",
+      "required": true
+    },
+    "trading_symbol": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "stock_information_tab": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "stock_calculator_tab": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "calculator_simulation_title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "calculator_input_label": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "calculator_result_label": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    }
+  }
+}

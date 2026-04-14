@@ -1,0 +1,33 @@
+{
+  "collectionName": "components_sections_navbars",
+  "info": {
+    "displayName": "Navbar",
+    "icon": "store",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "logo_black": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "menu": {
+      "type": "component",
+      "repeatable": true,
+      "component": "navigation.navigation-item"
+    },
+    "logo_white": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": true
+    }
+  }
+}

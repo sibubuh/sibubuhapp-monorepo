@@ -1,0 +1,38 @@
+{
+  "collectionName": "components_sections_governances",
+  "info": {
+    "displayName": "Governance",
+    "icon": "briefcase",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "description1": {
+      "type": "richtext",
+      "required": true
+    },
+    "description2": {
+      "type": "richtext",
+      "required": true
+    },
+    "description3": {
+      "type": "richtext"
+    },
+    "description4": {
+      "type": "richtext"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  }
+}

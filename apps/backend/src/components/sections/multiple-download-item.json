@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_sections_multiple_download_items",
+  "info": {
+    "displayName": "MultipleDownloadItem",
+    "icon": "apps",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "required": true,
+      "component": "repeatable.download-item"
+    }
+  }
+}

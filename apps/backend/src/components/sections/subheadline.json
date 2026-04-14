@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_sections_subheadlines",
+  "info": {
+    "displayName": "Subheadline",
+    "icon": "apps",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "text",
+      "required": true,
+      "maxLength": 1000
+    }
+  }
+}

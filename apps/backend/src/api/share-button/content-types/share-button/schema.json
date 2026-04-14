@@ -1,0 +1,39 @@
+{
+  "kind": "singleType",
+  "collectionName": "share_buttons",
+  "info": {
+    "singularName": "share-button",
+    "pluralName": "share-buttons",
+    "displayName": "Share Button",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "label": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string",
+      "maxLength": 255
+    },
+    "sharer_group": {
+      "type": "component",
+      "repeatable": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      },
+      "component": "repeatable.sharer-url"
+    }
+  }
+}

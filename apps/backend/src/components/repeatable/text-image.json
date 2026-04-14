@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_repeatable_text_images",
+  "info": {
+    "displayName": "Text Image",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  }
+}

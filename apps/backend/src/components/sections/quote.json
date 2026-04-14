@@ -1,0 +1,29 @@
+{
+  "collectionName": "components_sections_quotes",
+  "info": {
+    "displayName": "Quote",
+    "icon": "handHeart",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "text",
+      "required": true,
+      "maxLength": 500
+    },
+    "author": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "divider": {
+      "type": "boolean",
+      "default": false
+    },
+    "role": {
+      "type": "string",
+      "maxLength": 255
+    }
+  }
+}

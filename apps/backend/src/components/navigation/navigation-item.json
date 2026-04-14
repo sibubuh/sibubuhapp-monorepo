@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_navigation_navigation_items",
+  "info": {
+    "displayName": "Navigation Item",
+    "icon": "apps",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "component",
+      "repeatable": false,
+      "component": "repeatable.anchor"
+    },
+    "sub_menus": {
+      "type": "component",
+      "repeatable": true,
+      "component": "repeatable.anchor"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_sections_rups",
+  "info": {
+    "displayName": "Rups",
+    "icon": "apps",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "rups_item": {
+      "displayName": "RUPS Item",
+      "type": "component",
+      "repeatable": true,
+      "component": "repeatable.rups-item",
+      "required": true
+    }
+  }
+}

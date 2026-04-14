@@ -1,0 +1,43 @@
+{
+  "collectionName": "components_repeatable_subsidiaries",
+  "info": {
+    "displayName": "subsidiaries",
+    "icon": "book",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "address": {
+      "displayName": "Rich Text",
+      "type": "component",
+      "repeatable": true,
+      "component": "repeatable.rich-text",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "detail": {
+      "type": "component",
+      "repeatable": true,
+      "component": "repeatable.title-and-description",
+      "required": true
+    },
+    "contacts": {
+      "type": "component",
+      "repeatable": true,
+      "component": "repeatable.anchor-and-imagee",
+      "required": true
+    }
+  }
+}

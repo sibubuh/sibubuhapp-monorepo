@@ -1,0 +1,21 @@
+{
+  "kind": "singleType",
+  "collectionName": "analytics",
+  "info": {
+    "singularName": "analytic",
+    "pluralName": "analytics",
+    "displayName": "Analytic",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "google_analytic_tracking_id": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    }
+  }
+}

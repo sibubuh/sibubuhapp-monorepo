@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_repeatable_texts",
+  "info": {
+    "displayName": "Text",
+    "icon": "brush",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_sections_our_business_blocks",
+  "info": {
+    "displayName": "OurBusinessBlock",
+    "icon": "expand",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "blocks": {
+      "displayName": "Block",
+      "type": "component",
+      "repeatable": true,
+      "component": "repeatable.block"
+    }
+  }
+}

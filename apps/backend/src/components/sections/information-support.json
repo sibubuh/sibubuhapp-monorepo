@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_sections_information_supports",
+  "info": {
+    "displayName": "InformationSupport",
+    "icon": "gate",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "blocks": {
+      "displayName": "Contact Support",
+      "type": "component",
+      "repeatable": true,
+      "component": "repeatable.contact-support"
+    }
+  }
+}

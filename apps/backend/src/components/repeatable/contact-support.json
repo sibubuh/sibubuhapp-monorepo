@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_repeatable_contact_supports",
+  "info": {
+    "displayName": "Contact Support",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "description": {
+      "type": "blocks",
+      "required": true
+    },
+    "block_detail": {
+      "type": "component",
+      "repeatable": true,
+      "component": "repeatable.anchor-and-imagee"
+    }
+  }
+}

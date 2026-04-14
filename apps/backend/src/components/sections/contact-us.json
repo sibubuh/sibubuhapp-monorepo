@@ -1,0 +1,71 @@
+{
+  "collectionName": "components_sections_contactuses",
+  "info": {
+    "displayName": "ContactUs",
+    "icon": "envelop",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "maps_url": {
+      "type": "text",
+      "required": true,
+      "maxLength": 1000
+    },
+    "contact_title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "form_title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "submit_label": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "submitting_label": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "first_name": {
+      "type": "component",
+      "repeatable": false,
+      "component": "repeatable.text-field",
+      "required": true
+    },
+    "last_name": {
+      "type": "component",
+      "repeatable": false,
+      "component": "repeatable.text-field",
+      "required": true
+    },
+    "phone_number": {
+      "type": "component",
+      "repeatable": false,
+      "component": "repeatable.text-field",
+      "required": true
+    },
+    "email_address": {
+      "type": "component",
+      "repeatable": false,
+      "component": "repeatable.text-field",
+      "required": true
+    },
+    "message": {
+      "type": "component",
+      "repeatable": false,
+      "component": "repeatable.text-field",
+      "required": true
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "repeatable.anchor-and-imagee"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_sections_latest_news",
+  "info": {
+    "displayName": "LatestNews",
+    "icon": "grid",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "see_more": {
+      "type": "component",
+      "repeatable": false,
+      "component": "repeatable.anchor"
+    },
+    "limit_news": {
+      "type": "integer",
+      "required": true,
+      "default": 3
+    }
+  }
+}

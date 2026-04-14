@@ -1,0 +1,30 @@
+{
+  "collectionName": "components_sections_vision_missions",
+  "info": {
+    "displayName": "VisionMission",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "vision_label": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "vision": {
+      "type": "text",
+      "required": true,
+      "maxLength": 1000
+    },
+    "mission_label": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "mission": {
+      "type": "component",
+      "repeatable": true,
+      "component": "repeatable.text"
+    }
+  }
+}

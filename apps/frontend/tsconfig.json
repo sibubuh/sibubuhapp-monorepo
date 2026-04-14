@@ -15,13 +15,13 @@
 		"strict": true,
 		"target": "ES2022",
 		"types": ["node", "vite/client", "@testing-library/jest-dom"],
-		"baseUrl": ".",
         "ignoreDeprecations": "6.0",
+		"baseUrl": ".",
 		"paths": {
 			"#/*": ["./src/*"]
 		}
 	},
-	"include": ["src/**/*", "tests/**/*", "tests-e2e/**/*"],
+	"include": ["src/**/*", "config/**/*", "tests/**/*", "tests-e2e/**/*","services/**/*","libs/**/*"],
 	"exclude": ["tests-results", ".output", ".vinxi", "dist"],
 	"references": []
 }

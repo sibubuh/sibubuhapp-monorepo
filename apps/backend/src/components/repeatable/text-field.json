@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_repeatable_text_fields",
+  "info": {
+    "displayName": "Text Field",
+    "icon": "brush",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "placeholder": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "error_text": {
+      "type": "string",
+      "maxLength": 255
+    }
+  }
+}

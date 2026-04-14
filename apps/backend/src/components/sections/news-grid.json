@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_sections_news_grids",
+  "info": {
+    "displayName": "NewsGrid",
+    "icon": "stack",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "limit_per_page": {
+      "type": "integer",
+      "required": true,
+      "default": 6,
+      "max": 100
+    },
+    "load_more": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "highlight": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::post.post"
+    }
+  }
+}

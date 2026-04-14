@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_repeatable_block_specifications",
+  "info": {
+    "displayName": "BlockSpecification",
+    "icon": "fileError",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "block_detail": {
+      "type": "component",
+      "repeatable": true,
+      "component": "repeatable.block-detail",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "maxLength": 1000
+    }
+  }
+}

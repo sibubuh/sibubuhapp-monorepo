@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_sections_block_list_specifications",
+  "info": {
+    "displayName": "BlockListSpecification",
+    "icon": "store",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "blocks": {
+      "displayName": "BlockSpecification",
+      "type": "component",
+      "repeatable": true,
+      "component": "repeatable.block-specification",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  }
+}

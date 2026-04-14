@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_sections_raw_htmls",
+  "info": {
+    "displayName": "RawHtml",
+    "icon": "code"
+  },
+  "options": {},
+  "attributes": {
+    "content": {
+      "type": "text",
+      "required": true
+    }
+  }
+}

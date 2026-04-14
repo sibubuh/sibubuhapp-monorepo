@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_sections_text_headlines",
+  "info": {
+    "displayName": "TextHeadline",
+    "icon": "hashtag",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "text",
+      "required": true,
+      "maxLength": 255
+    },
+    "divider": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    }
+  }
+}

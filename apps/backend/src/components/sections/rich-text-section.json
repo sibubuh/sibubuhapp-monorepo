@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_sections_rich_text_sections",
+  "info": {
+    "displayName": "RichTextSection",
+    "icon": "cup"
+  },
+  "options": {},
+  "attributes": {
+    "content": {
+      "type": "blocks",
+      "required": true
+    }
+  }
+}

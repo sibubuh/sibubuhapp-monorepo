@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_sections_subsidiaries",
+  "info": {
+    "displayName": "Subsidiaries",
+    "icon": "dashboard",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "companies": {
+      "displayName": "subsidiaries",
+      "type": "component",
+      "repeatable": true,
+      "component": "repeatable.subsidiaries"
+    }
+  }
+}

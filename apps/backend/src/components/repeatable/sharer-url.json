@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_repeatable_sharer_urls",
+  "info": {
+    "displayName": "SharerUrl",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "is_shown": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "prefix_url": {
+      "type": "string",
+      "required": false,
+      "maxLength": 255
+    },
+    "label": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    }
+  }
+}

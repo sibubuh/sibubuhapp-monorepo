@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_repeatable_title_and_descriptions",
+  "info": {
+    "displayName": "Title & Description",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "description": {
+      "type": "text",
+      "required": true,
+      "maxLength": 1000
+    }
+  }
+}

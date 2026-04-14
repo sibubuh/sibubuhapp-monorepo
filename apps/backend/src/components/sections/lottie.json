@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_sections_lotties",
+  "info": {
+    "displayName": "Lottie",
+    "icon": "crown"
+  },
+  "options": {},
+  "attributes": {
+    "lottie": {
+      "allowedTypes": [
+        "files"
+      ],
+      "type": "media",
+      "multiple": false,
+      "required": true
+    }
+  }
+}

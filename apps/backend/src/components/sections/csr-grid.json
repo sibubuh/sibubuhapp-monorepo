@@ -1,0 +1,31 @@
+{
+  "collectionName": "components_sections_csr_grids",
+  "info": {
+    "displayName": "CsrGrid",
+    "icon": "apps",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "latest_csr_title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "limit_per_page": {
+      "type": "integer",
+      "required": true,
+      "max": 100
+    },
+    "load_more": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    }
+  }
+}
