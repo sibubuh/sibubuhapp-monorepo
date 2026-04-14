@@ -1,0 +1,49 @@
+{
+    "name": "sibubuhapp-monorepo",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "dev": "pnpm --filter=frontend run dev & pnpm --filter=backend run dev",
+        "dev:backend": "pnpm --filter=backend run dev",
+        "dev:frontend": "pnpm --filter=frontend run dev",
+        "build": "pnpm --filter=frontend run build",
+        "build:backend": "pnpm --filter=backend run build",
+        "build:frontend": "pnpm --filter=frontend run build",
+        "start": "pnpm --filter=frontend run start",
+        "start:backend": "pnpm --filter=backend run start",
+        "start:frontend": "pnpm --filter=frontend run start",
+        "test:frontend": "pnpm --filter=frontend run test",
+        "generate:key": "sh scripts/generate-keys.sh",
+        "format": "prettier --write \"**/*.{json,js,jsx,ts,tsx,md,mdx}\" --log-level warn",
+        "purge": "docker compose down --remove-orphans --volumes && pnpm dlx npkill -D -nu -y",
+        "cleanup": "docker compose down --remove-orphans && pnpm dlx npkill -D -nu -y",
+        "pre-dev": "docker compose up -d",
+        "update-deps": "npm-check-updates --configFileName .ncurc.json"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "^1.9.4",
+        "npm-check-updates": "^16.14.12",
+        "prettier": "^3.3.2",
+        "typescript": "5.3.3"
+    },
+    "pnpm": {
+        "onlyBuiltDependencies": [
+            "@biomejs/biome",
+            "@swc/core",
+            "core-js-pure",
+            "esbuild",
+            "sharp"
+        ],
+        "overrides": {
+            "react": "18.3.1",
+            "react-dom": "18.3.1"
+        },
+        "peerDependencyRules": {
+            "allowedVersions": {
+                "react": "18.3.1",
+                "react-dom": "18.3.1"
+            }
+        }
+    },
+    "packageManager": "pnpm@10.30.0"
+}
