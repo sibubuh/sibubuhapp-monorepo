@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import type { ContactUsSection } from "../../types/sections/contact-us";
-
+const baseURL = import.meta.env.VITE_PUBLIC_STRAPI_CMS_BASE_URL;
 export default function ContactUsSectionComponent({
 	maps_url,
 	contact_title,
@@ -62,7 +62,7 @@ export default function ContactUsSectionComponent({
 								{items.map((item, index) => (
 									<div key={index} className="flex items-center gap-4">
 										<img
-											src={item.icon?.url}
+											src={baseURL + item.icon?.url}
 											alt={item.title}
 											className="w-12 h-12 object-contain"
 										/>
