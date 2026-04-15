@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_sections_hero_pages",
+  "info": {
+    "displayName": "HeroPage"
+  },
+  "options": {},
+  "attributes": {
+    "heropage": {
+      "type": "component",
+      "component": "repeatable.title-and-content-and-image",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

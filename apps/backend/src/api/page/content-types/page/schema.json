@@ -23,9 +23,9 @@
           "localized": true
         }
       },
-      "required": true,
+      "minLength": 5,
       "maxLength": 255,
-      "minLength": 5
+      "required": true
     },
     "slug": {
       "type": "uid",
@@ -35,6 +35,11 @@
     },
     "sections": {
       "type": "dynamiczone",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
       "components": [
         "sections.navbar",
         "sections.hero-home",
@@ -58,24 +63,20 @@
         "sections.subheadline",
         "sections.multiple-download-item",
         "sections.hero-anchor",
-        "sections.grouped-download-item"
+        "sections.grouped-download-item",
+        "sections.hero-page"
       ],
-      "required": true,
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      }
+      "required": true
     },
     "seo": {
       "type": "component",
-      "repeatable": false,
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
       },
-      "component": "shared.seo"
+      "component": "shared.seo",
+      "repeatable": false
     }
   }
 }

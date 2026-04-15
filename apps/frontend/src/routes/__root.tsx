@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 import type { ErrorComponentProps } from "@tanstack/react-router";
 import {
 	createRootRoute,
@@ -21,7 +21,6 @@ export const Route = createRootRoute({
 		meta: [
 			{ charSet: "utf-8" },
 			{ name: "viewport", content: "width=device-width, initial-scale=1" },
-			{ title: "TanStack Start App" },
 		],
 		links: [
 			{ rel: "stylesheet", href: appCss },
@@ -58,8 +57,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			<body>
 				<div className="min-h-screen bg-background text-foreground">
 					<header className="border-b bg-card">
-      <Navbar />
-    </header>
+						<Navbar />
+					</header>
 					{children}
 				</div>
 
@@ -67,7 +66,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 					<TanStackRouterDevtools position="bottom-right" />
 				) : null}
 				<Scripts />
-        <Footer />
+				<Footer />
 			</body>
 		</html>
 	);
