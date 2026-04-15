@@ -1,9 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router';
-import HeroSlider from '../components/home/HeroSlider';
-import WebIntro from '../components/home/WebIntro';
-import PortfolioSlider from '../components/home/PortfolioSlider';
-import TeamSection from '../components/home/TeamSection';
-import ContactCTA from '../components/home/ContactCTA';
+import HeroSlider from '../components/ui/HeroSlider';
+import WebIntro from '../components/ui/WebIntro';
+import PortfolioSlider from '../components/ui/PortfolioSlider';
+import TeamSection from '../components/ui/TeamSection';
+import ContactCTA from '../components/ui/ContactCTA';
 
 export const Route = createFileRoute('/')({
   component: Index,

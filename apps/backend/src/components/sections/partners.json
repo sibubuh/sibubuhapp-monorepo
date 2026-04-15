@@ -9,14 +9,8 @@
   "attributes": {
     "title": {
       "type": "string",
-      "required": true,
-      "maxLength": 255
-    },
-    "partners": {
-      "displayName": "SimplePartner",
-      "type": "component",
-      "repeatable": true,
-      "component": "card.simple-partner"
+      "maxLength": 255,
+      "required": true
     },
     "image": {
       "type": "media",
@@ -28,13 +22,13 @@
     },
     "description": {
       "type": "text",
-      "required": true,
-      "maxLength": 1000
+      "maxLength": 1000,
+      "required": true
     },
     "link": {
       "type": "component",
-      "repeatable": false,
       "component": "repeatable.anchor",
+      "repeatable": false,
       "required": true
     }
   }

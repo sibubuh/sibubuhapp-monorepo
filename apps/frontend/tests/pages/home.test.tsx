@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { Welcome } from "#/components/home/welcome";
+import { Welcome } from "#/components/ui/welcome";
 
 describe("Welcome", () => {
     it("renders hero and cards", () => {

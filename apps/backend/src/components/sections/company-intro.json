@@ -1,7 +1,7 @@
 {
   "collectionName": "components_sections_company_intros",
   "info": {
-    "displayName": "CompanyIntro",
+    "displayName": "WebIntro",
     "icon": "puzzle",
     "description": ""
   },
@@ -9,8 +9,8 @@
   "attributes": {
     "title": {
       "type": "string",
-      "required": true,
-      "maxLength": 255
+      "maxLength": 255,
+      "required": true
     },
     "secondary_title": {
       "type": "string",
@@ -18,13 +18,13 @@
     },
     "description": {
       "type": "text",
-      "required": true,
-      "maxLength": 1000
+      "maxLength": 1000,
+      "required": true
     },
     "link": {
       "type": "component",
-      "repeatable": false,
       "component": "repeatable.anchor",
+      "repeatable": false,
       "required": false
     },
     "image": {

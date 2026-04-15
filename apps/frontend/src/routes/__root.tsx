@@ -13,8 +13,8 @@ import { DefaultCatchBoundary } from "#/components/errors/DefaultCatchBoundary";
 import { NotFound } from "#/components/errors/NotFound";
 
 import appCss from "../styles/global.css?url";
-import Navbar from "../components/home/Navbar";
-import Footer from "../components/home/Footer";
+import Navbar from "../components/ui/Navbar";
+import Footer from "../components/ui/Footer";
 
 export const Route = createRootRoute({
 	head: () => ({
