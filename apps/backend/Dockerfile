@@ -115,6 +115,17 @@ ARG AWS_REGION
 ARG AWS_BUCKET
 ARG S3_PATH_PREFIX
 
+ENV APP_KEYS=$APP_KEYS \
+    API_TOKEN_SALT=$API_TOKEN_SALT \
+    ADMIN_JWT_SECRET=$ADMIN_JWT_SECRET \
+    TRANSFER_TOKEN_SALT=$TRANSFER_TOKEN_SALT \
+    JWT_SECRET=$JWT_SECRET \
+    DATABASE_URL=$DATABASE_URL \
+    DATABASE_SSL=$DATABASE_SSL \
+    SMTP_HOST=$SMTP_HOST \
+    SMTP_PORT=$SMTP_PORT \
+    SMTP_USERNAME=$SMTP_USERNAME \
+    SMTP_PASSWORD=$SMTP_PASSWORD
 # ------ Read application environment variables --------------------------------
 
 # Copy the build output files from the installer stage.

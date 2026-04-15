@@ -8,3 +8,6 @@ build
 .strapi-cloud.json
 .data/
 /types/
+.env
+.env.local
+.env.production
