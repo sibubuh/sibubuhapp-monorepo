@@ -476,6 +476,19 @@ export async function getCsrDetail({
 	return result;
 }
 
+export async function getWebIntro({
+	locale,
+}: {
+	locale: string | null;
+}): Promise<{ title: unknown; description: unknown } | null> {
+	return await getDataWithLocalization({
+		endpoint: "/api/web-intro",
+		filters: {},
+		singleType: true,
+		locale: locale,
+	});
+}
+
 export async function getRelatedCsr({
 	locale,
 	limit,

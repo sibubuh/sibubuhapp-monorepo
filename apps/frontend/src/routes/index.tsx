@@ -15,9 +15,9 @@ function Index() {
 	return (
 		<>
 			<SeoMeta
-				title="Digital Innovation Agency"
-				description="We craft high-performance digital products for ambitious brands."
-				keywords="digital agency, web development, design"
+				title="Sibubuh Playground - Find Everything is about me here"
+				description="I was built to showcase my work and share my thoughts on various topics."
+				keywords="Sibubuh, Playground, Portfolio, Blog, Contact, KOL, Influencer, Digital Agency, Web Development, Mobile Apps, UI/UX Design"
 			/>
 			<HeroSlider />
 			<WebIntro />

@@ -1,0 +1,21 @@
+{
+  "kind": "singleType",
+  "collectionName": "web_intros",
+  "info": {
+    "singularName": "web-intro",
+    "pluralName": "web-intros",
+    "displayName": "Web Intro"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "blocks"
+    },
+    "description": {
+      "type": "blocks"
+    }
+  }
+}
