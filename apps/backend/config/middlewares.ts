@@ -6,7 +6,13 @@ export default [
   'strapi::poweredBy',
   'strapi::query',
   'strapi::body',
-  'strapi::session',
+  {
+    name: 'strapi::session',
+    config: {
+      secure: true,
+      proxy: true,
+    },
+  },
   'strapi::favicon',
   'strapi::public',
 ];
