@@ -4,6 +4,7 @@ import WebIntro from "../components/ui/WebIntro";
 import PortfolioSlider from "../components/ui/PortfolioSlider";
 import TeamSection from "../components/ui/TeamSection";
 import ContactCTA from "../components/ui/ContactCTA";
+import RecentBlogsSection from "../components/sections/RecentBlogsSection";
 import { SeoMeta } from "../components/seo";
 
 export const Route = createFileRoute("/")({
@@ -20,6 +21,12 @@ function Index() {
 			/>
 			<HeroSlider />
 			<WebIntro />
+      <RecentBlogsSection
+				title="My Blog Post"
+				subtitle="Blog post about travel, lifestyle, and more"
+				limit={6}
+				showViewAll={true}
+			/>
 			<PortfolioSlider />
 			<TeamSection />
 			<ContactCTA />
