@@ -18,7 +18,7 @@ module.exports = {
       name: "frontend",
       cwd: "/var/www/sibubuhapp/apps/frontend",
       script: "node",
-      args: ".output/server/index.mjs",
+      args: "dist/server/server.js",
       env: {
         NODE_ENV: "production",
         PORT: 3000,
