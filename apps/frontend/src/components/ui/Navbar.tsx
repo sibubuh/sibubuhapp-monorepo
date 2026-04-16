@@ -4,7 +4,7 @@ import { Link } from "@tanstack/react-router";
 import type { Navbar as NavbarType } from "types/navbar";
 import { getHeader } from "services/api";
 
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3080";
+const BASE_URL = import.meta.env.VITE_PUBLIC_STRAPI_CMS_BASE_URL;
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
