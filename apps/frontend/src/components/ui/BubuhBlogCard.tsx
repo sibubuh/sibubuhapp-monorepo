@@ -58,7 +58,7 @@ export default function BubuhBlogCard({ post, index = 0 }: BubuhBlogCardProps) {
 				</p>
 
 				<div className="flex items-center justify-between">
-					<span className="text-xs text-neutral-400">bubah.id</span>
+					<span className="text-xs text-neutral-400">bubuh.id</span>
 					<span className="inline-flex items-center gap-1 text-xs font-medium text-amber-600 group-hover:gap-2 transition-all">
 						Baca Selengkapnya
 						<ExternalLink className="w-3 h-3" />
