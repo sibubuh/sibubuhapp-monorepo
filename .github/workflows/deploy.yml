@@ -32,7 +32,7 @@ jobs:
             pnpm --filter ./apps/frontend build
 
             echo "⚙️ Build backend"
-            pnpm --filter ./apps/backend build
+            NODE_OPTIONS="--max-old-space-size=2048" pnpm --filter ./apps/backend build
 
             echo "🚀 Restart backend"
             pm2 reload strapi-backend || pm2 start ecosystem.config.js
