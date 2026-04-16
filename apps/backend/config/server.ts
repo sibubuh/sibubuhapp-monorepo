@@ -1,7 +1,7 @@
 module.exports = ({ env }) => ({
 	host: "0.0.0.0",
 	port: env.int("PORT", 3080),
-	url: "localhost:3080",
+	url: env("BASE_URL"),
 	proxy: {
 		koa: true,
 	},
