@@ -34,15 +34,13 @@ jobs:
             pnpm install --frozen-lockfile
 
             echo "🏗 Build frontend"
-            cd /var/www/sibubuhapp/app/frontend
-            pnpm build
+            pnpm --filter ./apps/frontend build
 
             echo "⚙️ Build backend"
-            cd /var/www/sibubuhapp/app/backend
-            NODE_OPTIONS="--max-old-space-size=2048" pnpm build
+            NODE_OPTIONS="--max-old-space-size=2048" pnpm --filter ./apps/backend build
 
-            echo "🚀 Restart backend"
-            pm2 reload strapi-backend || pm2 start ecosystem.config.js
+            echo "🚀 Restart backend & Frontend"
+            pm2 reload frontend && pm2 reload strapi-backend
 
             pm2 save
 
