@@ -20,7 +20,7 @@ jobs:
             export PATH=$PATH:/root/.local/share/pnpm
 
             cd /var/www/sibubuhapp
-
+            nvm use v20.20.0
             echo "📥 Sync code"
             git fetch origin
             git reset --hard origin/main
