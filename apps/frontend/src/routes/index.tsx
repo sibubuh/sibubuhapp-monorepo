@@ -22,8 +22,8 @@ function Index() {
 			<HeroSlider />
 			<WebIntro />
       <RecentBlogsSection
-				title="My Blog Post"
-				subtitle="Blog post about travel, lifestyle, and more"
+				title="My Story"
+				subtitle="Story about me, my work, and my journey in the digital world."
 				limit={6}
 				showViewAll={true}
 			/>

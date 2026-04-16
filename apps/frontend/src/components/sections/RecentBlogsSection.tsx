@@ -44,8 +44,8 @@ export default function RecentBlogsSection({
 	}, [limit]);
 
 	return (
-		<section className="py-20 md:py-28 bg-neutral-50">
-			<div className="px-6 max-w-7xl mx-auto">
+		<section className="py-20 md:py-28 bg-[#080C14]">
+			<div className="px-6 max-w-screen-xl mx-auto">
 				<motion.div
 					initial={{ opacity: 0, y: 30 }}
 					whileInView={{ opacity: 1, y: 0 }}
@@ -53,7 +53,7 @@ export default function RecentBlogsSection({
 					transition={{ duration: 0.6 }}
 					className="text-center mb-12"
 				>
-					<h2 className="text-3xl md:text-5xl font-bold tracking-tight text-neutral-900 mb-4">
+					<h2 className="text-3xl md:text-5xl font-bold tracking-tight text-white mb-4">
 						{title}
 					</h2>
 					<p className="text-lg text-neutral-500 max-w-2xl mx-auto">
@@ -109,7 +109,7 @@ export default function RecentBlogsSection({
 									href="https://www.bubuh.id"
 									target="_blank"
 									rel="noopener noreferrer"
-									className="inline-flex items-center gap-2 px-8 py-4 bg-neutral-900 text-white font-medium rounded-full hover:bg-amber-500 transition-colors"
+									className="inline-flex items-center gap-2 px-8 py-4 bg-neutral-900 text-white font-medium rounded-full hover:bg-indigo-600 transition-colors"
 								>
 									Lihat Semua di Bubuh.id
 									<ExternalLink className="w-4 h-4" />

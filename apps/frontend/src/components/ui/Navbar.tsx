@@ -98,13 +98,14 @@ const Navbar = () => {
           </div>
 
           {/* CTA */}
-          <motion.button
+          <motion.a
+            href="mailto:nchan.bkho@gmail.com"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="hidden md:block bg-white text-black text-[10px] font-black uppercase px-6 py-2 rounded-full tracking-widest hover:bg-indigo-600 hover:text-white transition-all"
           >
             Start Project
-          </motion.button>
+          </motion.a>
 
           {/* HAMBURGER */}
           <button
