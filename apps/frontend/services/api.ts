@@ -5,11 +5,15 @@ import {
 	DataPagination,
 	Filters,
 	Footer,
+	HomeSlider,
 	Navbar,
 	Page,
 	PaginationParams,
 	Post,
+	Project,
 	ShareButton,
+	SocialMedia,
+	ImageType,
 } from "../types";
 
 import fetchWithAuth from "./client";
@@ -324,10 +328,14 @@ export async function getDataWithLocalization({
 	ignoreLocalization?: boolean;
 }) {
 	const query: Record<string, unknown> = {
-		locale: ignoreLocalization ? null : locale,
 		filters: filters,
 		populate: populate,
 	};
+
+	// Only add locale if not ignoring localization
+	if (!ignoreLocalization) {
+		query.locale = locale;
+	}
 
 	if (pagination && pagination !== null && pagination !== undefined) {
 		query.pagination = pagination;
@@ -344,10 +352,8 @@ export async function getDataWithLocalization({
 		if (!multipleData) {
 			const isArray = Array.isArray(result.data);
 			const isValid = isArray ? result.data.length > 0 : true;
-
-			return ignoreLocalization ? false : isValid;
+			return isValid;
 		}
-
 		return true;
 	};
 
@@ -515,4 +521,259 @@ export async function getRelatedCsr({
 		multipleData: true,
 		populate: ["thumbnail"],
 	});
+}
+
+export async function getHomeSlider({
+	locale,
+}: {
+	locale: string | null;
+}): Promise<HomeSlider | null> {
+	return await getDataWithLocalization({
+		endpoint: "/api/home-slider",
+		filters: {},
+		populate: ["slider", "slider.image"],
+		singleType: true,
+		locale: locale,
+	});
+}
+
+export async function getProjects({
+	locale,
+	limit = 12,
+	page = 1,
+	category,
+}: {
+	locale: string | null;
+	limit?: number;
+	page?: number;
+	category?: string;
+}): Promise<{ data: Project[]; total: number }> {
+	const filters: Filters = category ? { category: { $eq: category } } : {};
+
+	const result = (await getDataWithLocalization({
+		endpoint: "/api/projects",
+		locale: locale,
+		filters: filters,
+		pagination: {
+			pageSize: limit,
+			page: page,
+			withCount: true,
+		},
+		sorts: ["createdAt:desc"],
+		populate: ["cover", "cover.image", "gallery"],
+		multipleData: true,
+		includeMeta: true,
+		ignoreLocalization: true,
+	})) as { data: any[]; meta: { pagination: { total: number } } } | null;
+
+	console.log("[getProjects] Raw result:", JSON.stringify(result, null, 2));
+
+	if (!result || !result.data) {
+		console.log("[getProjects] No data returned");
+		return { data: [], total: 0 };
+	}
+
+	const projects: Project[] = result.data.map((item: any) => {
+		const attrs = item.attributes || item;
+		return {
+			id: item.id,
+			title: attrs.title || "",
+			slug: attrs.slug || "",
+			description: attrs.description,
+			category: attrs.category || "Branding",
+			cover: transformCover(attrs.cover),
+			years: attrs.years || "",
+			gallery: transformGallery(attrs.gallery),
+			createdAt: attrs.createdAt || "",
+			updatedAt: attrs.updatedAt || "",
+		};
+	});
+
+	console.log("[getProjects] Transformed projects:", projects.length);
+
+	return {
+		data: projects,
+		total: result.meta?.pagination?.total || 0,
+	};
+}
+
+export async function getProject({
+	locale,
+	slug,
+}: {
+	locale: string | null;
+	slug: string;
+}): Promise<Project | null> {
+	try {
+		const result = await getDataWithLocalization({
+			endpoint: "/api/projects",
+			locale,
+			filters: { slug: { $eq: slug } },
+
+			// ✅ STRAPI V5 SAFE POPULATE
+			populate: {
+				cover: {
+					populate: {
+						image: true,
+					},
+				},
+				gallery: true,
+				seo: {
+					populate: {
+						metaImage: true,
+					},
+				},
+			},
+
+			multipleData: false,
+			ignoreLocalization: true,
+		});
+
+		if (!result) return null;
+
+		const rawData = Array.isArray(result) ? result[0] : result;
+		if (!rawData) return null;
+
+		const attrs = rawData.attributes || rawData;
+
+		return {
+			id: rawData.id,
+			title: attrs.title || "",
+			slug: attrs.slug || slug,
+			description: attrs.description,
+			category: attrs.category || "Branding",
+			cover: transformCover(attrs.cover),
+			years: attrs.years || "",
+			gallery: transformGallery(attrs.gallery),
+			createdAt: attrs.createdAt || "",
+			updatedAt: attrs.updatedAt || "",
+		};
+	} catch (error) {
+		console.error("[getProject] Error:", error);
+		return null;
+	}
+}
+
+function transformCover(cover: any): {
+	id: number;
+	image: {
+		id: number;
+		url: string;
+		width: number;
+		height: number;
+		name: string;
+		size: number;
+	};
+} | null {
+	if (!cover?.image) return null;
+
+	const imageData = cover.image?.data || cover.image;
+	const imgAttrs = imageData?.attributes || imageData;
+
+	return {
+		id: cover.id || imageData?.id || 0,
+		image: {
+			id: imageData?.id || 0,
+			url: imgAttrs?.url || "",
+			width: imgAttrs?.width || 0,
+			height: imgAttrs?.height || 0,
+			name: imgAttrs?.name || "",
+			size: imgAttrs?.size || 0,
+		},
+	};
+}
+
+function transformGallery(gallery: any): {
+	id: number;
+	url: string;
+	width: number;
+	height: number;
+	name: string;
+	size: number;
+}[] {
+	if (!gallery) return [];
+
+	const items = Array.isArray(gallery)
+		? gallery
+		: gallery.data && Array.isArray(gallery.data)
+			? gallery.data
+			: [gallery];
+
+	return items
+		.filter((item: any) => item)
+		.map((item: any) => {
+			const data = item?.data || item;
+			const attrs = data?.attributes || data;
+
+			return {
+				id: data?.id || 0,
+				url: attrs?.url || "",
+				width: attrs?.width || 0,
+				height: attrs?.height || 0,
+				name: attrs?.name || "",
+				size: attrs?.size || 0,
+			};
+		});
+}
+
+function transformThumbnail(thumbnail: any): ImageType | null {
+	if (!thumbnail) return null;
+
+	const data = thumbnail?.data || thumbnail;
+	const attrs = data?.attributes || data;
+
+	if (!attrs?.url) return null;
+
+	return {
+		id: data?.id || 0,
+		url: attrs.url,
+		width: attrs.width || 0,
+		height: attrs.height || 0,
+		name: attrs.name || "",
+		size: attrs.size || 0,
+	};
+}
+
+export async function getSocialMedia({
+	locale,
+}: {
+	locale: string | null;
+}): Promise<SocialMedia | null> {
+	const result = await getDataWithLocalization({
+		endpoint: "/api/social-media",
+		populate: {
+			social: {
+				populate: {
+					thumbnail: true,
+				},
+			},
+		},
+		singleType: true,
+		locale: locale,
+		ignoreLocalization: true,
+	});
+
+	if (!result) return null;
+
+	const rawData = result as any;
+	const attrs = rawData.attributes || rawData;
+
+	const socialItems: SocialMedia["social"] = (attrs.social || []).map(
+		(item: any) => {
+			const itemAttrs = item.attributes || item;
+			return {
+				id: item.id || 0,
+				name: itemAttrs.name || "",
+				link: itemAttrs.link || "",
+				thumbnail: transformThumbnail(itemAttrs.thumbnail),
+				description: itemAttrs.description,
+			};
+		},
+	);
+
+	return {
+		id: rawData.id || 0,
+		title: attrs.title || "",
+		social: socialItems,
+	};
 }

@@ -841,6 +841,20 @@ export interface SharedSeo extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedSocialMedia extends Struct.ComponentSchema {
+  collectionName: 'components_shared_social_medias';
+  info: {
+    displayName: 'SocialMedia';
+    icon: 'apps';
+  };
+  attributes: {
+    description: Schema.Attribute.Blocks & Schema.Attribute.Required;
+    link: Schema.Attribute.String & Schema.Attribute.Required;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    thumbnail: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+  };
+}
+
 declare module '@strapi/strapi' {
   export module Public {
     export interface ComponentSchemas {
@@ -888,6 +902,7 @@ declare module '@strapi/strapi' {
       'sections.whistleblowing': SectionsWhistleblowing;
       'shared.group-download-items': SharedGroupDownloadItems;
       'shared.seo': SharedSeo;
+      'shared.social-media': SharedSocialMedia;
     }
   }
 }

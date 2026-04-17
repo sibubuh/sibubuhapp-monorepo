@@ -1,0 +1,33 @@
+{
+  "collectionName": "components_shared_social_medias",
+  "info": {
+    "displayName": "SocialMedia",
+    "icon": "apps"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "link": {
+      "type": "string",
+      "required": true
+    },
+    "thumbnail": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "description": {
+      "type": "blocks",
+      "required": true
+    }
+  },
+  "config": {}
+}

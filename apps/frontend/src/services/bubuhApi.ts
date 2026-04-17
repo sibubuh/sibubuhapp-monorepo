@@ -1,57 +1,35 @@
 import type { BubuhBlogFeed, BubuhBlogPost } from "../types/bubuh";
 
 const BUBUH_API_BASE = "https://www.bubuh.id/feeds/posts/default";
+const RSS2JSON_BASE = "https://api.rss2json.com/v1/api.json";
+const RSS2JSON_API_KEY = import.meta.env.VITE_RSS2JSON_API_KEY;
 
-const CORS_PROXIES = [
-	"https://corsproxy.io/?",
-	"https://api.allorigins.win/raw?url=",
-	"https://api.codetabs.com/v1/proxy?quest=",
-];
+const bubuhCache = {
+	data: null as BubuhBlogFeed | null,
+	timestamp: 0,
+	TTL: 5 * 60 * 1000, // 5 minutes
+};
 
-async function fetchWithProxy(url: string): Promise<Response> {
-	for (const proxy of CORS_PROXIES) {
-		try {
-			const proxyUrl = `${proxy}${encodeURIComponent(url)}`;
-			console.log(`[BubuhAPI] Trying proxy: ${proxy}`);
+async function fetchFromRSS2JSON(limit: number): Promise<BubuhBlogFeed> {
+	const url = `${RSS2JSON_BASE}?rss_url=${encodeURIComponent(BUBUH_API_BASE)}&api_key=${RSS2JSON_API_KEY}&count=${limit}&field=content`;
 
-			const response = await fetch(proxyUrl, {
-				method: "GET",
-				headers: {
-					Accept: "application/json",
-				},
-			});
-
-			if (response.ok) {
-				console.log(`[BubuhAPI] Success with proxy: ${proxy}`);
-				return response;
-			}
-
-			console.warn(
-				`[BubuhAPI] Proxy ${proxy} returned status: ${response.status}`,
-			);
-		} catch (error) {
-			console.warn(`[BubuhAPI] Proxy ${proxy} failed:`, error);
-		}
-	}
-
-	throw new Error("All CORS proxies failed");
-}
-
-export async function getRecentBubuhBlogs(
-	limit: number = 6,
-): Promise<BubuhBlogFeed> {
-	const apiUrl = `${BUBUH_API_BASE}?alt=json&orderby=published&max-results=${limit}`;
-
-	console.log(`[BubuhAPI] Fetching from: ${apiUrl}`);
+	console.log(`[BubuhAPI] Fetching from: ${RSS2JSON_BASE}`);
 
 	try {
-		const response = await fetchWithProxy(apiUrl);
-		const text = await response.text();
+		const response = await fetch(url);
+		const data = await response.json();
 
-		console.log(`[BubuhAPI] Response length: ${text.length} chars`);
+		if (data.status !== "ok") {
+			console.error("[BubuhAPI] RSS2JSON error:", data.message);
+			return {
+				posts: [],
+				totalResults: 0,
+				startIndex: 0,
+				itemsPerPage: 0,
+			};
+		}
 
-		const data = JSON.parse(text);
-		return parseBloggerJsonFeed(data);
+		return parseRSS2JSONResponse(data);
 	} catch (error) {
 		console.error("[BubuhAPI] Error fetching bubuh blogs:", error);
 		return {
@@ -63,94 +41,106 @@ export async function getRecentBubuhBlogs(
 	}
 }
 
-function parseBloggerJsonFeed(data: {
-	feed?: {
-		entry?: Array<{
-			id?: { $t?: string };
-			title?: { $t?: string };
-			link?: Array<{
-				rel?: string;
-				href?: string;
-				type?: string;
-			}>;
-			published?: { $t?: string };
-			updated?: { $t?: string };
-			category?: Array<{ term?: string }>;
-			summary?: { $t?: string };
-			media$thumbnail?: {
-				url?: string;
-				width?: string;
-				height?: string;
-			};
-			author?: Array<{ name?: { $t?: string } }>;
-			thr$total?: { $t?: string };
-			georss$point?: {
-				$t?: string;
-			};
-			georss$featurename?: { $t?: string };
-		}>;
-		totalResults?: { $t?: string };
-		startIndex?: { $t?: string };
-		itemsPerPage?: { $t?: string };
-	};
-}): BubuhBlogFeed {
-	const feed = data.feed;
+function refreshCache(limit: number): void {
+	fetchFromRSS2JSON(limit)
+		.then((result) => {
+			bubuhCache.data = result;
+			bubuhCache.timestamp = Date.now();
+		})
+		.catch(console.error);
+}
 
-	if (!feed) {
-		return {
-			posts: [],
-			totalResults: 0,
-			startIndex: 0,
-			itemsPerPage: 0,
-		};
+export async function getRecentBubuhBlogs(
+	limit: number = 6,
+): Promise<BubuhBlogFeed> {
+	const now = Date.now();
+	const isCacheValid =
+		bubuhCache.data && now - bubuhCache.timestamp < bubuhCache.TTL;
+	const isCacheStale =
+		bubuhCache.data && now - bubuhCache.timestamp >= bubuhCache.TTL;
+
+	if (isCacheValid) {
+		refreshCache(limit);
+		return bubuhCache.data;
 	}
 
-	const posts: BubuhBlogPost[] = (feed.entry || []).map((entry) => {
-		const link = entry.link?.find((l) => l.rel === "alternate")?.href || "#";
-		const id = entry.id?.$t?.split("post-")?.[1] || "";
-		const summary = entry.summary?.$t?.replace(/<[^>]*>/g, "").trim() || "";
-		const thumbnailUrl = entry.media$thumbnail?.url || "";
-		const thumbnailOriginal = thumbnailUrl.replace(/\/s\d+(-\w+)*\//, "/s640/");
+	if (isCacheStale) {
+		refreshCache(limit);
+		return bubuhCache.data;
+	}
 
-		let location: BubuhBlogPost["location"] = undefined;
-		if (entry.georss$point?.$t) {
-			const [lat, lng] = entry.georss$point.$t.split(" ");
-			location = {
-				name: entry.georss$featurename?.$t || "",
-				lat: parseFloat(lat),
-				lng: parseFloat(lng),
-			};
-		}
+	const result = await fetchFromRSS2JSON(limit);
+	bubuhCache.data = result;
+	bubuhCache.timestamp = Date.now();
+	return result;
+}
+
+function parseRSS2JSONResponse(data: {
+	status: string;
+	feed: {
+		title: string;
+	};
+	items: Array<{
+		title: string;
+		link: string;
+		pubDate: string;
+		thumbnail: string;
+		categories: string[];
+		description: string;
+		content: string;
+		author: string;
+	}>;
+}): BubuhBlogFeed {
+	const getHighResImage = (url: string | undefined): string | undefined => {
+		if (!url) return undefined;
+		// Replace Blogger thumbnail size codes (s72-w640-h640-c) with s1600 for higher res
+		return url.replace(/\/s\d+(-\w+)*\//, "/s1600/");
+	};
+
+	const extractImageFromContent = (htmlContent: string): string | undefined => {
+		if (!htmlContent) return undefined;
+		const imgMatch = htmlContent.match(/<img[^>]+src=["']([^"']+)["']/i);
+		return imgMatch ? imgMatch[1] : undefined;
+	};
+
+	const posts: BubuhBlogPost[] = (data.items || []).map((item, index) => {
+		const summary = item.description
+			? item.description.replace(/<[^>]*>/g, "").trim()
+			: "";
+
+		const thumbnailUrl =
+			extractImageFromContent(item.content) ||
+			extractImageFromContent(item.description) ||
+			item.thumbnail ||
+			undefined;
 
 		return {
-			id,
-			title: entry.title?.$t || "Untitled",
-			link,
-			published: entry.published?.$t || "",
-			updated: entry.updated?.$t,
-			categories: (entry.category || [])
-				.map((c) => c.term || "")
-				.filter(Boolean),
+			id: String(index + 1),
+			title: item.title || "Untitled",
+			link: item.link || "#",
+			published: item.pubDate || "",
+			updated: item.pubDate,
+			categories: item.categories || [],
 			summary:
 				summary.length > 150 ? summary.substring(0, 150) + "..." : summary,
 			thumbnail: thumbnailUrl
 				? {
-						url: thumbnailOriginal || thumbnailUrl,
-						width: parseInt(entry.media$thumbnail?.width || "72"),
-						height: parseInt(entry.media$thumbnail?.height || "72"),
+						url: getHighResImage(thumbnailUrl),
+						width: 1600,
+						height: 1000,
 					}
 				: undefined,
-			author: entry.author?.[0]?.name?.$t,
-			commentCount: entry.thr$total ? parseInt(entry.thr$total?.$t || "0") : 0,
-			location,
+			author: item.author,
+			commentCount: 0,
+			location: undefined,
 		};
 	});
 
 	return {
 		posts,
-		totalResults: parseInt(feed.totalResults?.$t || "0"),
-		startIndex: parseInt(feed.startIndex?.$t || "1"),
-		itemsPerPage: parseInt(feed.itemsPerPage?.$t || String(posts.length)),
+		totalResults: posts.length,
+		startIndex: 1,
+		itemsPerPage: posts.length,
 	};
 }
 

@@ -9,7 +9,7 @@ export const Route = createFileRoute("/$slug")({
 	loader: async ({ params }) => {
 		const slug = params.slug;
 		const page = await getPage({
-			locale: DEFAULT_LANGUAGE_CODE,
+      locale: DEFAULT_LANGUAGE_CODE,
 			slug: slug,
 		})
 		//return { page };
@@ -29,6 +29,7 @@ export const Route = createFileRoute("/$slug")({
 });
 
 function PageRoute() {
+  //@ts-ignore
 	const { page } = Route.useLoaderData();
 
 	if (!page) {

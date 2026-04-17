@@ -21,13 +21,11 @@ export default function RecentBlogsSection({
 	limit = 6,
 	showViewAll = true,
 }: RecentBlogsSectionProps) {
-	const [posts, setPosts] = useState<BubuhBlogPost[]>([]);
-	const [isLoading, setIsLoading] = useState(true);
+	const [posts, setPosts] = useState<BubuhBlogPost[] | null>(null);
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
 		async function fetchBlogs() {
-			setIsLoading(true);
 			setError(null);
 
 			try {
@@ -35,8 +33,6 @@ export default function RecentBlogsSection({
 				setPosts(feed.posts);
 			} catch {
 				setError("Gagal memuat artikel. Silakan coba lagi nanti.");
-			} finally {
-				setIsLoading(false);
 			}
 		}
 
@@ -73,7 +69,7 @@ export default function RecentBlogsSection({
 				) : (
 					<>
 						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-							{isLoading ? (
+							{posts === null ? (
 								<BubuhBlogCardSkeleton count={limit} />
 							) : (
 								posts.map((post, index) => (
@@ -82,7 +78,7 @@ export default function RecentBlogsSection({
 							)}
 						</div>
 
-						{!isLoading && posts.length === 0 && !error && (
+						{posts !== null && posts.length === 0 && !error && (
 							<motion.div
 								initial={{ opacity: 0 }}
 								animate={{ opacity: 1 }}
@@ -97,7 +93,7 @@ export default function RecentBlogsSection({
 							</motion.div>
 						)}
 
-						{showViewAll && !isLoading && posts.length > 0 && (
+						{showViewAll && posts !== null && posts.length > 0 && (
 							<motion.div
 								initial={{ opacity: 0 }}
 								whileInView={{ opacity: 1 }}

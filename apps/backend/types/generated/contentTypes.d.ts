@@ -498,6 +498,38 @@ export interface ApiFooterFooter extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiHomeSliderHomeSlider extends Struct.SingleTypeSchema {
+  collectionName: 'home_sliders';
+  info: {
+    displayName: 'HomeSlider';
+    pluralName: 'home-sliders';
+    singularName: 'home-slider';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::home-slider.home-slider'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    slider: Schema.Attribute.Component<
+      'repeatable.title-and-content-and-image',
+      true
+    >;
+    title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiNavbarNavbar extends Struct.SingleTypeSchema {
   collectionName: 'navbars';
   info: {
@@ -713,10 +745,15 @@ export interface ApiProjectProject extends Struct.CollectionTypeSchema {
   attributes: {
     category: Schema.Attribute.Enumeration<
       [
-        'Branding, Key Opinion Leader (KOL), Web Development, Social Media Manager, Public Speaking, Educator',
+        'Branding',
+        'Key Opinion Leader (KOL)',
+        'Web Development',
+        'Social Media Manager',
+        'Public Speaking',
+        'Educator',
       ]
     >;
-    cover: Schema.Attribute.Component<'sections.image', true>;
+    cover: Schema.Attribute.Component<'sections.image', false>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -732,6 +769,7 @@ export interface ApiProjectProject extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
+    seo: Schema.Attribute.Component<'shared.seo', false>;
     slug: Schema.Attribute.UID<'title'>;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
@@ -782,6 +820,35 @@ export interface ApiShareButtonShareButton extends Struct.SingleTypeSchema {
           localized: false;
         };
       }>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiSocialMediaSocialMedia extends Struct.SingleTypeSchema {
+  collectionName: 'social_medias';
+  info: {
+    displayName: 'SocialMedia';
+    pluralName: 'social-medias';
+    singularName: 'social-media';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::social-media.social-media'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    social: Schema.Attribute.Component<'shared.social-media', true>;
+    title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1329,11 +1396,13 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::analytic.analytic': ApiAnalyticAnalytic;
       'api::footer.footer': ApiFooterFooter;
+      'api::home-slider.home-slider': ApiHomeSliderHomeSlider;
       'api::navbar.navbar': ApiNavbarNavbar;
       'api::page.page': ApiPagePage;
       'api::post.post': ApiPostPost;
       'api::project.project': ApiProjectProject;
       'api::share-button.share-button': ApiShareButtonShareButton;
+      'api::social-media.social-media': ApiSocialMediaSocialMedia;
       'api::web-intro.web-intro': ApiWebIntroWebIntro;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
