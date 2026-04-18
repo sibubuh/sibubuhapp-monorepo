@@ -98,6 +98,9 @@ export async function getPage({
 			"sections.shareholder_block",
 			"sections.shareholder_block.data",
 			"sections.items.contacts.icon",
+			"sections.aboutme",
+			"sections.aboutme.image",
+			"sections.aboutme.content",
 			// TODO: nested populated sections
 		],
 	});

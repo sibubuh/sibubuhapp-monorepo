@@ -614,6 +614,21 @@ export interface SectionsMultipleDownloadItem extends Struct.ComponentSchema {
   };
 }
 
+export interface SectionsMyprofile extends Struct.ComponentSchema {
+  collectionName: 'components_sections_myprofiles';
+  info: {
+    displayName: 'myprofile';
+    icon: 'check';
+  };
+  attributes: {
+    aboutme: Schema.Attribute.Component<
+      'repeatable.title-and-content-and-image',
+      true
+    >;
+    title: Schema.Attribute.String;
+  };
+}
+
 export interface SectionsNavbar extends Struct.ComponentSchema {
   collectionName: 'components_sections_navbars';
   info: {
@@ -710,6 +725,18 @@ export interface SectionsSitemap extends Struct.ComponentSchema {
   };
   attributes: {
     sitemap_list: Schema.Attribute.Component<'repeatable.double-anchor', true>;
+  };
+}
+
+export interface SectionsSocialMedia extends Struct.ComponentSchema {
+  collectionName: 'components_sections_social_medias';
+  info: {
+    displayName: 'SocialMedia';
+    icon: 'apps';
+  };
+  attributes: {
+    social: Schema.Attribute.Component<'shared.social-media', true>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
 
@@ -890,12 +917,14 @@ declare module '@strapi/strapi' {
       'sections.information-support': SectionsInformationSupport;
       'sections.lottie': SectionsLottie;
       'sections.multiple-download-item': SectionsMultipleDownloadItem;
+      'sections.myprofile': SectionsMyprofile;
       'sections.navbar': SectionsNavbar;
       'sections.partners': SectionsPartners;
       'sections.quote': SectionsQuote;
       'sections.raw-html': SectionsRawHtml;
       'sections.rich-text-section': SectionsRichTextSection;
       'sections.sitemap': SectionsSitemap;
+      'sections.social-media': SectionsSocialMedia;
       'sections.subheadline': SectionsSubheadline;
       'sections.text-headline': SectionsTextHeadline;
       'sections.vision-mission': SectionsVisionMission;

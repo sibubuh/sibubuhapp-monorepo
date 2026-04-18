@@ -614,6 +614,8 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'sections.hero-anchor',
         'sections.grouped-download-item',
         'sections.hero-page',
+        'sections.social-media',
+        'sections.myprofile',
       ]
     > &
       Schema.Attribute.Required &

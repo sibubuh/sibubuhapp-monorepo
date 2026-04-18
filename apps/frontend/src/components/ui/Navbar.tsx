@@ -10,16 +10,6 @@ const Navbar = () => {
 	const [open, setOpen] = useState(false);
 	const [navbarData, setNavbarData] = useState<NavbarType | null>(null);
 	const [activeMenu, setActiveMenu] = useState<number | null>(null);
-	const [scrolled, setScrolled] = useState(false);
-
-	// scroll detection
-	useEffect(() => {
-		const handleScroll = () => {
-			setScrolled(window.scrollY > 40);
-		};
-		window.addEventListener("scroll", handleScroll);
-		return () => window.removeEventListener("scroll", handleScroll);
-	}, []);
 
 	useEffect(() => {
 		const fetchNavbar = async () => {
@@ -37,24 +27,18 @@ const Navbar = () => {
 		{ title: { title: "Projects", href: "/projects" } },
 	];
 
-	const logoUrl = navbarData?.attributes?.logo_white?.url;
+	const logoUrl = navbarData?.attributes?.logo_black?.url;
 
 	return (
 		<>
+			{/* NAVBAR */}
 			<motion.nav
 				initial={{ y: -100 }}
 				animate={{ y: 0 }}
 				className="fixed top-0 w-full z-[999] px-6 py-4"
 			>
-				{/* 🔥 ALWAYS READABLE CONTAINER */}
-				<div
-					className={`max-w-7xl mx-auto flex justify-between items-center rounded-full px-6 py-3 shadow-xl backdrop-blur-md border transition-all duration-300
-					${
-						scrolled
-							? "bg-white border-black/10"
-							: "bg-white/80 border-black/10"
-					}`}
-				>
+				<div className="max-w-7xl mx-auto flex justify-between items-center bg-white/90 border border-black/10 rounded-full px-6 py-3 shadow-xl backdrop-blur-md">
+
 					{/* LOGO */}
 					<Link to="/" className="flex items-center">
 						{logoUrl ? (
@@ -65,52 +49,61 @@ const Navbar = () => {
 							/>
 						) : (
 							<span className="text-2xl font-black tracking-tighter text-black">
-								.SIBUBUH
-								<span className="text-indigo-500">.</span>
+								SIBUBUH<span className="text-indigo-500">.</span>
 							</span>
 						)}
 					</Link>
 
-					{/* 🔥 MENU (FIXED VISIBILITY) */}
+					{/* 🔥 DESKTOP MENU */}
 					<div className="hidden md:flex gap-3 text-[10px] font-black uppercase tracking-widest">
 						{menuItems.map((item, index) => {
 							/*@ts-ignore*/
 							const hasSubmenu = item.sub_menus?.length > 0;
-							const isOpen = activeMenu === index;
 
 							return (
 								<div key={index} className="relative">
-									<button
-										onClick={() => {
-											if (hasSubmenu) {
-												setActiveMenu(isOpen ? null : index);
-											}
-										}}
-										className="px-5 py-2 rounded-full border border-black/10 bg-white text-black hover:bg-black hover:text-white transition-all"
-									>
-										{item.title?.href && !hasSubmenu ? (
-											<Link to={item.title.href}>
-												{item.title.title}
-											</Link>
-										) : (
-											item.title?.title
-										)}
-									</button>
+									{/* ✅ LINK (NO SUBMENU) */}
+									{!hasSubmenu ? (
+										<Link
+											to={item.title?.href || "/"}
+											className="px-5 py-2 rounded-full border border-black/10 bg-white text-black hover:bg-black hover:text-white transition-all duration-200"
+										>
+											{item.title?.title}
+										</Link>
+									) : (
+										/* ✅ HOVER BUTTON (WITH SUBMENU) */
+										<div
+											onMouseEnter={() => setActiveMenu(index)}
+											onMouseLeave={() => setActiveMenu(null)}
+											className="relative"
+										>
+											<div className="px-5 py-2 rounded-full border border-black/10 bg-white text-black hover:bg-black hover:text-white transition-all duration-200 cursor-pointer">
+												{item.title?.title}
+											</div>
 
-									{/* DROPDOWN */}
-									{hasSubmenu && isOpen && (
-										<div className="absolute left-0 top-full mt-4 w-48 bg-white border border-black/10 rounded-xl p-3 shadow-xl">
-											{/*@ts-ignore*/}
-											{item.sub_menus.map((sub, subIndex) => (
-												<Link
-													key={subIndex}
-													to={sub.href}
-													className="block px-3 py-2 text-black/70 hover:text-black hover:bg-black/5 rounded-lg transition"
-													onClick={() => setActiveMenu(null)}
-												>
-													{sub.title}
-												</Link>
-											))}
+											{/* DROPDOWN */}
+											<AnimatePresence>
+												{activeMenu === index && (
+													<motion.div
+														initial={{ opacity: 0, y: 10 }}
+														animate={{ opacity: 1, y: 0 }}
+														exit={{ opacity: 0, y: 10 }}
+														transition={{ duration: 0.2 }}
+														className="absolute left-0 top-full mt-3 w-48 bg-white border border-black/10 rounded-xl p-3 shadow-xl"
+													>
+														{/*@ts-ignore*/}
+														{item.sub_menus.map((sub, subIndex) => (
+															<Link
+																key={subIndex}
+																to={sub.href}
+																className="block px-3 py-2 text-black/70 hover:text-black hover:bg-black/5 rounded-lg transition"
+															>
+																{sub.title}
+															</Link>
+														))}
+													</motion.div>
+												)}
+											</AnimatePresence>
 										</div>
 									)}
 								</div>
@@ -168,9 +161,9 @@ const Navbar = () => {
 								</Link>
 							))}
 
-							<a className="bg-black text-white py-3 rounded-full mt-4" href="mailto:nchan.bkho@gmail.com">
+							<button className="bg-black text-white py-3 rounded-full mt-4">
 								Start Project
-							</a>
+							</button>
 						</motion.div>
 					</>
 				)}

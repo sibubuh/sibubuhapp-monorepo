@@ -20,3 +20,4 @@ export * from "./raw-html";
 export * from "./whistleblowing";
 export * from "./multiple-download-item";
 export * from "./grouped-download-item";
+export * from "./myprofile";

@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_sections_myprofiles",
+  "info": {
+    "displayName": "myprofile",
+    "icon": "check"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "aboutme": {
+      "type": "component",
+      "component": "repeatable.title-and-content-and-image",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}

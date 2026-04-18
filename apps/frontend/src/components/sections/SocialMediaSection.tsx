@@ -5,7 +5,7 @@ import { getSocialMedia } from "../../../services/api";
 import type { SocialMedia, SocialMediaItem } from "../../../types/social-media";
 import StrapiBlocks from "../sections/StrapiBlocks";
 
-const SocialSection = () => {
+const SocialMediaSection = () => {
 	const [active, setActive] = useState<SocialMediaItem | null>(null);
 	const [socialData, setSocialData] = useState<SocialMedia | null>(null);
 	const [loading, setLoading] = useState(true);
@@ -159,4 +159,4 @@ const SocialSection = () => {
 	);
 };
 
-export default SocialSection;
+export default SocialMediaSection;
