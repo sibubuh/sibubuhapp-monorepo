@@ -590,6 +590,21 @@ export interface SectionsInformationSupport extends Struct.ComponentSchema {
   };
 }
 
+export interface SectionsInstagramReelsGallery extends Struct.ComponentSchema {
+  collectionName: 'components_sections_instagram_reels_galleries';
+  info: {
+    displayName: 'InstagramReelsGallery';
+    icon: 'bulletList';
+  };
+  attributes: {
+    author: Schema.Attribute.String;
+    avatar: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    caption: Schema.Attribute.Text;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    url_id: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface SectionsLottie extends Struct.ComponentSchema {
   collectionName: 'components_sections_lotties';
   info: {
@@ -705,6 +720,19 @@ export interface SectionsRawHtml extends Struct.ComponentSchema {
   };
 }
 
+export interface SectionsReelsTiktok extends Struct.ComponentSchema {
+  collectionName: 'components_sections_reels_tiktoks';
+  info: {
+    displayName: 'ReelsTiktok';
+    icon: 'brush';
+  };
+  attributes: {
+    reels: Schema.Attribute.Component<'sections.instagram-reels-gallery', true>;
+    tiktok: Schema.Attribute.Component<'sections.tiktok-gallery', true>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface SectionsRichTextSection extends Struct.ComponentSchema {
   collectionName: 'components_sections_rich_text_sections';
   info: {
@@ -772,6 +800,22 @@ export interface SectionsTextHeadline extends Struct.ComponentSchema {
       Schema.Attribute.SetMinMaxLength<{
         maxLength: 255;
       }>;
+  };
+}
+
+export interface SectionsTiktokGallery extends Struct.ComponentSchema {
+  collectionName: 'components_sections_tiktok_galleries';
+  info: {
+    displayName: 'TiktokGallery';
+    icon: 'bulletList';
+  };
+  attributes: {
+    author: Schema.Attribute.String;
+    avatar: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    caption: Schema.Attribute.Text;
+    handle: Schema.Attribute.String;
+    id_titkok: Schema.Attribute.String & Schema.Attribute.Required;
+    tag: Schema.Attribute.String;
   };
 }
 
@@ -915,6 +959,7 @@ declare module '@strapi/strapi' {
       'sections.image': SectionsImage;
       'sections.image-with-content': SectionsImageWithContent;
       'sections.information-support': SectionsInformationSupport;
+      'sections.instagram-reels-gallery': SectionsInstagramReelsGallery;
       'sections.lottie': SectionsLottie;
       'sections.multiple-download-item': SectionsMultipleDownloadItem;
       'sections.myprofile': SectionsMyprofile;
@@ -922,11 +967,13 @@ declare module '@strapi/strapi' {
       'sections.partners': SectionsPartners;
       'sections.quote': SectionsQuote;
       'sections.raw-html': SectionsRawHtml;
+      'sections.reels-tiktok': SectionsReelsTiktok;
       'sections.rich-text-section': SectionsRichTextSection;
       'sections.sitemap': SectionsSitemap;
       'sections.social-media': SectionsSocialMedia;
       'sections.subheadline': SectionsSubheadline;
       'sections.text-headline': SectionsTextHeadline;
+      'sections.tiktok-gallery': SectionsTiktokGallery;
       'sections.vision-mission': SectionsVisionMission;
       'sections.whistleblowing': SectionsWhistleblowing;
       'shared.group-download-items': SharedGroupDownloadItems;

@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Tag, Calendar } from "lucide-react";
 import type { Project } from "../../../types/project";
 import StrapiBlocks from "../sections/StrapiBlocks";
+import InstagramReelsSection from "../sections/InstagramReelsSection";
+import TiktokReelsSection from "../sections/TiktokReelsSection";
 
 interface ProjectDetailProps {
 	project: Project;
@@ -13,19 +15,13 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 	const galleryImages = project.gallery || [];
 	const BASE_URL = import.meta.env.VITE_PUBLIC_STRAPI_CMS_BASE_URL;
 
-	console.log("[ProjectDetail] project.description:", project.description);
-	console.log("[ProjectDetail] description type:", typeof project.description);
-	console.log(
-		"[ProjectDetail] description:",
-		JSON.stringify(project.description, null, 2),
-	);
-
 	return (
 		<article>
 			{/* 🔥 HERO COVER */}
 			<div className="relative w-full h-[70vh] min-h-[500px] overflow-hidden">
 				{coverImage && (
 					<img
+            //@ts-ignore
 						src={`${BASE_URL}${coverImage.image.url}`}
 						alt={project.title}
 						className="absolute inset-0 w-full h-full object-cover scale-105"
@@ -95,6 +91,30 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 						/>
 					</div>
 				)}
+        </div>
+				{/* 🔥 REELS & TIKTOK SECTIONS */}
+        <div className="w-full mx-auto px-0 py-0">
+				{project.reelsandtiktok && project.reelsandtiktok.length > 0 && (
+					<div className="mt-20">
+						{project.reelsandtiktok.map((section) => (
+							<div key={section.id}>
+								{section.reels && section.reels.length > 0 && (
+									<InstagramReelsSection
+										reels={section.reels}
+										title={"Instagram Reels"}
+									/>
+								)}
+
+								{section.tiktok && section.tiktok.length > 0 && (
+									<TiktokReelsSection
+										videos={section.tiktok}
+										title={"TikTok Videos"}
+									/>
+								)}
+							</div>
+						))}
+					</div>
+				)}
 			</div>
 		</article>
 	);
@@ -129,7 +149,7 @@ function GallerySlider({
 			</motion.div>
 
 			{/* 🔥 THUMBNAILS */}
-			<div className="flex gap-3 overflow-x-auto pb-2">
+			<div className="flex gap-3 pb-2">
 				{images.map((img, index) => (
 					<button
 						key={img.id || index}

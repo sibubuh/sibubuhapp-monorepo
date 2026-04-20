@@ -1,0 +1,37 @@
+{
+  "collectionName": "components_sections_tiktok_galleries",
+  "info": {
+    "displayName": "TiktokGallery",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "id_titkok": {
+      "type": "string",
+      "required": true
+    },
+    "author": {
+      "type": "string"
+    },
+    "handle": {
+      "type": "string"
+    },
+    "caption": {
+      "type": "text"
+    },
+    "avatar": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "tag": {
+      "type": "string"
+    }
+  },
+  "config": {}
+}

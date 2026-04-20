@@ -5,118 +5,119 @@ interface Props {
 	className?: string;
 }
 
-function extractBlocks(data: unknown): unknown[] {
+export default function StrapiBlocks({ data, className = "" }: Props) {
+	const blocks = extractBlocks(data).filter((b) => !isEmptyBlock(b));
+
+	if (blocks.length === 0) return null;
+
+	return (
+		<div className={`text-neutral-700 leading-relaxed space-y-4 ${className}`}>
+			{blocks.map((block, i) => renderBlock(block, i))}
+		</div>
+	);
+}
+
+//
+// ✅ Extract blocks safely
+//
+function extractBlocks(data: unknown): any[] {
 	if (!data) return [];
 
-	if (data === null || data === undefined) return [];
-
 	if (typeof data === "string") {
-		if (data.trim() === "") return [];
-		return [{ type: "paragraph", children: [{ type: "text", text: data }] }];
+		return [
+			{
+				type: "paragraph",
+				children: [{ type: "text", text: data }],
+			},
+		];
 	}
 
-	if (Array.isArray(data)) {
-		return data;
-	}
+	if (Array.isArray(data)) return data;
 
 	if (typeof data === "object" && data !== null) {
-		const obj = data as Record<string, unknown>;
+		const obj = data as any;
 
 		if (obj.type === "root" && Array.isArray(obj.children)) {
-			return obj.children as unknown[];
+			return obj.children;
 		}
 
 		if (Array.isArray(obj.children)) {
-			return obj.children as unknown[];
+			return obj.children;
 		}
 
-		if (obj.type) {
-			return [data];
-		}
+		return [obj];
 	}
 
 	return [];
 }
 
-export default function StrapiBlocks({ data, className = "" }: Props) {
-	const blocks = extractBlocks(data);
+//
+// ✅ Remove empty blocks
+//
+function isEmptyBlock(block: any): boolean {
+	if (!block?.children) return false;
 
-	if (blocks.length === 0) {
-		return null;
-	}
-
-	return (
-		<div className={`text-neutral-700 leading-relaxed space-y-4 ${className}`}>
-			{blocks.map((block, index) => renderBlock(block, index))}
-		</div>
+	return block.children.every(
+		(child: any) =>
+			child.type === "text" && (!child.text || child.text.trim() === "")
 	);
 }
 
-function renderBlock(block: unknown, key: number): React.ReactNode | null {
+//
+// 🔥 MAIN BLOCK RENDERER
+//
+function renderBlock(block: any, key: number): React.ReactNode {
 	if (!block || typeof block !== "object") return null;
 
-	const b = block as Record<string, unknown>;
-	const type = b.type as string | undefined;
-
-	if (!type) {
-		if (typeof b.text === "string") {
-			return <p key={key}>{b.text}</p>;
-		}
-		return null;
-	}
+	const { type } = block;
 
 	switch (type) {
 		case "paragraph":
 			return (
 				<p key={key} className="mb-4">
-					{renderChildren(b.children)}
+					{renderChildren(block.children)}
 				</p>
 			);
 
 		case "heading": {
-			const level = (b.level as number) || 2;
-			const HeadingTag = `h${level}` as keyof JSX.IntrinsicElements;
-			return React.createElement(
-				HeadingTag,
-				{
-					key,
-					className: `font-bold ${getHeadingSize(level)} mb-4`,
-				},
-				renderChildren(b.children),
+			const level = block.level || 2;
+			const Tag = `h${level}` as keyof JSX.IntrinsicElements;
+
+			return (
+				<Tag key={key} className={`font-bold mb-4 ${getHeadingSize(level)}`}>
+					{renderChildren(block.children)}
+				</Tag>
 			);
 		}
 
+		// ✅ LIST (supports nesting)
 		case "list": {
-			const format = b.format as string;
-			const ListTag = format === "ordered" ? "ol" : "ul";
-			const items = b.items as unknown[] | undefined;
-			return React.createElement(
-				ListTag,
-				{
-					key,
-					className:
+			const format = block.format;
+			const Tag = format === "ordered" ? "ol" : "ul";
+
+			return (
+				<Tag
+					key={key}
+					className={
 						format === "ordered"
-							? "list-decimal pl-6 space-y-2"
-							: "list-disc pl-6 space-y-2",
-				},
-				items?.map((item, i) => renderListItem(item, i)),
+							? "list-decimal pl-6 space-y-2 [&_ul]:mt-2 [&_ol]:mt-2"
+							: "list-disc pl-6 space-y-2 [&_ul]:mt-2 [&_ol]:mt-2"
+					}
+				>
+					{block.children?.map((child: any, i: number) =>
+						renderBlock(child, i)
+					)}
+				</Tag>
 			);
 		}
 
-		case "image": {
-			const image = b.image as Record<string, unknown> | undefined;
-			if (image?.url) {
-				return (
-					<img
-						key={key}
-						src={image.url as string}
-						alt={(image.alternativeText as string) || ""}
-						className="rounded-xl w-full max-w-2xl mx-auto my-8"
-					/>
-				);
-			}
-			return null;
-		}
+		// ✅ LIST ITEM (handles nested list inside)
+		case "list-item":
+			return (
+				<li key={key} className="mb-1">
+					{renderChildren(block.children)}
+				</li>
+			);
 
 		case "quote":
 			return (
@@ -124,126 +125,102 @@ function renderBlock(block: unknown, key: number): React.ReactNode | null {
 					key={key}
 					className="border-l-4 border-indigo-500 pl-4 italic my-6 text-neutral-600"
 				>
-					{renderChildren(b.children)}
+					{renderChildren(block.children)}
 				</blockquote>
 			);
 
 		case "code": {
-			const children = b.children as Record<string, unknown>[] | undefined;
-			const codeText = (children?.[0]?.text as string) || "";
+			const text = block.children?.[0]?.text || "";
 			return (
 				<pre
 					key={key}
 					className="bg-neutral-900 text-neutral-100 p-4 rounded-xl overflow-x-auto my-6 text-sm font-mono"
 				>
-					<code>{codeText}</code>
+					<code>{text}</code>
 				</pre>
 			);
 		}
 
-		default:
-			return renderChildren(b.children, key);
-	}
-}
+		case "image": {
+			const image = block.image;
+			if (!image?.url) return null;
 
-function renderListItem(item: unknown, key: number): React.ReactNode | null {
-	if (!item || typeof item !== "object") return null;
-
-	const i = item as Record<string, unknown>;
-	const type = i.type as string | undefined;
-
-	if (type === "list-item") {
-		return (
-			<li key={key} className="mb-1">
-				{renderChildren(i.children)}
-			</li>
-		);
-	}
-
-	if (type === "paragraph") {
-		return renderChildren(i.children);
-	}
-
-	if (type === "text") {
-		return <li key={key}>{i.text as string}</li>;
-	}
-
-	return renderChildren(i.children, key);
-}
-
-function renderChildren(
-	children: unknown,
-	key?: number,
-): React.ReactNode | null {
-	if (!children) return null;
-
-	if (!Array.isArray(children)) {
-		if (typeof children === "object" && children !== null) {
-			const c = children as Record<string, unknown>;
-
-			if (c.type === "text") {
-				return renderText(c, key ?? 0);
-			}
-
-			if (c.type === "paragraph") {
-				return <span key={key}>{renderChildren(c.children)}</span>;
-			}
-
-			if (c.type === "list-item") {
-				return <li key={key}>{renderChildren(c.children)}</li>;
-			}
-
-			if (c.type === "list") {
-				return renderBlock(children, key ?? 0);
-			}
-
-			return renderBlock(children, key ?? 0);
-		}
-		return null;
-	}
-
-	return children.map((child, idx) => {
-		const c = child as Record<string, unknown>;
-
-		if (c.type === "text") {
-			return renderText(c, key ?? idx);
-		}
-
-		if (c.type === "paragraph") {
 			return (
-				<React.Fragment key={key ?? idx}>
-					{renderChildren(c.children)}
-				</React.Fragment>
+				<img
+					key={key}
+					src={image.url}
+					alt={image.alternativeText || ""}
+					className="rounded-xl w-full max-w-2xl mx-auto my-8"
+				/>
 			);
 		}
 
-		return renderBlock(child, key ?? idx);
+		default:
+			return renderChildren(block.children);
+	}
+}
+
+//
+// ✅ CHILDREN RENDERER (CRITICAL FOR NESTING)
+//
+function renderChildren(children: any): React.ReactNode {
+	if (!children) return null;
+
+	if (!Array.isArray(children)) {
+		return renderBlock(children, 0);
+	}
+
+	return children.map((child, i) => {
+		if (child.type === "text") {
+			return renderText(child, i);
+		}
+
+		return renderBlock(child, i);
 	});
 }
 
-function renderText(
-	text: Record<string, unknown>,
-	key: number,
-): React.ReactNode {
-	const textContent = text.text as string | undefined;
-	if (!textContent) return null;
+//
+// ✅ INLINE TEXT RENDERER
+//
+function renderText(text: any, key: number): React.ReactNode {
+	if (!text.text) return null;
 
-	let result: React.ReactNode = textContent;
+	let result: React.ReactNode = text.text;
 
 	if (text.bold) result = <strong className="font-bold">{result}</strong>;
 	if (text.italic) result = <em className="italic">{result}</em>;
 	if (text.underline) result = <span className="underline">{result}</span>;
-	if (text.code)
+	if (text.strikethrough)
+		result = <del className="line-through">{result}</del>;
+
+	if (text.code) {
 		result = (
 			<code className="bg-neutral-100 px-1 rounded text-sm font-mono text-indigo-600">
 				{result}
 			</code>
 		);
-	if (text.strikethrough) result = <del className="line-through">{result}</del>;
+	}
+
+	// ✅ LINK SUPPORT
+	if (text.url) {
+		result = (
+			<a
+				href={text.url}
+				target="_blank"
+				rel="noopener noreferrer"
+				className="text-indigo-600 underline hover:text-indigo-500"
+			>
+				{result}
+			</a>
+		);
+	}
 
 	return <React.Fragment key={key}>{result}</React.Fragment>;
 }
 
+//
+// ✅ HEADING SIZES
+//
 function getHeadingSize(level: number): string {
 	const sizes: Record<number, string> = {
 		1: "text-5xl md:text-6xl",

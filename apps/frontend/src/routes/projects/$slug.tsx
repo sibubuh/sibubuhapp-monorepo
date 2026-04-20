@@ -4,6 +4,7 @@ import ProjectDetail from "../../components/projects/ProjectDetail";
 import { SeoMeta } from "../../components/seo";
 
 export const Route = createFileRoute("/projects/$slug")({
+  //@ts-ignore
 	loader: async ({ params }) => {
 		const slug = params?.slug || "";
 
@@ -41,6 +42,7 @@ export const Route = createFileRoute("/projects/$slug")({
 });
 
 function ProjectPage() {
+  //@ts-ignore
 	const { project, slug } = Route.useLoaderData();
 	console.log(
 		"[projects/$slug] Component render, project:",
@@ -74,7 +76,7 @@ function ProjectPage() {
 				title={`${project.title} - Projects`}
 				description="Project details and gallery"
 			/>
-			<div className="py-12">
+			<div className="">
 				<ProjectDetail project={project} />
 			</div>
 		</>

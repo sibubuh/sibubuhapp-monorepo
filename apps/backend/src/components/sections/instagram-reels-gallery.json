@@ -1,0 +1,35 @@
+{
+  "collectionName": "components_sections_instagram_reels_galleries",
+  "info": {
+    "displayName": "InstagramReelsGallery",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "url_id": {
+      "type": "string",
+      "required": true
+    },
+    "author": {
+      "type": "string"
+    },
+    "avatar": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "caption": {
+      "type": "text"
+    }
+  },
+  "config": {}
+}

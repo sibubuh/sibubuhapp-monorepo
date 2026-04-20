@@ -3,10 +3,11 @@ import { getHomeSlider } from "../../services/api";
 import HeroSlider from "../../ui/HeroSlider";
 import WebIntro from "../components/ui/WebIntro";
 import PortfolioSlider from "../components/ui/PortfolioSlider";
-import TeamSection from "../components/ui/TeamSection";
+import SocialSection from "../components/ui/SocmedSection";
 import ContactCTA from "../components/ui/ContactCTA";
 import RecentBlogsSection from "../components/sections/RecentBlogsSection";
 import { SeoMeta } from "../components/seo";
+
 
 function extractStrapiText(content: unknown): string {
 	if (!content) return "";
@@ -59,8 +60,9 @@ function Index() {
 				showViewAll={true}
 			/>
 			<PortfolioSlider />
-			<TeamSection />
+			<SocialSection />
 			<ContactCTA />
+
 		</>
 	);
 }

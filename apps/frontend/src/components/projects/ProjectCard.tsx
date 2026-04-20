@@ -8,7 +8,8 @@
   }
 
   export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
-    const coverImage = project.cover.image.url;
+    //@ts-ignore
+    const coverImage = project.cover?.image?.url;
     const projectUrl = `/projects/${project.slug}`;
     const BASE_URL = import.meta.env.VITE_PUBLIC_STRAPI_CMS_BASE_URL;
 

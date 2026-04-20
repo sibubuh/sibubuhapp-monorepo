@@ -67,11 +67,14 @@ export default function PortfolioSlider() {
 								className="min-w-[80vw] md:min-w-[450px] group"
 							>
 								<div className="aspect-[16/10] bg-neutral-100 rounded-[2rem] overflow-hidden">
+                <a href={`/projects/${project.slug}`} className="block w-full h-full">
 									<img
+                    //@ts-ignore
                     src={`${BASE_URL}${project.cover?.image?.url}`}
 										alt={project.title}
 										className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
 									/>
+                </a>
 								</div>
 
 								<div className="mt-6 flex justify-between items-start">

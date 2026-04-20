@@ -348,7 +348,7 @@ export async function getDataWithLocalization({
 		query.sort = sorts;
 	}
 
-	const queryParsed = QueryString.stringify(query, { skipNulls: true });
+	const queryParsed = QueryString.stringify(query, { skipNulls: true, encode: false });
 	const result = await fetchWithAuth(`${endpoint}?${queryParsed}`);
 
 	const isValidData = () => {
@@ -575,7 +575,7 @@ export async function getProjects({
 		console.log("[getProjects] No data returned");
 		return { data: [], total: 0 };
 	}
-
+  //@ts-ignore
 	const projects: Project[] = result.data.map((item: any) => {
 		const attrs = item.attributes || item;
 		return {
@@ -626,6 +626,9 @@ export async function getProject({
 						metaImage: true,
 					},
 				},
+				sections: {
+          populate: "*",
+        },
 			},
 
 			multipleData: false,
@@ -639,15 +642,23 @@ export async function getProject({
 
 		const attrs = rawData.attributes || rawData;
 
+		console.log("[getProject] attrs.sections:", JSON.stringify(attrs.sections, null, 2));
+
+		const reelsandtiktok = (attrs.sections || []).filter(
+			(s: any) => s.__component === "sections.reels-tiktok",
+		);
+
 		return {
 			id: rawData.id,
 			title: attrs.title || "",
 			slug: attrs.slug || slug,
 			description: attrs.description,
 			category: attrs.category || "Branding",
+      //@ts-ignore
 			cover: transformCover(attrs.cover),
 			years: attrs.years || "",
 			gallery: transformGallery(attrs.gallery),
+			reelsandtiktok: reelsandtiktok,
 			createdAt: attrs.createdAt || "",
 			updatedAt: attrs.updatedAt || "",
 		};
@@ -715,6 +726,85 @@ function transformGallery(gallery: any): {
 				height: attrs?.height || 0,
 				name: attrs?.name || "",
 				size: attrs?.size || 0,
+			};
+		});
+}
+
+function transformReelsAndTiktok(reelsandtiktok: any): any[] {
+	if (!reelsandtiktok) return [];
+
+	const items = Array.isArray(reelsandtiktok)
+		? reelsandtiktok
+		: reelsandtiktok.data && Array.isArray(reelsandtiktok.data)
+			? reelsandtiktok.data
+			: [reelsandtiktok];
+
+	return items
+		.filter((item: any) => item)
+		.map((item: any) => {
+			const attrs = item?.__component ? item : item?.attributes || item;
+
+			const transformReels = (reels: any[]) => {
+				if (!reels || !Array.isArray(reels)) return [];
+				return reels.map((r: any) => {
+					const rAttrs = r?.attributes || r;
+					const avatarData = rAttrs?.avatar?.data || rAttrs?.avatar;
+					const avatarAttrs = avatarData?.attributes || avatarData;
+					return {
+						__component: "sections.instagram-reels-gallery",
+						id: r?.id || 0,
+						url_id: rAttrs?.url_id || "",
+						author: rAttrs?.author || "",
+						caption: rAttrs?.caption || "",
+						title: rAttrs?.title || "",
+						avatar: avatarAttrs
+							? {
+								id: avatarData?.id || 0,
+								url: avatarAttrs?.url || "",
+								width: avatarAttrs?.width || 0,
+								height: avatarAttrs?.height || 0,
+								name: avatarAttrs?.name || "",
+								size: avatarAttrs?.size || 0,
+							}
+							: null,
+					};
+				});
+			};
+
+			const transformTiktok = (tiktok: any[]) => {
+				if (!tiktok || !Array.isArray(tiktok)) return [];
+				return tiktok.map((t: any) => {
+					const tAttrs = t?.attributes || t;
+					const avatarData = tAttrs?.avatar?.data || tAttrs?.avatar;
+					const avatarAttrs = avatarData?.attributes || avatarData;
+					return {
+						__component: "sections.tiktok-gallery",
+						id: t?.id || 0,
+						id_titkok: tAttrs?.id_titkok || "",
+						author: tAttrs?.author || "",
+						handle: tAttrs?.handle || "",
+						caption: tAttrs?.caption || "",
+						tag: tAttrs?.tag || "",
+						avatar: avatarAttrs
+							? {
+								id: avatarData?.id || 0,
+								url: avatarAttrs?.url || "",
+								width: avatarAttrs?.width || 0,
+								height: avatarAttrs?.height || 0,
+								name: avatarAttrs?.name || "",
+								size: avatarAttrs?.size || 0,
+							}
+							: null,
+					};
+				});
+			};
+
+			return {
+				__component: attrs?.__component || "sections.reels-tiktok",
+				id: item?.id || 0,
+				title: attrs?.title || "",
+				reels: transformReels(attrs?.reels),
+				tiktok: transformTiktok(attrs?.tiktok),
 			};
 		});
 }

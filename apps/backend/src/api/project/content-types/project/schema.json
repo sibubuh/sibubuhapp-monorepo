@@ -36,6 +36,21 @@
     "years": {
       "type": "string"
     },
+    "slug": {
+      "type": "uid",
+      "targetField": "title"
+    },
+    "seo": {
+      "type": "component",
+      "component": "shared.seo",
+      "repeatable": false
+    },
+    "sections": {
+      "type": "dynamiczone",
+      "components": [
+        "sections.reels-tiktok"
+      ]
+    },
     "gallery": {
       "type": "media",
       "multiple": true,
@@ -45,15 +60,6 @@
         "videos",
         "audios"
       ]
-    },
-    "slug": {
-      "type": "uid",
-      "targetField": "title"
-    },
-    "seo": {
-      "type": "component",
-      "component": "shared.seo",
-      "repeatable": false
     }
   }
 }

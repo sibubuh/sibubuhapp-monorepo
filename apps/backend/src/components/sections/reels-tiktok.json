@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_sections_reels_tiktoks",
+  "info": {
+    "displayName": "ReelsTiktok",
+    "icon": "brush"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "reels": {
+      "type": "component",
+      "component": "sections.instagram-reels-gallery",
+      "repeatable": true
+    },
+    "tiktok": {
+      "type": "component",
+      "component": "sections.tiktok-gallery",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}
