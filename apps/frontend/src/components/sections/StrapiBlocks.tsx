@@ -91,6 +91,7 @@ function renderBlock(block: any, key: number): React.ReactNode {
 		}
 
 		// ✅ LIST (supports nesting)
+
 		case "list": {
 			const format = block.format;
 			const Tag = format === "ordered" ? "ol" : "ul";
@@ -110,6 +111,24 @@ function renderBlock(block: any, key: number): React.ReactNode {
 				</Tag>
 			);
 		}
+
+    // Link support for blocks (e.g. headings, paragraphs)
+    case "link": {
+      const url = block.url;
+      if (!url) return renderChildren(block.children);
+
+      return (
+        <a
+          key={key}
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-indigo-600 underline hover:text-indigo-500"
+        >
+          {renderChildren(block.children)}
+        </a>
+      );
+    }
 
 		// ✅ LIST ITEM (handles nested list inside)
 		case "list-item":

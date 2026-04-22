@@ -5,6 +5,7 @@ import type { Project } from "../../../types/project";
 import StrapiBlocks from "../sections/StrapiBlocks";
 import InstagramReelsSection from "../sections/InstagramReelsSection";
 import TiktokReelsSection from "../sections/TiktokReelsSection";
+import GallerySlider from "../sections/GallerySlider";
 
 interface ProjectDetailProps {
   project: Project;
@@ -17,7 +18,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
   // ✅ prevent scroll jump + lazy load reels
   const [showReels, setShowReels] = useState(false);
-
+  console.log("Data:", JSON.stringify(project.description));
   useEffect(() => {
     // lock scroll position on first render
     const x = window.scrollX;
@@ -136,32 +137,3 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
   );
 }
 
-/* ===========================
-   GALLERY SLIDER
-=========================== */
-function GallerySlider({ images, baseUrl, title }: any) {
-  const [active, setActive] = useState(0);
-
-  return (
-    <div className="space-y-6">
-      <div className="w-full aspect-[16/10] rounded-2xl overflow-hidden bg-slate-100">
-        <img
-          src={`${baseUrl}${images[active].url}`}
-          alt={title}
-          className="w-full h-full object-cover"
-        />
-      </div>
-
-      <div className="flex gap-3">
-        {images.map((img: any, i: number) => (
-          <button key={i} onClick={() => setActive(i)}>
-            <img
-              src={`${baseUrl}${img.url}`}
-              className="w-20 h-20 object-cover rounded"
-            />
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
