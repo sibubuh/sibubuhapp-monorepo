@@ -463,6 +463,36 @@ export interface ApiAnalyticAnalytic extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiClientClient extends Struct.SingleTypeSchema {
+  collectionName: 'clients';
+  info: {
+    displayName: 'Client';
+    pluralName: 'clients';
+    singularName: 'client';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    client_list: Schema.Attribute.Component<'repeatable.text-image', true>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Blocks;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::client.client'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiFooterFooter extends Struct.SingleTypeSchema {
   collectionName: 'footers';
   info: {
@@ -1398,6 +1428,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::analytic.analytic': ApiAnalyticAnalytic;
+      'api::client.client': ApiClientClient;
       'api::footer.footer': ApiFooterFooter;
       'api::home-slider.home-slider': ApiHomeSliderHomeSlider;
       'api::navbar.navbar': ApiNavbarNavbar;

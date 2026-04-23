@@ -1,0 +1,26 @@
+{
+  "kind": "singleType",
+  "collectionName": "clients",
+  "info": {
+    "singularName": "client",
+    "pluralName": "clients",
+    "displayName": "Client"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "blocks"
+    },
+    "client_list": {
+      "type": "component",
+      "component": "repeatable.text-image",
+      "repeatable": true
+    }
+  }
+}

@@ -870,3 +870,79 @@ export async function getSocialMedia({
 		social: socialItems,
 	};
 }
+
+type ClientItem = {
+	id: number;
+	text: string;
+	image: {
+		id: number;
+		url: string;
+		width: number;
+		height: number;
+		name: string;
+		size: number;
+	};
+};
+
+type Client = {
+	id: number;
+	title: string;
+	description: unknown;
+	client_list: ClientItem[];
+};
+
+export async function getClient({
+	locale,
+}: {
+	locale: string | null;
+}): Promise<Client | null> {
+	const result = await getDataWithLocalization({
+		endpoint: "/api/client",
+		filters: {},
+		populate: ["client_list", "client_list.image"],
+		singleType: true,
+		locale: locale,
+	});
+
+	if (!result) return null;
+
+	const rawData = result as any;
+	const attrs = rawData.attributes || rawData;
+
+	const clientListItems: ClientItem[] = (attrs.client_list || []).map(
+		(item: any) => {
+			const itemAttrs = item.attributes || item;
+			const imageData = itemAttrs.image?.data || itemAttrs.image;
+			const imgAttrs = imageData?.attributes || imageData;
+
+			return {
+				id: item.id || 0,
+				text: itemAttrs.text || "",
+				image: imgAttrs
+					? {
+							id: imageData?.id || 0,
+							url: imgAttrs.url || "",
+							width: imgAttrs.width || 0,
+							height: imgAttrs.height || 0,
+							name: imgAttrs.name || "",
+							size: imgAttrs.size || 0,
+						}
+					: {
+							id: 0,
+							url: "",
+							width: 0,
+							height: 0,
+							name: "",
+							size: 0,
+						},
+			};
+		},
+	);
+
+	return {
+		id: rawData.id || 0,
+		title: attrs.title || "",
+		description: attrs.description,
+		client_list: clientListItems,
+	};
+}

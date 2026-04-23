@@ -7,6 +7,7 @@ import SocialSection from "../components/ui/SocmedSection";
 import ContactCTA from "../components/ui/ContactCTA";
 import RecentBlogsSection from "../components/sections/RecentBlogsSection";
 import { SeoMeta } from "../components/seo";
+import ClientsParallax from "#/components/ui/ClientSection";
 
 
 function extractStrapiText(content: unknown): string {
@@ -60,6 +61,7 @@ function Index() {
 				showViewAll={true}
 			/>
 			<PortfolioSlider />
+      <ClientsParallax />
 			<SocialSection />
 			<ContactCTA />
 
