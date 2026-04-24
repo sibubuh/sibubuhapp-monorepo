@@ -3,8 +3,9 @@ import {
   useScroll,
   useTransform,
   useMotionTemplate,
+  useSpring,
 } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import { getClient } from "../../../services/api";
 import StrapiBlocks from "../sections/StrapiBlocks";
 
@@ -26,36 +27,155 @@ type Client = {
   src: string;
   x: number;
   y: number;
-  speed: number;
 };
 
-const defaultPositions: Pick<Client, "x" | "y" | "speed">[] = [
-  { x: -500, y: -300, speed: 0.25 }, // top-left far
-  { x: 500, y: -280, speed: 0.35 },  // top-right far
-  { x: -600, y: 100, speed: 0.4 },   // mid-left outside
-  { x: 600, y: 120, speed: 0.5 },    // mid-right outside
-  { x: 0, y: 320, speed: 0.2 },      // bottom center
-];
 const BASE_URL = import.meta.env.VITE_PUBLIC_STRAPI_CMS_BASE_URL;
-function DummyLogo({ src, alt }: { src: string; alt: string }) {
+
+/* ✅ Generate positions OUTSIDE center */
+function generatePositions(count: number, isMobile: boolean) {
+  const positions: Pick<Client, "x" | "y">[] = [];
+
+  const radiusXBase = isMobile ? 250 : 600;
+  const radiusYBase = isMobile ? 200 : 400;
+
+  for (let i = 0; i < count; i++) {
+    const angle = (i / count) * Math.PI * 2;
+
+    const radiusX = radiusXBase + Math.random() * radiusXBase;
+    const radiusY = radiusYBase + Math.random() * radiusYBase;
+
+    const x = Math.cos(angle) * radiusX;
+    const y = Math.sin(angle) * radiusY;
+
+    positions.push({ x, y });
+  }
+
+  return positions;
+}
+
+/* ✅ Logo UI */
+function DummyLogo({
+  src,
+  alt,
+  isMobile,
+}: {
+  src: string;
+  alt: string;
+  isMobile: boolean;
+}) {
   return (
-    <div className="flex flex-col items-center justify-center ">
+    <div className="flex flex-col items-center justify-center">
       {src ? (
-        <img src={src} alt={alt} className="w-24 h-24 object-contain mb-1" />
+        <img
+          src={src}
+          alt={alt}
+          className={`object-contain mb-1 ${
+            isMobile ? "w-14 h-14" : "w-24 h-24"
+          }`}
+        />
       ) : (
-        <div className="w-24 h-24 bg-white rounded mb-1" />
+        <div
+          className={`bg-white rounded mb-1 ${
+            isMobile ? "w-12 h-12" : "w-20 h-20"
+          }`}
+        />
       )}
-      <span className="text-[10px] text-white">{alt}</span>
+      {!isMobile && (
+        <span className="text-[10px] text-white">{alt}</span>
+      )}
     </div>
+  );
+}
+
+/* ✅ Floating Logo */
+function FloatingLogo({
+  client,
+  scrollYProgress,
+  isMobile,
+}: {
+  client: Client;
+  scrollYProgress: any;
+  isMobile: boolean;
+}) {
+  const factor = isMobile ? 0.5 : 1;
+
+  /* ✅ move to center */
+  const xRaw = useTransform(
+    scrollYProgress,
+    [0, 0.7],
+    [client.x * factor, 0]
+  );
+
+  const yRaw = useTransform(
+    scrollYProgress,
+    [0, 0.7],
+    [client.y * factor, 0]
+  );
+
+  const xMove = useSpring(xRaw, { stiffness: 60, damping: 20 });
+  const yMove = useSpring(yRaw, { stiffness: 60, damping: 20 });
+
+  /* ✅ fade OUT at center */
+  const opacity = useTransform(
+    scrollYProgress,
+    [0, 0.6, 0.85, 1],
+    [0, 1, 1, 0]
+  );
+
+  /* ✅ blur IN when near center */
+  const blur = useTransform(
+    scrollYProgress,
+    [0, 0.6, 1],
+    [10, 0, 12]
+  );
+
+  /* ✅ optional shrink before disappear */
+  const scale = useTransform(
+    scrollYProgress,
+    [0, 0.7, 1],
+    [0.6, 1, 0.8]
+  );
+
+  const filter = useMotionTemplate`blur(${blur}px)`;
+
+  return (
+    <motion.div
+      style={{
+        x: xMove,
+        y: yMove,
+        opacity,
+        scale,
+        filter,
+      }}
+      className="absolute"
+    >
+      <DummyLogo
+        src={client.src}
+        alt={client.name}
+        isMobile={isMobile}
+      />
+    </motion.div>
   );
 }
 
 export default function ClientsParallax() {
   const ref = useRef(null);
+
   const [clientData, setClientData] = useState<ClientItem[]>([]);
-  const [clientTitle, setClientTitle] = useState<string>("");
+  const [clientTitle, setClientTitle] = useState("");
   const [clientDescription, setClientDescription] = useState<unknown>(null);
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  /* ✅ detect mobile */
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  /* ✅ fetch data */
   useEffect(() => {
     const fetchData = async () => {
       const result = await getClient({ locale: null });
@@ -67,81 +187,69 @@ export default function ClientsParallax() {
     };
     fetchData();
   }, []);
-  console.log("Fetched client data:", clientData);
+
+  /* ✅ limit logos on mobile */
+  const limitedClientData = useMemo(() => {
+    if (isMobile) return clientData.slice(0, 6);
+    return clientData;
+  }, [clientData, isMobile]);
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end end"],
   });
 
-  const clients = clientData.length > 0
-    ? clientData.map((client, i) => ({
-        ...defaultPositions[i],
-        //name: client.text,
-        src: BASE_URL + client.image?.url || "",
-      }))
-    : defaultPositions.map((pos, i) => ({
-        ...pos,
-        name: `Logo ${i + 1}`,
-        src: "",
-      }));
+  /* ✅ positions */
+  const positions = useMemo(
+    () => generatePositions(limitedClientData.length || 6, isMobile),
+    [limitedClientData.length, isMobile]
+  );
+
+  /* ✅ build clients */
+  const clients: Client[] =
+    limitedClientData.length > 0
+      ? limitedClientData.map((c, i) => ({
+          name: c.text || `Logo ${i + 1}`,
+          src: c.image?.url ? BASE_URL + c.image.url : "",
+          ...positions[i],
+        }))
+      : positions.map((pos, i) => ({
+          name: `Logo ${i + 1}`,
+          src: "",
+          ...pos,
+        }));
 
   return (
-    <section ref={ref} className="relative h-[250vh] bg-[#0E172B]">
-      {/* STICKY VIEWPORT */}
+    <section
+      ref={ref}
+      className={`relative ${
+        isMobile ? "h-[180vh]" : "h-[250vh]"
+      } bg-[#0E172B]`}
+    >
       <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden text-white">
 
         {/* CENTER TEXT */}
         <div className="absolute z-20 text-center max-w-2xl px-4">
-          <h2 className="text-4xl md:text-6xl font-bold mb-6">
+          <h2 className="text-3xl md:text-6xl font-bold mb-6">
             {clientTitle}
           </h2>
           <div className="text-white [&_p]:mb-0">
-            <StrapiBlocks data={clientDescription} className="text-white" />
+            <StrapiBlocks
+              data={clientDescription}
+              className="text-white"
+            />
           </div>
         </div>
 
         {/* LOGOS */}
-        {clients.map((client, i) => {
-          // Parallax movement
-          const yMove = useTransform(
-            scrollYProgress,
-            [0, 1],
-            [client.y, client.y * -client.speed * 6]
-          );
-
-          const xMove = useTransform(
-            scrollYProgress,
-            [0, 1],
-            [client.x, client.x * client.speed]
-          );
-
-          const zoom = useTransform(scrollYProgress, [0, 0.5, 2, 3], [0.6, 1.8, 0.6, 1]);
-
-          // 👇 GLOBAL reveal (ALL logos together)
-          const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
-          const blur = useTransform(scrollYProgress, [0, 0.3], [12, 0]);
-
-          // ✅ SSR-safe filter
-          const filter = useMotionTemplate`blur(${blur}px)`;
-
-          return (
-            <motion.div
-              key={i}
-              style={{
-                x: xMove,
-                y: yMove,
-                opacity,
-                scale: zoom,
-                filter,
-              }}
-              className={`absolute ${
-                i % 2 === 0 ? "opacity-60" : "opacity-90"
-              }`}
-            >
-              <DummyLogo src={client.src} alt={client.name} />
-            </motion.div>
-          );
-        })}
+        {clients.map((client, i) => (
+          <FloatingLogo
+            key={i}
+            client={client}
+            scrollYProgress={scrollYProgress}
+            isMobile={isMobile}
+          />
+        ))}
       </div>
     </section>
   );
