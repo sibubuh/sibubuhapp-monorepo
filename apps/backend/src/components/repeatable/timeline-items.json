@@ -1,0 +1,53 @@
+{
+  "collectionName": "components_repeatable_timeline_items",
+  "info": {
+    "displayName": "TimelineItems",
+    "icon": "check"
+  },
+  "options": {},
+  "attributes": {
+    "year": {
+      "type": "string",
+      "maxLength": 4
+    },
+    "month": {
+      "type": "enumeration",
+      "enum": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ]
+    },
+    "body": {
+      "type": "text"
+    },
+    "accent": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color",
+      "regex": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+    },
+    "tag": {
+      "type": "string"
+    },
+    "tagBg": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color",
+      "regex": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+    },
+    "tagColor": {
+      "type": "customField",
+      "customField": "plugin::color-picker.color",
+      "regex": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+    }
+  },
+  "config": {}
+}

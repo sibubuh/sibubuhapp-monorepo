@@ -66,7 +66,8 @@
         "sections.grouped-download-item",
         "sections.hero-page",
         "sections.social-media",
-        "sections.myprofile"
+        "sections.myprofile",
+        "sections.timelines"
       ],
       "required": true
     },

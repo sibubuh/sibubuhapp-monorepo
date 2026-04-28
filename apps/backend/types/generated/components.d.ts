@@ -273,6 +273,44 @@ export interface RepeatableTextImage extends Struct.ComponentSchema {
   };
 }
 
+export interface RepeatableTimelineItems extends Struct.ComponentSchema {
+  collectionName: 'components_repeatable_timeline_items';
+  info: {
+    displayName: 'TimelineItems';
+    icon: 'check';
+  };
+  attributes: {
+    accent: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'plugin::color-picker.color'>;
+    body: Schema.Attribute.Text;
+    month: Schema.Attribute.Enumeration<
+      [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+      ]
+    >;
+    tag: Schema.Attribute.String;
+    tagBg: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'plugin::color-picker.color'>;
+    tagColor: Schema.Attribute.String &
+      Schema.Attribute.CustomField<'plugin::color-picker.color'>;
+    year: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 4;
+      }>;
+  };
+}
+
 export interface RepeatableTitleAndAnchor extends Struct.ComponentSchema {
   collectionName: 'components_repeatable_title_and_anchors';
   info: {
@@ -819,6 +857,18 @@ export interface SectionsTiktokGallery extends Struct.ComponentSchema {
   };
 }
 
+export interface SectionsTimelines extends Struct.ComponentSchema {
+  collectionName: 'components_sections_timelines';
+  info: {
+    displayName: 'Timelines';
+    icon: 'connector';
+  };
+  attributes: {
+    items: Schema.Attribute.Component<'repeatable.timeline-items', true>;
+    title: Schema.Attribute.String;
+  };
+}
+
 export interface SectionsVisionMission extends Struct.ComponentSchema {
   collectionName: 'components_sections_vision_missions';
   info: {
@@ -943,6 +993,7 @@ declare module '@strapi/strapi' {
       'repeatable.text': RepeatableText;
       'repeatable.text-field': RepeatableTextField;
       'repeatable.text-image': RepeatableTextImage;
+      'repeatable.timeline-items': RepeatableTimelineItems;
       'repeatable.title-and-anchor': RepeatableTitleAndAnchor;
       'repeatable.title-and-content': RepeatableTitleAndContent;
       'repeatable.title-and-content-and-image': RepeatableTitleAndContentAndImage;
@@ -974,6 +1025,7 @@ declare module '@strapi/strapi' {
       'sections.subheadline': SectionsSubheadline;
       'sections.text-headline': SectionsTextHeadline;
       'sections.tiktok-gallery': SectionsTiktokGallery;
+      'sections.timelines': SectionsTimelines;
       'sections.vision-mission': SectionsVisionMission;
       'sections.whistleblowing': SectionsWhistleblowing;
       'shared.group-download-items': SharedGroupDownloadItems;

@@ -10,6 +10,7 @@ import { SeoMeta } from "../components/seo";
 import ClientsParallax from "#/components/ui/ClientSection";
 
 
+
 function extractStrapiText(content: unknown): string {
 	if (!content) return "";
 	if (typeof content === "string")
@@ -63,6 +64,7 @@ function Index() {
 			<PortfolioSlider />
       <ClientsParallax />
 			<SocialSection />
+
 			<ContactCTA />
 
 		</>

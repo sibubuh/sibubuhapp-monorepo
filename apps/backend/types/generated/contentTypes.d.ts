@@ -646,6 +646,7 @@ export interface ApiPagePage extends Struct.CollectionTypeSchema {
         'sections.hero-page',
         'sections.social-media',
         'sections.myprofile',
+        'sections.timelines',
       ]
     > &
       Schema.Attribute.Required &

@@ -44,6 +44,7 @@ function PageRoute() {
 	}
 
 	return (
+
 		<>
 			<SeoMeta
 				title={page.seo?.metaTitle || page.title}
@@ -52,6 +53,7 @@ function PageRoute() {
 				image={page.seo?.metaImage?.url}
 			/>
 			<main>
+
 				<SectionRenderer sections={page.sections} />
 			</main>
 		</>

@@ -3,7 +3,6 @@ import {
   useScroll,
   useTransform,
   useMotionTemplate,
-  useSpring,
 } from "framer-motion";
 import { useRef, useState, useEffect, useMemo } from "react";
 import { getClient } from "../../../services/api";
@@ -22,142 +21,104 @@ type ClientItem = {
   };
 };
 
-type Client = {
-  name: string;
-  src: string;
-  x: number;
-  y: number;
+type OrbitConfig = {
+  rx: number;
+  ry: number;
+  startAngle: number;
+  rotations: number;
+  direction: 1 | -1;
+  size: number;
+  depthScale: number;
+  opacity: number;
 };
 
 const BASE_URL = import.meta.env.VITE_PUBLIC_STRAPI_CMS_BASE_URL;
 
-/* ✅ Generate positions OUTSIDE center */
-function generatePositions(count: number, isMobile: boolean) {
-  const positions: Pick<Client, "x" | "y">[] = [];
+/**
+ * Spread logos across 3 elliptical orbit rings, each with slightly different
+ * radii so they appear to orbit at different depths.
+ */
+function buildOrbitConfigs(count: number): OrbitConfig[] {
+  const rings: Omit<OrbitConfig, "startAngle">[] = [
+    { rx: 560, ry: 180, rotations: 0.4,  direction:  1, size: 80, depthScale: 1.00, opacity: 1.0  },
+    { rx: 420, ry: 140, rotations: 0.55, direction: -1, size: 68, depthScale: 0.88, opacity: 0.85 },
+    { rx: 660, ry: 210, rotations: 0.28, direction:  1, size: 60, depthScale: 0.78, opacity: 0.70 },
+  ];
 
-  const radiusXBase = isMobile ? 250 : 600;
-  const radiusYBase = isMobile ? 200 : 400;
-
-  for (let i = 0; i < count; i++) {
-    const angle = (i / count) * Math.PI * 2;
-
-    const radiusX = radiusXBase + Math.random() * radiusXBase;
-    const radiusY = radiusYBase + Math.random() * radiusYBase;
-
-    const x = Math.cos(angle) * radiusX;
-    const y = Math.sin(angle) * radiusY;
-
-    positions.push({ x, y });
-  }
-
-  return positions;
+  return Array.from({ length: count }, (_, i) => {
+    const ring = rings[i % rings.length];
+    const slotsInRing = Math.ceil(count / rings.length);
+    const slotIdx = Math.floor(i / rings.length);
+    const startAngle = (slotIdx / slotsInRing) * Math.PI * 2;
+    return { ...ring, startAngle };
+  });
 }
 
-/* ✅ Logo UI */
-function DummyLogo({
+// ------------------------------------------------------------------
+// Single logo driven by scroll — position computed from scrollYProgress
+// ------------------------------------------------------------------
+function OrbitingLogo({
   src,
-  alt,
-  isMobile,
+  name,
+  config,
+  scrollYProgress,
 }: {
   src: string;
-  alt: string;
-  isMobile: boolean;
-}) {
-  return (
-    <div className="flex flex-col items-center justify-center">
-      {src ? (
-        <img
-          src={src}
-          alt={alt}
-          className={`object-contain mb-1 ${
-            isMobile ? "w-14 h-14" : "w-24 h-24"
-          }`}
-        />
-      ) : (
-        <div
-          className={`bg-white rounded mb-1 ${
-            isMobile ? "w-12 h-12" : "w-20 h-20"
-          }`}
-        />
-      )}
-      {!isMobile && (
-        <span className="text-[10px] text-white">{alt}</span>
-      )}
-    </div>
-  );
-}
-
-/* ✅ Floating Logo */
-function FloatingLogo({
-  client,
-  scrollYProgress,
-  isMobile,
-}: {
-  client: Client;
+  name: string;
+  config: OrbitConfig;
   scrollYProgress: any;
-  isMobile: boolean;
 }) {
-  const factor = isMobile ? 0.5 : 1;
+  const { rx, ry, startAngle, rotations, direction, size, depthScale, opacity: baseOpacity } = config;
 
-  /* ✅ move to center */
-  const xRaw = useTransform(
-    scrollYProgress,
-    [0, 0.7],
-    [client.x * factor, 0]
-  );
+  const angleSweep = rotations * Math.PI * 2 * direction;
 
-  const yRaw = useTransform(
-    scrollYProgress,
-    [0, 0.7],
-    [client.y * factor, 0]
-  );
+  const x = useTransform(scrollYProgress, [0, 1], [
+    Math.cos(startAngle) * rx,
+    Math.cos(startAngle + angleSweep) * rx,
+  ]);
 
-  const xMove = useSpring(xRaw, { stiffness: 60, damping: 20 });
-  const yMove = useSpring(yRaw, { stiffness: 60, damping: 20 });
+  const y = useTransform(scrollYProgress, [0, 1], [
+    Math.sin(startAngle) * ry,
+    Math.sin(startAngle + angleSweep) * ry,
+  ]);
 
-  /* ✅ fade OUT at center */
   const opacity = useTransform(
     scrollYProgress,
-    [0, 0.6, 0.85, 1],
-    [0, 1, 1, 0]
+    [0, 0.25, 0.85, 1],
+    [0, baseOpacity, baseOpacity, 0]
   );
 
-  /* ✅ blur IN when near center */
-  const blur = useTransform(
-    scrollYProgress,
-    [0, 0.6, 1],
-    [10, 0, 12]
-  );
+  const blurVal = useTransform(scrollYProgress, [0, 0.25], [14, 0]);
+  const filter = useMotionTemplate`blur(${blurVal}px)`;
 
-  /* ✅ optional shrink before disappear */
-  const scale = useTransform(
-    scrollYProgress,
-    [0, 0.7, 1],
-    [0.6, 1, 0.8]
-  );
-
-  const filter = useMotionTemplate`blur(${blur}px)`;
+  const scale = useTransform(scrollYProgress, [0, 0.25], [0.7, depthScale]);
 
   return (
     <motion.div
-      style={{
-        x: xMove,
-        y: yMove,
-        opacity,
-        scale,
-        filter,
-      }}
-      className="absolute"
+      style={{ x, y, opacity, filter, scale }}
+      className="absolute flex flex-col items-center justify-center"
     >
-      <DummyLogo
-        src={client.src}
-        alt={client.name}
-        isMobile={isMobile}
-      />
+      {src ? (
+        <img
+          src={src}
+          alt={name}
+          style={{ width: size, height: size }}
+          className="object-contain mb-1 drop-shadow-lg"
+        />
+      ) : (
+        <div
+          style={{ width: size, height: size }}
+          className="bg-white/10 rounded-full mb-1"
+        />
+      )}
+      <span className="text-[10px] text-white/60 tracking-wide">{name}</span>
     </motion.div>
   );
 }
 
+// ------------------------------------------------------------------
+// Main section
+// ------------------------------------------------------------------
 export default function ClientsParallax() {
   const ref = useRef(null);
 
@@ -165,17 +126,6 @@ export default function ClientsParallax() {
   const [clientTitle, setClientTitle] = useState("");
   const [clientDescription, setClientDescription] = useState<unknown>(null);
 
-  const [isMobile, setIsMobile] = useState(false);
-
-  /* ✅ detect mobile */
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
-
-  /* ✅ fetch data */
   useEffect(() => {
     const fetchData = async () => {
       const result = await getClient({ locale: null });
@@ -188,66 +138,54 @@ export default function ClientsParallax() {
     fetchData();
   }, []);
 
-  /* ✅ limit logos on mobile */
-  const limitedClientData = useMemo(() => {
-    if (isMobile) return clientData.slice(0, 6);
-    return clientData;
-  }, [clientData, isMobile]);
-
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end end"],
   });
 
-  /* ✅ positions */
-  const positions = useMemo(
-    () => generatePositions(limitedClientData.length || 6, isMobile),
-    [limitedClientData.length, isMobile]
+  const orbitConfigs = useMemo(
+    () => buildOrbitConfigs(clientData.length || 8),
+    [clientData.length]
   );
 
-  /* ✅ build clients */
-  const clients: Client[] =
-    limitedClientData.length > 0
-      ? limitedClientData.map((c, i) => ({
-          name: c.text || `Logo ${i + 1}`,
-          src: c.image?.url ? BASE_URL + c.image.url : "",
-          ...positions[i],
-        }))
-      : positions.map((pos, i) => ({
-          name: `Logo ${i + 1}`,
-          src: "",
-          ...pos,
-        }));
+  const clients = useMemo(() => {
+    if (clientData.length > 0) {
+      return clientData.map((c, i) => ({
+        src: c.image?.url ? BASE_URL + c.image.url : "",
+        //name: c.text || `Client ${i + 1}`,
+        config: orbitConfigs[i],
+      }));
+    }
+    return orbitConfigs.map((config, i) => ({
+      src: "",
+      //name: `Logo ${i + 1}`,
+      config,
+    }));
+  }, [clientData, orbitConfigs]);
 
   return (
-    <section
-      ref={ref}
-      className={`relative ${
-        isMobile ? "h-[180vh]" : "h-[250vh]"
-      } bg-[#0E172B]`}
-    >
+    <section ref={ref} className="relative h-[250vh] bg-[#0E172B]">
       <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden text-white">
 
         {/* CENTER TEXT */}
-        <div className="absolute z-20 text-center max-w-2xl px-4">
-          <h2 className="text-3xl md:text-6xl font-bold mb-6">
+        <div className="absolute z-20 text-center max-w-2xl px-4 pointer-events-none">
+          <h2 className="text-4xl md:text-6xl font-bold mb-6">
             {clientTitle}
           </h2>
-          <div className="text-white [&_p]:mb-0">
-            <StrapiBlocks
-              data={clientDescription}
-              className="text-white"
-            />
+          <div className="text-white/80 [&_p]:mb-0">
+            <StrapiBlocks data={clientDescription} className="text-white" />
           </div>
         </div>
 
-        {/* LOGOS */}
+        {/* ORBITING LOGOS */}
         {clients.map((client, i) => (
-          <FloatingLogo
+          <OrbitingLogo
             key={i}
-            client={client}
+            src={client.src}
+            //@ts-ignore
+            name={client.name}
+            config={client.config}
             scrollYProgress={scrollYProgress}
-            isMobile={isMobile}
           />
         ))}
       </div>

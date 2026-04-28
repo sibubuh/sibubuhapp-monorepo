@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2026-04-24T09:17:47.108Z"
+    "x-generation-date": "2026-04-28T07:42:54.997Z"
   },
   "x-strapi-config": {
     "plugins": [
@@ -7757,6 +7757,9 @@
                     },
                     {
                       "$ref": "#/components/schemas/SectionsMyprofileComponent"
+                    },
+                    {
+                      "$ref": "#/components/schemas/SectionsTimelinesComponent"
                     }
                   ]
                 },
@@ -7788,7 +7791,8 @@
                     "sections.grouped-download-item": "#/components/schemas/SectionsGroupedDownloadItemComponent",
                     "sections.hero-page": "#/components/schemas/SectionsHeroPageComponent",
                     "sections.social-media": "#/components/schemas/SectionsSocialMediaComponent",
-                    "sections.myprofile": "#/components/schemas/SectionsMyprofileComponent"
+                    "sections.myprofile": "#/components/schemas/SectionsMyprofileComponent",
+                    "sections.timelines": "#/components/schemas/SectionsTimelinesComponent"
                   }
                 }
               },
@@ -7952,6 +7956,9 @@
                 },
                 {
                   "$ref": "#/components/schemas/SectionsMyprofileComponent"
+                },
+                {
+                  "$ref": "#/components/schemas/SectionsTimelinesComponent"
                 }
               ]
             },
@@ -7983,7 +7990,8 @@
                 "sections.grouped-download-item": "#/components/schemas/SectionsGroupedDownloadItemComponent",
                 "sections.hero-page": "#/components/schemas/SectionsHeroPageComponent",
                 "sections.social-media": "#/components/schemas/SectionsSocialMediaComponent",
-                "sections.myprofile": "#/components/schemas/SectionsMyprofileComponent"
+                "sections.myprofile": "#/components/schemas/SectionsMyprofileComponent",
+                "sections.timelines": "#/components/schemas/SectionsTimelinesComponent"
               }
             }
           },
@@ -8125,6 +8133,9 @@
                       },
                       {
                         "$ref": "#/components/schemas/SectionsMyprofileComponent"
+                      },
+                      {
+                        "$ref": "#/components/schemas/SectionsTimelinesComponent"
                       }
                     ]
                   },
@@ -8156,7 +8167,8 @@
                       "sections.grouped-download-item": "#/components/schemas/SectionsGroupedDownloadItemComponent",
                       "sections.hero-page": "#/components/schemas/SectionsHeroPageComponent",
                       "sections.social-media": "#/components/schemas/SectionsSocialMediaComponent",
-                      "sections.myprofile": "#/components/schemas/SectionsMyprofileComponent"
+                      "sections.myprofile": "#/components/schemas/SectionsMyprofileComponent",
+                      "sections.timelines": "#/components/schemas/SectionsTimelinesComponent"
                     }
                   }
                 },
@@ -10712,6 +10724,72 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/RepeatableTitleAndContentAndImageComponent"
+            }
+          }
+        }
+      },
+      "RepeatableTimelineItemsComponent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "year": {
+            "type": "string"
+          },
+          "month": {
+            "type": "string",
+            "enum": [
+              "January",
+              "February",
+              "March",
+              "April",
+              "May",
+              "June",
+              "July",
+              "August",
+              "September",
+              "October",
+              "November",
+              "December"
+            ]
+          },
+          "body": {
+            "type": "string"
+          },
+          "accent": {
+            "type": "string"
+          },
+          "tag": {
+            "type": "string"
+          },
+          "tagBg": {
+            "type": "string"
+          },
+          "tagColor": {
+            "type": "string"
+          }
+        }
+      },
+      "SectionsTimelinesComponent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "__component": {
+            "type": "string",
+            "enum": [
+              "sections.timelines"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RepeatableTimelineItemsComponent"
             }
           }
         }

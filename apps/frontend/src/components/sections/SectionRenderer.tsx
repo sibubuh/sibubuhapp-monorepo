@@ -23,6 +23,7 @@ import MultipleDownloadSection from "./MultipleDownloadSection";
 import GroupedDownloadSection from "./GroupedDownloadSection";
 import SocialMediaSection from "./SocialMediaSection";
 import MyprofileSection from "./MyprofileSection";
+import TimelineSection from "./TimelineSection";
 
 const sectionComponents: Record<string, React.ComponentType<any>> = {
 	"sections.hero": HeroSection,
@@ -49,6 +50,7 @@ const sectionComponents: Record<string, React.ComponentType<any>> = {
 	"sections.grouped-download-item": GroupedDownloadSection,
 	"sections.social-media": SocialMediaSection,
 	"sections.myprofile": MyprofileSection,
+	"sections.timelines": TimelineSection,
 };
 
 interface SectionRendererProps {

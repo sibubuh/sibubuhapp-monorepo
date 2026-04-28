@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_sections_timelines",
+  "info": {
+    "displayName": "Timelines",
+    "icon": "connector"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "items": {
+      "type": "component",
+      "component": "repeatable.timeline-items",
+      "repeatable": true
+    }
+  },
+  "config": {}
+}
