@@ -44,7 +44,7 @@ export default function PortfolioSlider() {
 				{loading ? (
 					<div className="flex gap-10 px-6">
 						{[1, 2, 3].map((i) => (
-							<div key={i} className="min-w-[80vw] md:min-w-[450px]">
+							<div key={i} className="min-w-[80vw] md:min-w-[450px] w-[80vw] md:w-[450px] shrink-0">
 								<div className="aspect-[16/10] bg-neutral-200 rounded-[2rem] animate-pulse" />
 								<div className="mt-6">
 									<div className="h-8 w-48 bg-neutral-200 rounded animate-pulse" />
@@ -64,7 +64,7 @@ export default function PortfolioSlider() {
 							<motion.div
 								key={project.id}
 								whileHover={{ y: -15 }}
-								className="min-w-[80vw] md:min-w-[450px] group"
+								className="min-w-[80vw] md:min-w-[450px] w-[80vw] md:w-[450px] shrink-0 group"
 							>
 								<div className="aspect-[16/10] bg-neutral-100 rounded-[2rem] overflow-hidden">
                 <a href={`/projects/${project.slug}`} className="block w-full h-full">
