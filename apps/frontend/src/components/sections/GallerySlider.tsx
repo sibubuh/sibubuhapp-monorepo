@@ -1,4 +1,49 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef, type MouseEvent } from "react";
+
+function TiltThumb({ children, className, style, onClick }: {
+	children: React.ReactNode;
+	className?: string;
+	style?: React.CSSProperties;
+	onClick?: () => void;
+}) {
+	const ref = useRef<HTMLDivElement>(null);
+	const [rotateX, setRotateX] = useState(0);
+	const [rotateY, setRotateY] = useState(0);
+	const [isHovered, setIsHovered] = useState(false);
+
+	const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
+		if (!ref.current) return;
+		const rect = ref.current.getBoundingClientRect();
+		const x = e.clientX - rect.left;
+		const y = e.clientY - rect.top;
+		setRotateX(((y - rect.height / 2) / (rect.height / 2)) * -8);
+		setRotateY(((x - rect.width / 2) / (rect.width / 2)) * 8);
+	};
+
+	const handleMouseLeave = () => {
+		setRotateX(0);
+		setRotateY(0);
+		setIsHovered(false);
+	};
+
+	return (
+		<div
+			ref={ref}
+			onMouseMove={handleMouseMove}
+			onMouseEnter={() => setIsHovered(true)}
+			onMouseLeave={handleMouseLeave}
+			onClick={onClick}
+			className={className}
+			style={{
+				...style,
+				transform: `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
+				transition: isHovered ? "none" : "transform 0.4s ease",
+			}}
+		>
+			{children}
+		</div>
+	);
+}
 
 function GallerySlider({ images, baseUrl, title }: any) {
   const [lightbox, setLightbox] = useState<number | null>(null);
@@ -90,11 +135,10 @@ function GallerySlider({ images, baseUrl, title }: any) {
           cursor: zoom-in;
           background: #e8e4de;
           opacity: 0;
-          transform: scale(0.94);
           animation: thumbIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
         @keyframes thumbIn {
-          to { opacity: 1; transform: scale(1); }
+          to { opacity: 1; }
         }
         .g-thumb img {
           width: 100%;
@@ -277,7 +321,7 @@ function GallerySlider({ images, baseUrl, title }: any) {
 
         <div className="g-grid">
           {images.map((img: any, i: number) => (
-            <div
+            <TiltThumb
               key={i}
               className="g-thumb"
               style={{ animationDelay: `${i * 45}ms` }}
@@ -294,7 +338,7 @@ function GallerySlider({ images, baseUrl, title }: any) {
                   </svg>
                 </div>
               </div>
-            </div>
+            </TiltThumb>
           ))}
         </div>
       </div>

@@ -5,7 +5,7 @@ import type { Project } from "../../../types/project";
 import StrapiBlocks from "../sections/StrapiBlocks";
 import InstagramReelsSection from "../sections/InstagramReelsSection";
 import TiktokReelsSection from "../sections/TiktokReelsSection";
-import GallerySlider from "../sections/GallerySlider";
+import DiagonalCarousel from "../ui/DiagonalCarousel";
 
 interface ProjectDetailProps {
   project: Project;
@@ -93,18 +93,28 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           <StrapiBlocks data={project.description} />
         </div>
 
-        {/* GALLERY */}
+        {/* GALLERY - Diagonal Carousel */}
         {galleryImages.length > 0 && (
-          <div className="mt-20">
-            <h2 className="text-2xl font-bold mb-10">
+          <div className="mt-10">
+            <h2 className="text-2xl font-bold mb-8 dark:text-zinc-100">
               Project Gallery
             </h2>
 
-            <GallerySlider
-              images={galleryImages}
-              baseUrl={BASE_URL}
-              title={project.title}
-            />
+            <div className="relative h-[700px] w-full rounded-2xl overflow-hidden bg-white dark:bg-zinc-900">
+              <DiagonalCarousel
+                items={galleryImages.map((img: any) => ({
+                  src: `${BASE_URL}${img.url}`,
+                  title: img.alt || project.title,
+                  alt: img.alt || project.title,
+                }))}
+                slideSize={420}
+                rotationStep={28}
+                verticalStep={100}
+                inactiveScale={0.55}
+                loop
+                showControls={false}
+              />
+            </div>
           </div>
         )}
       </div>

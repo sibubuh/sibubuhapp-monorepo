@@ -19,6 +19,9 @@ export default defineConfig(() => ({
 	],
 	server: { port: 3000, host: "0.0.0.0" },
 	publicDir: resolve("public"),
+	ssr: {
+		external: [],
+	},
 	optimizeDeps: {
 		exclude: ["@repo/shared-ui"],
 	},
