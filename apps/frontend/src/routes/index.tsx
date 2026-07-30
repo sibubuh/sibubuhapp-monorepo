@@ -3,7 +3,7 @@ import { getHomeSlider } from "../../services/api";
 import HeroSlider from "../../ui/HeroSlider";
 import WebIntro from "../components/ui/WebIntro";
 import PortfolioSlider from "../components/ui/PortfolioSlider";
-import SocialSection from "../components/ui/SocmedSection";
+import SocialMediaSection from "../components/sections/SocialMediaSection";
 import ContactCTA from "../components/ui/ContactCTA";
 import RecentBlogsSection from "../components/sections/RecentBlogsSection";
 import { SeoMeta } from "../components/seo";
@@ -62,7 +62,7 @@ function Index() {
 			/>
 			<PortfolioSlider />
       <ClientsParallax />
-			<SocialSection />
+			<SocialMediaSection />
 
 			<ContactCTA />
 		</>
