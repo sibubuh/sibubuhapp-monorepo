@@ -1,11 +1,13 @@
 @import "tailwindcss";
 
 @theme {
+  --font-family-sans: "Lora", serif;
   --color-indigo-500: #6366f1;
 }
 
 @layer base {
   body {
+    font-family: "Lora", serif;
     background-color: white;
     color: #171717;
   }

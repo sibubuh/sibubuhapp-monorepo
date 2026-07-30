@@ -24,6 +24,10 @@ export const Route = createRootRoute({
 		],
 		links: [
 			{ rel: "stylesheet", href: appCss },
+			{
+				rel: "stylesheet",
+				href: "https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap",
+			},
 			{ rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
 		],
 	}),

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { ExternalLink, AlertCircle } from "lucide-react";
+import { ExternalLink, AlertCircle, PenLine, BookOpen, Feather, BookMarked, MessageCircle } from "lucide-react";
 import BubuhBlogCard from "../ui/BubuhBlogCard";
 import BubuhBlogCardSkeleton from "../ui/BubuhBlogCardSkeleton";
 import { getRecentBubuhBlogs } from "../../services/bubuhApi";
@@ -14,6 +14,16 @@ interface RecentBlogsSectionProps {
 	limit?: number;
 	showViewAll?: boolean;
 }
+
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+const storyIcons = [
+	{ icon: PenLine, position: "top-12 left-[8%] md:left-[12%]", animate: { x: [0, 5, 0], y: [0, -7, 0] }, delay: 0 },
+	{ icon: BookOpen, position: "top-12 right-[8%] md:right-[12%]", animate: { x: [0, -5, 0], y: [0, -9, 0] }, delay: 0.15 },
+	{ icon: Feather, position: "bottom-12 left-[8%] md:left-[12%]", animate: { x: [0, 6, 0], y: [0, 5, 0] }, delay: 0.3 },
+	{ icon: BookMarked, position: "bottom-12 right-[8%] md:right-[12%]", animate: { x: [0, -7, 0], y: [0, 6, 0] }, delay: 0.45 },
+	{ icon: MessageCircle, position: "top-1/3 right-[4%] md:right-[6%]", animate: { x: [0, 3, 0], y: [0, -8, 3, 0] }, delay: 0.6 },
+];
 
 export default function RecentBlogsSection({
 	title = "Blog dari Bubuh.id",
@@ -40,7 +50,31 @@ export default function RecentBlogsSection({
 	}, [limit]);
 
 	return (
-		<section className="py-20 md:py-28 bg-[#080C14]">
+		<section className="relative py-20 md:py-28 bg-[#080C14] overflow-hidden">
+			{storyIcons.map(({ icon: Icon, position, animate, delay }) => (
+				<motion.div
+					key={position}
+					className={`absolute ${position}`}
+					initial={{ opacity: 0, scale: 0.6 }}
+					whileInView={{ opacity: 1, scale: 1 }}
+					viewport={{ once: true }}
+					transition={{ duration: 0.7, ease: EASE, delay }}
+				>
+					<motion.div
+						animate={animate}
+						transition={{
+							duration: 4,
+							repeat: Infinity,
+							repeatType: "reverse",
+							ease: EASE,
+							delay,
+						}}
+					>
+						<Icon className="w-7 h-7 md:w-9 md:h-9 text-white/10" />
+					</motion.div>
+				</motion.div>
+			))}
+
 			<div className="px-6 max-w-screen-xl mx-auto">
 				<motion.div
 					initial={{ opacity: 0, y: 30 }}
