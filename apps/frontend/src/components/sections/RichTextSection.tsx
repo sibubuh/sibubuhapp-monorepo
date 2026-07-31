@@ -4,7 +4,7 @@ import StrapiBlocks from "./StrapiBlocks";
 
 export default function RichTextSectionComponent({ content }: RichTextSection) {
 	return (
-		<section className="py-24 md:py-32 px-6 bg-white">
+		<section className="py-24 md:py-32 px-6 bg-white dark:bg-zinc-950">
 			<motion.div
 				initial={{ opacity: 0, y: 50 }}
 				whileInView={{ opacity: 1, y: 0 }}

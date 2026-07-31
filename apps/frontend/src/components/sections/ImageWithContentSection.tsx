@@ -7,7 +7,7 @@ export default function ImageWithContentSectionComponent({
 	content,
 }: ImageWithContentSection) {
 	return (
-		<section className="py-24 md:py-32 px-6 bg-white">
+		<section className="py-24 md:py-32 px-6 bg-white dark:bg-zinc-950">
 			<div className="max-w-7xl mx-auto">
 				<div className="grid lg:grid-cols-2 gap-16 items-center">
 					<motion.div

@@ -31,8 +31,8 @@ function DashboardPage() {
                     <span
                         className={`inline-flex items-center rounded-full px-3 py-1 text-sm ${
                             health?.ok
-                                ? "bg-green-100 text-green-800"
-                                : "bg-amber-100 text-amber-800"
+                                ? "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300"
+                                : "bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300"
                         }`}
                     >
                         {health ? (health.ok ? "OK" : "DEGRADED") : "LOADING"}

@@ -21,8 +21,8 @@ export const Route = createFileRoute("/$slug")({
 	notFoundComponent: () => (
 		<div className="min-h-[50vh] flex items-center justify-center">
 			<div className="text-center">
-				<h1 className="text-6xl font-black text-neutral-900 mb-4">404</h1>
-				<p className="text-xl text-neutral-600">Page not found</p>
+				<h1 className="text-6xl font-black text-neutral-900 dark:text-zinc-100 mb-4">404</h1>
+				<p className="text-xl text-neutral-600 dark:text-zinc-400">Page not found</p>
 			</div>
 		</div>
 	),
@@ -36,8 +36,8 @@ function PageRoute() {
 		return (
 			<div className="min-h-[50vh] flex items-center justify-center">
 				<div className="text-center">
-					<h1 className="text-6xl font-black text-neutral-900 mb-4">404</h1>
-					<p className="text-xl text-neutral-600">Page not found</p>
+					<h1 className="text-6xl font-black text-neutral-900 dark:text-zinc-100 mb-4">404</h1>
+					<p className="text-xl text-neutral-600 dark:text-zinc-400">Page not found</p>
 				</div>
 			</div>
 		)

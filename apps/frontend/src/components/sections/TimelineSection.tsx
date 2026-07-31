@@ -18,7 +18,7 @@ export default function TimelineSectionComponent({ title, items }: TimelineSecti
   return (
     <>
       {title && (
-        <section className="py-16 md:py-24 px-6 bg-white">
+        <section className="py-16 md:py-24 px-6 bg-white dark:bg-zinc-950">
           <div className="max-w-7xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -27,7 +27,7 @@ export default function TimelineSectionComponent({ title, items }: TimelineSecti
               transition={{ duration: 0.8 }}
               className="text-center"
             >
-              <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-neutral-900">
+              <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-neutral-900 dark:text-zinc-100">
                 {title}
               </h2>
             </motion.div>

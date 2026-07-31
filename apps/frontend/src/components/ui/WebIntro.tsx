@@ -78,7 +78,7 @@ const WebIntro = () => {
 	if (!data) return null;
 
 	return (
-		<section className="relative py-32 px-6 bg-white overflow-hidden">
+		<section className="relative py-32 px-6 bg-white dark:bg-zinc-950 overflow-hidden">
 			<div
 				className="absolute inset-0 opacity-[0.04] pointer-events-none"
 				style={{
@@ -104,16 +104,16 @@ const WebIntro = () => {
 							delay,
 						}}
 					>
-						<Icon className="w-8 h-8 md:w-10 md:h-10 text-slate-900/20" />
+						<Icon className="w-8 h-8 md:w-10 md:h-10 text-slate-900/20 dark:text-white/10" />
 					</motion.div>
 				</motion.div>
 			))}
 
 			<div className="max-w-4xl mx-auto text-center">
-				<h2 className="text-4xl md:text-6xl font-bold mb-8 text-slate-900 leading-tight">
+				<h2 className="text-4xl md:text-6xl font-bold mb-8 text-slate-900 dark:text-zinc-100 leading-tight">
 					<TextAnimation>{extractPlainText(data.title)}</TextAnimation>
 				</h2>
-				<p className="text-xl text-slate-500 leading-relaxed">
+				<p className="text-xl text-slate-500 dark:text-zinc-400 leading-relaxed">
 					<TextAnimation delay={0.2}>{extractPlainText(data.description)}</TextAnimation>
 				</p>
 			</div>

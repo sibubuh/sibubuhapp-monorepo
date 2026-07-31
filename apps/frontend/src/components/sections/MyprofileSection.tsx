@@ -18,7 +18,7 @@ export default function MyprofileSectionComponent({
 					transition={{ duration: 0.6 }}
 					className="mb-16 md:mb-20"
 				>
-					<h2 className="text-3xl md:text-5xl font-black tracking-tight text-neutral-900">
+					<h2 className="text-3xl md:text-5xl font-black tracking-tight text-neutral-900 dark:text-zinc-100">
 						{title}
 					</h2>
 				</motion.div>
@@ -50,8 +50,8 @@ export default function MyprofileSectionComponent({
 											className="w-full h-full object-cover"
 										/>
 									) : (
-										<div className="w-full h-full bg-gray-200 flex items-center justify-center">
-											<span className="text-gray-400">No image</span>
+										<div className="w-full h-full bg-gray-200 dark:bg-zinc-800 flex items-center justify-center">
+											<span className="text-gray-400 dark:text-zinc-500">No image</span>
 										</div>
 									)}
 									<div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
@@ -60,7 +60,7 @@ export default function MyprofileSectionComponent({
 
 							<div className="w-full md:w-1/2 space-y-4">
 								{item?.title && (
-									<h3 className="text-2xl md:text-3xl font-bold text-neutral-900">
+									<h3 className="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-zinc-100">
 										{item.title}
 									</h3>
 								)}

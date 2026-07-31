@@ -79,7 +79,7 @@ function TiltCard({
 					onMouseMove={handleMouseMove}
 					onMouseEnter={() => setIsHovered(true)}
 					onMouseLeave={handleMouseLeave}
-					className="group relative rounded-[2rem] bg-white border border-slate-200/60 overflow-hidden will-change-transform"
+					className="group relative rounded-[2rem] bg-white dark:bg-zinc-900 border border-slate-200/60 dark:border-zinc-800/60 overflow-hidden will-change-transform"
 					style={{
 						transform: `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
 						transition: isHovered ? "none" : "transform 0.5s ease",
@@ -95,7 +95,7 @@ function TiltCard({
 					/>
 
 					{/* Image */}
-					<div className="aspect-[16/10] overflow-hidden bg-neutral-100">
+					<div className="aspect-[16/10] overflow-hidden bg-neutral-100 dark:bg-zinc-800">
 						<img
 							// @ts-ignore
 							src={`${BASE_URL}${project.cover?.image?.url}`}
@@ -109,22 +109,22 @@ function TiltCard({
 						<div className="flex items-center justify-between mb-2">
 							<span
 								className={`inline-block px-2.5 py-0.5 text-[10px] md:text-xs font-medium rounded-full ${
-									categoryColors[project.category] || "bg-neutral-100 text-neutral-600"
+									categoryColors[project.category] || "bg-neutral-100 dark:bg-zinc-800 dark:text-zinc-400"
 								}`}
 							>
 								{project.category}
 							</span>
-							<span className="text-xs text-slate-400 font-mono">
+							<span className="text-xs text-slate-400 dark:text-zinc-500 font-mono">
 								{project.years || "2026"}
 							</span>
 						</div>
 
-						<h3 className="text-lg md:text-xl font-bold uppercase tracking-tighter text-slate-900">
+						<h3 className="text-lg md:text-xl font-bold uppercase tracking-tighter text-slate-900 dark:text-zinc-100">
 							{project.title}
 						</h3>
 
 						{descText && (
-							<p className="mt-1.5 text-xs md:text-sm text-slate-500 leading-relaxed line-clamp-2">
+							<p className="mt-1.5 text-xs md:text-sm text-slate-500 dark:text-zinc-400 leading-relaxed line-clamp-2">
 								{descText}
 							</p>
 						)}
@@ -155,7 +155,7 @@ export default function PortfolioSlider() {
 	}, []);
 
 	return (
-		<section className="relative py-28 md:py-36 bg-white overflow-hidden">
+		<section className="relative py-28 md:py-36 bg-white dark:bg-zinc-950 overflow-hidden">
 			{/* Old paper texture */}
 			<div
 				className="absolute inset-0 opacity-[0.04] pointer-events-none"
@@ -172,10 +172,10 @@ export default function PortfolioSlider() {
 				transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
 				className="px-6 max-w-7xl mx-auto mb-16 md:mb-20"
 			>
-				<h2 className="text-4xl md:text-6xl font-bold tracking-tight text-slate-900">
+				<h2 className="text-4xl md:text-6xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
 					Recent Projects
 				</h2>
-				<p className="mt-4 text-lg text-slate-500 max-w-xl">
+				<p className="mt-4 text-lg text-slate-500 dark:text-zinc-400 max-w-xl">
 					A curated selection of work across branding, web development, content strategy, and public speaking.
 				</p>
 			</motion.div>
@@ -183,12 +183,12 @@ export default function PortfolioSlider() {
 			{loading && (
 				<div className="px-6 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 					{[1, 2, 3].map((i) => (
-						<div key={i} className="rounded-[2rem] bg-neutral-100 animate-pulse overflow-hidden">
-							<div className="aspect-[16/10] bg-neutral-200" />
+						<div key={i} className="rounded-[2rem] bg-neutral-100 dark:bg-zinc-800 animate-pulse overflow-hidden">
+							<div className="aspect-[16/10] bg-neutral-200 dark:bg-zinc-700" />
 							<div className="p-5 space-y-3">
-								<div className="h-4 w-20 bg-neutral-200 rounded-full" />
-								<div className="h-6 w-40 bg-neutral-200 rounded" />
-								<div className="h-4 w-32 bg-neutral-200 rounded" />
+								<div className="h-4 w-20 bg-neutral-200 dark:bg-zinc-700 rounded-full" />
+								<div className="h-6 w-40 bg-neutral-200 dark:bg-zinc-700 rounded" />
+								<div className="h-4 w-32 bg-neutral-200 dark:bg-zinc-700 rounded" />
 							</div>
 						</div>
 					))}

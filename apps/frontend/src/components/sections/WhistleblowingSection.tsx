@@ -19,7 +19,7 @@ export default function WhistleblowingSectionComponent({
 				transition={{ duration: 0.8 }}
 				className="max-w-7xl mx-auto px-6 mb-16"
 			>
-				<h2 className="text-4xl md:text-5xl font-bold tracking-tight text-neutral-900 mb-8">
+				<h2 className="text-4xl md:text-5xl font-bold tracking-tight text-neutral-900 dark:text-zinc-100 mb-8">
 					{title}
 				</h2>
 				<div className="grid lg:grid-cols-2 gap-16">
@@ -49,7 +49,7 @@ export default function WhistleblowingSectionComponent({
 				transition={{ duration: 0.8 }}
 				className="max-w-7xl mx-auto px-6 mt-16"
 			>
-				<h3 className="text-2xl font-bold text-neutral-900 mb-8">
+				<h3 className="text-2xl font-bold text-neutral-900 dark:text-zinc-100 mb-8">
 					{contact_title}
 				</h3>
 				<div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -60,7 +60,7 @@ export default function WhistleblowingSectionComponent({
 								alt={block.text}
 								className="w-16 h-16 object-contain mx-auto mb-4"
 							/>
-							<p className="text-neutral-700 font-medium">{block.text}</p>
+							<p className="text-neutral-700 dark:text-zinc-300 font-medium">{block.text}</p>
 						</div>
 					))}
 				</div>

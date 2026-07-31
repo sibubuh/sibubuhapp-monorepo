@@ -1,15 +1,18 @@
 @import "tailwindcss";
+@import "./colors.css";
 
 @theme {
   --font-family-sans: "Lora", serif;
   --color-indigo-500: #6366f1;
 }
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 @layer base {
   body {
     font-family: "Lora", serif;
-    background-color: white;
-    color: #171717;
+    background-color: var(--background);
+    color: var(--foreground);
   }
 }
 
@@ -19,4 +22,18 @@
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Smooth theme switching: only animate while the theme is being toggled */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition:
+    background-color 0.5s ease,
+    border-color 0.5s ease,
+    color 0.5s ease,
+    fill 0.5s ease,
+    stroke 0.5s ease,
+    box-shadow 0.5s ease !important;
 }
