@@ -33,13 +33,13 @@ export const Route = createFileRoute("/projects/$slug")({
 
   // ✅ 404 PAGE
   notFoundComponent: () => (
-    <div className="min-h-screen flex items-center justify-center bg-neutral-50">
+    <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-zinc-950">
       <div className="text-center max-w-md mx-auto p-8">
-        <h1 className="text-8xl font-black text-neutral-900 mb-4">404</h1>
-        <p className="text-xl text-neutral-600 mb-8">Project not found</p>
+        <h1 className="text-8xl font-black text-neutral-900 dark:text-zinc-100 mb-4">404</h1>
+        <p className="text-xl text-neutral-600 dark:text-zinc-400 mb-8">Project not found</p>
         <a
           href="/projects"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-neutral-900 text-white rounded-full font-medium hover:bg-indigo-600 transition-colors"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-neutral-900 dark:bg-white dark:text-black text-white rounded-full font-medium hover:bg-indigo-600 dark:hover:bg-indigo-500 dark:hover:text-white transition-colors"
         >
           Back to Projects
         </a>
@@ -68,15 +68,15 @@ function ProjectPage() {
   // ❌ NOT FOUND
   if (!project) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-neutral-50">
+      <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-zinc-950">
         <div className="text-center max-w-md mx-auto p-8">
-          <h1 className="text-8xl font-black text-neutral-900 mb-4">404</h1>
-          <p className="text-xl text-neutral-600 mb-4">Project not found</p>
-          <p className="text-sm text-neutral-400 mb-8">Slug: {slug}</p>
+          <h1 className="text-8xl font-black text-neutral-900 dark:text-zinc-100 mb-4">404</h1>
+          <p className="text-xl text-neutral-600 dark:text-zinc-400 mb-4">Project not found</p>
+          <p className="text-sm text-neutral-400 dark:text-zinc-500 mb-8">Slug: {slug}</p>
 
           <a
             href="/projects"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-neutral-900 text-white rounded-full font-medium hover:bg-indigo-600 transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-neutral-900 dark:bg-white dark:text-black text-white rounded-full font-medium hover:bg-indigo-600 dark:hover:bg-indigo-500 dark:hover:text-white transition-colors"
           >
             Back to Projects
           </a>

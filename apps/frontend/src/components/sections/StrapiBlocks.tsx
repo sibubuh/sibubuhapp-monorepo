@@ -11,7 +11,7 @@ export default function StrapiBlocks({ data, className = "" }: Props) {
 	if (blocks.length === 0) return null;
 
 	return (
-		<div className={`text-neutral-700 leading-relaxed space-y-4 ${className}`}>
+		<div className={`text-neutral-700 dark:text-zinc-300 leading-relaxed space-y-4 ${className}`}>
 			{blocks.map((block, i) => renderBlock(block, i))}
 		</div>
 	);
@@ -123,7 +123,7 @@ function renderBlock(block: any, key: number): React.ReactNode {
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-indigo-600 underline hover:text-indigo-500"
+          className="text-indigo-600 dark:text-indigo-400 underline hover:text-indigo-500"
         >
           {renderChildren(block.children)}
         </a>
@@ -142,7 +142,7 @@ function renderBlock(block: any, key: number): React.ReactNode {
 			return (
 				<blockquote
 					key={key}
-					className="border-l-4 border-indigo-500 pl-4 italic my-6 text-neutral-600"
+					className="border-l-4 border-indigo-500 pl-4 italic my-6 text-neutral-600 dark:text-zinc-400"
 				>
 					{renderChildren(block.children)}
 				</blockquote>
@@ -153,7 +153,7 @@ function renderBlock(block: any, key: number): React.ReactNode {
 			return (
 				<pre
 					key={key}
-					className="bg-neutral-900 text-neutral-100 p-4 rounded-xl overflow-x-auto my-6 text-sm font-mono"
+					className="bg-neutral-900 text-neutral-100 dark:text-neutral-100 p-4 rounded-xl overflow-x-auto my-6 text-sm font-mono"
 				>
 					<code>{text}</code>
 				</pre>
@@ -214,7 +214,7 @@ function renderText(text: any, key: number): React.ReactNode {
 
 	if (text.code) {
 		result = (
-			<code className="bg-neutral-100 px-1 rounded text-sm font-mono text-indigo-600">
+			<code className="bg-neutral-100 dark:bg-zinc-800 px-1 rounded text-sm font-mono text-indigo-600 dark:text-indigo-400">
 				{result}
 			</code>
 		);
@@ -227,7 +227,7 @@ function renderText(text: any, key: number): React.ReactNode {
 				href={text.url}
 				target="_blank"
 				rel="noopener noreferrer"
-				className="text-indigo-600 underline hover:text-indigo-500"
+				className="text-indigo-600 dark:text-indigo-400 underline hover:text-indigo-500"
 			>
 				{result}
 			</a>

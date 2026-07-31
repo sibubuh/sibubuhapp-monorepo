@@ -8,7 +8,7 @@ export default function VisionMissionSectionComponent({
 	mission,
 }: VisionMissionSection) {
 	return (
-		<section className="py-24 md:py-32 px-6 bg-neutral-50">
+		<section className="py-24 md:py-32 px-6 bg-neutral-50 dark:bg-zinc-950">
 			<div className="max-w-7xl mx-auto">
 				<div className="grid md:grid-cols-2 gap-16">
 					<motion.div
@@ -16,12 +16,12 @@ export default function VisionMissionSectionComponent({
 						whileInView={{ opacity: 1, y: 0 }}
 						viewport={{ once: true }}
 						transition={{ duration: 0.8 }}
-						className="bg-white p-12 rounded-3xl shadow-lg"
+						className="bg-white dark:bg-zinc-900 p-12 rounded-3xl shadow-lg dark:shadow-zinc-900/30"
 					>
 						<span className="text-sm uppercase tracking-[0.3em] text-indigo-500 font-bold">
 							{vision_label}
 						</span>
-						<p className="mt-4 text-2xl text-neutral-800 leading-relaxed">
+						<p className="mt-4 text-2xl text-neutral-800 dark:text-zinc-200 leading-relaxed">
 							{vision}
 						</p>
 					</motion.div>

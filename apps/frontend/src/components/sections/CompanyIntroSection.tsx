@@ -9,7 +9,7 @@ export default function CompanyIntroSectionComponent({
 	image,
 }: CompanyIntroSection) {
 	return (
-		<section className="py-24 md:py-32 px-6 bg-white">
+		<section className="py-24 md:py-32 px-6 bg-white dark:bg-zinc-950">
 			<div className="max-w-7xl mx-auto">
 				<div className="grid md:grid-cols-2 gap-16 items-center">
 					<motion.div
@@ -18,7 +18,7 @@ export default function CompanyIntroSectionComponent({
 						viewport={{ once: true }}
 						transition={{ duration: 0.8 }}
 					>
-						<h2 className="text-4xl md:text-5xl font-bold mb-4 text-neutral-900">
+						<h2 className="text-4xl md:text-5xl font-bold mb-4 text-neutral-900 dark:text-zinc-100">
 							{title}
 						</h2>
 						{secondary_title && (
@@ -26,13 +26,13 @@ export default function CompanyIntroSectionComponent({
 								{secondary_title}
 							</p>
 						)}
-						<p className="text-lg text-neutral-600 leading-relaxed mb-8">
+						<p className="text-lg text-neutral-600 dark:text-zinc-400 leading-relaxed mb-8">
 							{description}
 						</p>
 						{link && (
 							<a
 								href={link.href || "#"}
-								className="inline-block bg-neutral-900 text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-indigo-500 transition-colors"
+								className="inline-block bg-neutral-900 dark:bg-white dark:text-black text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-indigo-500 transition-colors"
 							>
 								{link.title}
 							</a>

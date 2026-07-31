@@ -34,7 +34,7 @@ export default function ContactUsSectionComponent({
 	};
 
 	return (
-		<section className="py-24 md:py-32 px-6 bg-neutral-50">
+		<section className="py-24 md:py-32 px-6 bg-neutral-50 dark:bg-zinc-950">
 			<div className="max-w-7xl mx-auto">
 				<div className="grid lg:grid-cols-2 gap-16">
 					<motion.div
@@ -43,7 +43,7 @@ export default function ContactUsSectionComponent({
 						viewport={{ once: true }}
 						transition={{ duration: 0.8 }}
 					>
-						<h2 className="text-4xl md:text-5xl font-bold tracking-tight text-neutral-900 mb-8">
+						<h2 className="text-4xl md:text-5xl font-bold tracking-tight text-neutral-900 dark:text-zinc-100 mb-8">
 							{contact_title}
 						</h2>
 
@@ -66,7 +66,7 @@ export default function ContactUsSectionComponent({
 											alt={item.title}
 											className="w-12 h-12 object-contain"
 										/>
-										<span className="text-neutral-700 font-medium">
+										<span className="text-neutral-700 dark:text-zinc-300 font-medium">
 											{item.title}
 										</span>
 									</div>
@@ -80,16 +80,16 @@ export default function ContactUsSectionComponent({
 						whileInView={{ opacity: 1, x: 0 }}
 						viewport={{ once: true }}
 						transition={{ duration: 0.8 }}
-						className="bg-white p-8 md:p-12 rounded-3xl shadow-xl"
+						className="bg-white dark:bg-zinc-900 p-8 md:p-12 rounded-3xl shadow-xl dark:shadow-zinc-900/50"
 					>
-						<h3 className="text-2xl font-bold text-neutral-900 mb-8">
+						<h3 className="text-2xl font-bold text-neutral-900 dark:text-zinc-100 mb-8">
 							{form_title}
 						</h3>
 
 						<form onSubmit={handleSubmit} className="space-y-6">
 							<div className="grid md:grid-cols-2 gap-6">
 								<div>
-									<label className="block text-sm font-medium text-neutral-700 mb-2">
+									<label className="block text-sm font-medium text-neutral-700 dark:text-zinc-300 mb-2">
 										{first_name.label}
 									</label>
 									<input
@@ -98,11 +98,11 @@ export default function ContactUsSectionComponent({
 										placeholder={first_name.placeholder}
 										value={formData.first_name}
 										onChange={handleChange}
-										className="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none"
+										className="w-full px-4 py-3 rounded-xl border border-neutral-200 dark:border-zinc-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-800 transition-all outline-none"
 									/>
 								</div>
 								<div>
-									<label className="block text-sm font-medium text-neutral-700 mb-2">
+									<label className="block text-sm font-medium text-neutral-700 dark:text-zinc-300 mb-2">
 										{last_name.label}
 									</label>
 									<input
@@ -111,13 +111,13 @@ export default function ContactUsSectionComponent({
 										placeholder={last_name.placeholder}
 										value={formData.last_name}
 										onChange={handleChange}
-										className="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none"
+										className="w-full px-4 py-3 rounded-xl border border-neutral-200 dark:border-zinc-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-800 transition-all outline-none"
 									/>
 								</div>
 							</div>
 
 							<div>
-								<label className="block text-sm font-medium text-neutral-700 mb-2">
+								<label className="block text-sm font-medium text-neutral-700 dark:text-zinc-300 mb-2">
 									{phone_number.label}
 								</label>
 								<input
@@ -126,12 +126,12 @@ export default function ContactUsSectionComponent({
 									placeholder={phone_number.placeholder}
 									value={formData.phone_number}
 									onChange={handleChange}
-									className="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none"
+									className="w-full px-4 py-3 rounded-xl border border-neutral-200 dark:border-zinc-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-800 transition-all outline-none"
 								/>
 							</div>
 
 							<div>
-								<label className="block text-sm font-medium text-neutral-700 mb-2">
+								<label className="block text-sm font-medium text-neutral-700 dark:text-zinc-300 mb-2">
 									{email_address.label}
 								</label>
 								<input
@@ -140,12 +140,12 @@ export default function ContactUsSectionComponent({
 									placeholder={email_address.placeholder}
 									value={formData.email_address}
 									onChange={handleChange}
-									className="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none"
+									className="w-full px-4 py-3 rounded-xl border border-neutral-200 dark:border-zinc-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-800 transition-all outline-none"
 								/>
 							</div>
 
 							<div>
-								<label className="block text-sm font-medium text-neutral-700 mb-2">
+								<label className="block text-sm font-medium text-neutral-700 dark:text-zinc-300 mb-2">
 									{message.label}
 								</label>
 								<textarea
@@ -154,7 +154,7 @@ export default function ContactUsSectionComponent({
 									value={formData.message}
 									onChange={handleChange}
 									rows={5}
-									className="w-full px-4 py-3 rounded-xl border border-neutral-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition-all outline-none resize-none"
+									className="w-full px-4 py-3 rounded-xl border border-neutral-200 dark:border-zinc-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 dark:focus:ring-indigo-800 transition-all outline-none resize-none"
 								/>
 							</div>
 
@@ -162,7 +162,7 @@ export default function ContactUsSectionComponent({
 								type="submit"
 								whileHover={{ scale: 1.02 }}
 								whileTap={{ scale: 0.98 }}
-								className="w-full bg-neutral-900 text-white py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-indigo-500 transition-colors"
+								className="w-full bg-neutral-900 dark:bg-white dark:text-black text-white py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-indigo-500 transition-colors"
 							>
 								{submit_label}
 							</motion.button>

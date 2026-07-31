@@ -8,7 +8,7 @@ export default function InformationSupportSectionComponent({
 	if (!blocks || blocks.length === 0) return null;
 
 	return (
-		<section className="py-24 md:py-32 px-6 bg-white">
+		<section className="py-24 md:py-32 px-6 bg-white dark:bg-zinc-950">
 			<div className="max-w-7xl mx-auto">
 				<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 					{blocks.map((block, index) => (
@@ -18,9 +18,9 @@ export default function InformationSupportSectionComponent({
 							whileInView={{ opacity: 1, y: 0 }}
 							viewport={{ once: true }}
 							transition={{ duration: 0.5, delay: index * 0.1 }}
-							className="bg-neutral-50 p-8 rounded-2xl"
+							className="bg-neutral-50 dark:bg-zinc-900 p-8 rounded-2xl"
 						>
-							<h3 className="text-xl font-bold text-neutral-900 mb-4">
+							<h3 className="text-xl font-bold text-neutral-900 dark:text-zinc-100 mb-4">
 								{block.title}
 							</h3>
 							<StrapiBlocks data={block.description} className="mb-6" />

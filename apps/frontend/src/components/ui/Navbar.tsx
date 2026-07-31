@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "@tanstack/react-router";
 import type { Navbar as NavbarType } from "types/navbar";
 import { getHeader } from "services/api";
+import { useTheme } from "../../hooks/useTheme";
+import ThemeToggle from "./ThemeToggle";
 
 const BASE_URL = import.meta.env.VITE_PUBLIC_STRAPI_CMS_BASE_URL;
 
@@ -10,6 +12,7 @@ const Navbar = () => {
 	const [open, setOpen] = useState(false);
 	const [navbarData, setNavbarData] = useState<NavbarType | null>(null);
 	const [activeMenu, setActiveMenu] = useState<number | null>(null);
+	const { theme } = useTheme();
 
 	useEffect(() => {
 		const fetchNavbar = async () => {
@@ -27,7 +30,8 @@ const Navbar = () => {
 		{ title: { title: "Projects", href: "/projects" } },
 	];
 
-	const logoUrl = navbarData?.attributes?.logo_black?.url;
+	const isDark = theme === "dark";
+	const logoUrl = navbarData?.attributes?.[isDark ? "logo_white" : "logo_black"]?.url;
 
 	return (
 		<>
@@ -37,7 +41,7 @@ const Navbar = () => {
 				animate={{ y: 0 }}
 				className="fixed top-0 w-full z-[999] px-6 py-4"
 			>
-				<div className="max-w-7xl mx-auto flex justify-between items-center bg-white/90 border border-black/10 rounded-full px-6 py-3 shadow-xl backdrop-blur-md">
+				<div className="max-w-7xl mx-auto flex justify-between items-center bg-white/90 dark:bg-zinc-900/90 border border-black/10 dark:border-white/10 rounded-full px-6 py-3 shadow-xl backdrop-blur-md">
 
 					{/* LOGO */}
 					<Link to="/" className="flex items-center">
@@ -48,7 +52,7 @@ const Navbar = () => {
 								className="h-8 w-auto"
 							/>
 						) : (
-							<span className="text-2xl font-black tracking-tighter text-black">
+							<span className="text-2xl font-black tracking-tighter text-black dark:text-white">
 								SIBUBUH<span className="text-indigo-500">.</span>
 							</span>
 						)}
@@ -66,7 +70,7 @@ const Navbar = () => {
 									{!hasSubmenu ? (
 										<Link
 											to={item.title?.href || "/"}
-											className="px-5 py-2 rounded-full border border-black/10 bg-white text-black hover:bg-black hover:text-white transition-all duration-200"
+											className="px-5 py-2 rounded-full border border-black/10 dark:border-white/10 bg-white dark:bg-zinc-800 text-black dark:text-white hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-all duration-200"
 										>
 											{item.title?.title}
 										</Link>
@@ -77,7 +81,7 @@ const Navbar = () => {
 											onMouseLeave={() => setActiveMenu(null)}
 											className="relative"
 										>
-											<div className="px-5 py-2 rounded-full border border-black/10 bg-white text-black hover:bg-black hover:text-white transition-all duration-200 cursor-pointer">
+											<div className="px-5 py-2 rounded-full border border-black/10 dark:border-white/10 bg-white dark:bg-zinc-800 text-black dark:text-white hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-all duration-200 cursor-pointer">
 												{item.title?.title}
 											</div>
 
@@ -89,14 +93,14 @@ const Navbar = () => {
 														animate={{ opacity: 1, y: 0 }}
 														exit={{ opacity: 0, y: 10 }}
 														transition={{ duration: 0.2 }}
-														className="absolute left-0 top-full mt-3 w-48 bg-white border border-black/10 rounded-xl p-3 shadow-xl"
+														className="absolute left-0 top-full mt-3 w-48 bg-white dark:bg-zinc-900 border border-black/10 dark:border-white/10 rounded-xl p-3 shadow-xl dark:shadow-zinc-900/50"
 													>
 														{/*@ts-ignore*/}
 														{item.sub_menus.map((sub, subIndex) => (
 															<Link
 																key={subIndex}
 																to={sub.href}
-																className="block px-3 py-2 text-black/70 hover:text-black hover:bg-black/5 rounded-lg transition"
+																className="block px-3 py-2 text-black/70 dark:text-white/70 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-lg transition"
 															>
 																{sub.title}
 															</Link>
@@ -111,25 +115,31 @@ const Navbar = () => {
 						})}
 					</div>
 
-					{/* CTA */}
-					<motion.a
-						href="mailto:nchan.bkho@gmail.com"
-						whileHover={{ scale: 1.05 }}
-						whileTap={{ scale: 0.95 }}
-						className="hidden md:block bg-black text-white text-[10px] font-black uppercase px-6 py-2 rounded-full tracking-widest hover:bg-indigo-600 transition-all"
-					>
-						Start Project
-					</motion.a>
+					{/* CTA + THEME TOGGLE */}
+					<div className="hidden md:flex items-center gap-3">
+						<motion.a
+							href="mailto:nchan.bkho@gmail.com"
+							whileHover={{ scale: 1.05 }}
+							whileTap={{ scale: 0.95 }}
+							className="bg-black dark:bg-white text-white dark:text-black text-[10px] font-black uppercase px-6 py-2 rounded-full tracking-widest hover:bg-indigo-600 transition-all"
+						>
+							Start Project
+						</motion.a>
+						<ThemeToggle />
+					</div>
 
-					{/* MOBILE BUTTON */}
-					<button
-						onClick={() => setOpen(!open)}
-						className="flex flex-col gap-1 md:hidden"
-					>
-						<span className="w-6 h-[2px] bg-black" />
-						<span className="w-6 h-[2px] bg-black" />
-						<span className="w-6 h-[2px] bg-black" />
-					</button>
+					{/* MOBILE: HAMBURGER + THEME TOGGLE */}
+					<div className="flex items-center gap-2 md:hidden">
+						<button
+							onClick={() => setOpen(!open)}
+							className="flex flex-col gap-1"
+						>
+							<span className="w-6 h-[2px] bg-black dark:bg-white" />
+							<span className="w-6 h-[2px] bg-black dark:bg-white" />
+							<span className="w-6 h-[2px] bg-black dark:bg-white" />
+						</button>
+						<ThemeToggle />
+					</div>
 				</div>
 			</motion.nav>
 
@@ -149,7 +159,7 @@ const Navbar = () => {
 							initial={{ y: -50, opacity: 0 }}
 							animate={{ y: 0, opacity: 1 }}
 							exit={{ y: -50, opacity: 0 }}
-							className="fixed top-24 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-white border border-black/10 rounded-2xl p-6 flex flex-col gap-6 text-center text-black uppercase tracking-widest font-bold z-[999]"
+							className="fixed top-24 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-white dark:bg-zinc-900 border border-black/10 dark:border-white/10 rounded-2xl p-6 flex flex-col gap-6 text-center text-black dark:text-white uppercase tracking-widest font-bold z-[999]"
 						>
 							{menuItems.map((item, index) => (
 								<Link
@@ -161,9 +171,11 @@ const Navbar = () => {
 								</Link>
 							))}
 
-							<button className="bg-black text-white py-3 rounded-full mt-4">
-								Start Project
-							</button>
+							<div className="flex items-center justify-center gap-3 mt-4">
+								<button className="bg-black dark:bg-white text-white dark:text-black py-3 rounded-full px-6">
+									Start Project
+								</button>
+							</div>
 						</motion.div>
 					</>
 				)}
