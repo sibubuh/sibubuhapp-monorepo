@@ -1,3 +1,4 @@
+name: sibubuh-monorepo
 # yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
 
 services:
