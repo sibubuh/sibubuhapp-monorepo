@@ -100,7 +100,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
               Project Gallery
             </h2>
 
-            <div className="relative h-[700px] w-full rounded-2xl overflow-hidden bg-white dark:bg-zinc-900">
+            <div className="relative h-[700px] w-full rounded-2xl overflow-hidden bg-white dark:bg-zinc-950">
               <DiagonalCarousel
                 items={galleryImages.map((img: any) => ({
                   src: `${BASE_URL}${img.url}`,
