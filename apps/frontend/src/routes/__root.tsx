@@ -23,12 +23,12 @@ export const Route = createRootRoute({
 			{ name: "viewport", content: "width=device-width, initial-scale=1" },
 			{
 				name: "theme-color",
-				content: "#ffffff",
+				content: "#faf8f4",
 				media: "(prefers-color-scheme: light)",
 			},
 			{
 				name: "theme-color",
-				content: "#0f172a",
+				content: "#2c2926",
 				media: "(prefers-color-scheme: dark)",
 			},
 		],
@@ -37,6 +37,10 @@ export const Route = createRootRoute({
 			{
 				rel: "stylesheet",
 				href: "https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap",
+			},
+			{
+				rel: "stylesheet",
+				href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap",
 			},
 			{ rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
 		],

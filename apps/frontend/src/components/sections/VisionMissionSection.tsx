@@ -1,5 +1,7 @@
 import { motion } from "motion/react";
 import type { VisionMissionSection } from "../../types/sections/vision-mission";
+import { Container } from "../ui/Container";
+import { Eyebrow } from "../ui/Eyebrow";
 
 export default function VisionMissionSectionComponent({
 	vision_label,
@@ -8,20 +10,18 @@ export default function VisionMissionSectionComponent({
 	mission,
 }: VisionMissionSection) {
 	return (
-		<section className="py-24 md:py-32 px-6 bg-neutral-50 dark:bg-zinc-950">
-			<div className="max-w-7xl mx-auto">
-				<div className="grid md:grid-cols-2 gap-16">
+		<section className="bg-background py-24 md:py-32">
+			<Container>
+				<div className="grid gap-12 md:grid-cols-2">
 					<motion.div
 						initial={{ opacity: 0, y: 50 }}
 						whileInView={{ opacity: 1, y: 0 }}
 						viewport={{ once: true }}
 						transition={{ duration: 0.8 }}
-						className="bg-white dark:bg-zinc-900 p-12 rounded-3xl shadow-lg dark:shadow-zinc-900/30"
+						className="rounded-xl border border-border bg-card p-12 shadow-card"
 					>
-						<span className="text-sm uppercase tracking-[0.3em] text-indigo-500 font-bold">
-							{vision_label}
-						</span>
-						<p className="mt-4 text-2xl text-neutral-800 dark:text-zinc-200 leading-relaxed">
+						<Eyebrow>{vision_label}</Eyebrow>
+						<p className="mt-4 text-2xl leading-relaxed text-foreground">
 							{vision}
 						</p>
 					</motion.div>
@@ -31,22 +31,20 @@ export default function VisionMissionSectionComponent({
 						whileInView={{ opacity: 1, y: 0 }}
 						viewport={{ once: true }}
 						transition={{ duration: 0.8, delay: 0.2 }}
-						className="bg-neutral-900 p-12 rounded-3xl"
+						className="rounded-xl bg-ink p-12"
 					>
-						<span className="text-sm uppercase tracking-[0.3em] text-indigo-400 font-bold">
-							{mission_label}
-						</span>
+						<Eyebrow>{mission_label}</Eyebrow>
 						<ul className="mt-4 space-y-4">
 							{mission?.map((item, index) => (
 								<li key={index} className="flex items-start gap-4">
-									<span className="w-2 h-2 bg-indigo-500 rounded-full mt-3 flex-shrink-0" />
-									<span className="text-xl text-neutral-300">{item.text}</span>
+									<span className="mt-3 h-2 w-2 flex-shrink-0 rounded-full bg-primary" />
+									<span className="text-xl text-ink-foreground">{item.text}</span>
 								</li>
 							))}
 						</ul>
 					</motion.div>
 				</div>
-			</div>
+			</Container>
 		</section>
 	);
 }

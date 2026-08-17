@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import type { CompanyIntroSection } from "../../types/sections/company-intro";
+import { Container } from "../ui/Container";
 
 export default function CompanyIntroSectionComponent({
 	title,
@@ -9,30 +10,28 @@ export default function CompanyIntroSectionComponent({
 	image,
 }: CompanyIntroSection) {
 	return (
-		<section className="py-24 md:py-32 px-6 bg-white dark:bg-zinc-950">
-			<div className="max-w-7xl mx-auto">
-				<div className="grid md:grid-cols-2 gap-16 items-center">
+		<section className="bg-background py-24 md:py-32">
+			<Container>
+				<div className="grid items-center gap-12 md:grid-cols-2 md:gap-16">
 					<motion.div
 						initial={{ opacity: 0, x: -50 }}
 						whileInView={{ opacity: 1, x: 0 }}
 						viewport={{ once: true }}
 						transition={{ duration: 0.8 }}
 					>
-						<h2 className="text-4xl md:text-5xl font-bold mb-4 text-neutral-900 dark:text-zinc-100">
+						<h2 className="mb-4 font-serif text-4xl font-medium text-foreground md:text-5xl">
 							{title}
 						</h2>
 						{secondary_title && (
-							<p className="text-2xl text-indigo-500 font-semibold mb-6">
-								{secondary_title}
-							</p>
+							<p className="mb-6 text-2xl font-medium text-primary">{secondary_title}</p>
 						)}
-						<p className="text-lg text-neutral-600 dark:text-zinc-400 leading-relaxed mb-8">
+						<p className="mb-8 text-lg leading-relaxed text-muted-foreground">
 							{description}
 						</p>
 						{link && (
 							<a
 								href={link.href || "#"}
-								className="inline-block bg-neutral-900 dark:bg-white dark:text-black text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-indigo-500 transition-colors"
+								className="inline-flex items-center rounded-full bg-primary px-8 py-4 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
 							>
 								{link.title}
 							</a>
@@ -46,16 +45,16 @@ export default function CompanyIntroSectionComponent({
 						transition={{ duration: 0.8, delay: 0.2 }}
 						className="relative"
 					>
-						<div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
+						<div className="aspect-[4/3] overflow-hidden rounded-xl shadow-card">
 							<img
 								src={image.url}
 								alt={title}
-								className="w-full h-full object-cover"
+								className="h-full w-full object-cover"
 							/>
 						</div>
 					</motion.div>
 				</div>
-			</div>
+			</Container>
 		</section>
 	);
 }

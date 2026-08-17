@@ -8,30 +8,30 @@ export default function PartnersSectionComponent({
 	link,
 }: PartnersSection) {
 	return (
-		<section className="py-24 md:py-32 px-6 bg-white dark:bg-zinc-950">
-			<div className="max-w-7xl mx-auto">
+		<section className="bg-background py-24 md:py-32">
+			<div className="mx-auto max-w-7xl px-6">
 				<motion.div
 					initial={{ opacity: 0, y: 50 }}
 					whileInView={{ opacity: 1, y: 0 }}
 					viewport={{ once: true }}
 					transition={{ duration: 0.8 }}
-					className="text-center mb-16"
+					className="mb-16 text-center"
 				>
-					<h2 className="text-4xl md:text-6xl font-bold tracking-tight text-neutral-900 dark:text-zinc-100 mb-6">
+					<h2 className="mb-6 font-serif text-4xl font-medium text-foreground md:text-6xl">
 						{title}
 					</h2>
 					<img
 						src={image.url}
 						alt={title}
-						className="max-h-32 mx-auto object-contain mb-8"
+						className="mx-auto mb-8 max-h-32 object-contain"
 					/>
-					<p className="text-xl text-neutral-600 dark:text-zinc-400 max-w-3xl mx-auto mb-8">
+					<p className="mx-auto mb-8 max-w-3xl text-xl text-muted-foreground">
 						{description}
 					</p>
 					{link && (
 						<a
 							href={link.href || "#"}
-							className="inline-block bg-neutral-900 dark:bg-white dark:text-black text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-indigo-500 transition-colors"
+							className="inline-block rounded-full bg-primary px-8 py-4 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
 						>
 							{link.title}
 						</a>

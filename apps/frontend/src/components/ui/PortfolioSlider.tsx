@@ -1,12 +1,11 @@
-import { useRef, useState, useEffect, type MouseEvent } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { getProjects } from "../../../services/api";
 import type { Project } from "../../../types/project";
 
 function extractPlainText(content: unknown): string {
 	if (!content) return "";
-	if (typeof content === "string")
-		return content.replace(/<[^>]*>/g, "").trim();
+	if (typeof content === "string") return content.replace(/<[^>]*>/g, "").trim();
 	if (Array.isArray(content)) {
 		return content.map(extractPlainText).join(" ");
 	}
@@ -19,16 +18,11 @@ function extractPlainText(content: unknown): string {
 	return "";
 }
 
-const categoryColors: Record<string, string> = {
-	Branding: "bg-amber-100 text-amber-700",
-	"Key Opinion Leader (KOL)": "bg-sky-100 text-sky-700",
-	"Web Development": "bg-indigo-100 text-indigo-700",
-	"Social Media Manager": "bg-rose-100 text-rose-700",
-	"Public Speaking": "bg-violet-100 text-violet-700",
-	Educator: "bg-emerald-100 text-emerald-700",
-};
+/** CMS images are relative paths; external covers (if any) are absolute URLs. */
+const resolveSrc = (img: string, BASE_URL: string) =>
+	/^(https?:)?\/\//.test(img) ? img : `${BASE_URL}${img}`;
 
-function TiltCard({
+function ProjectCard({
 	project,
 	index,
 	BASE_URL,
@@ -37,33 +31,6 @@ function TiltCard({
 	index: number;
 	BASE_URL: string;
 }) {
-	const cardRef = useRef<HTMLDivElement>(null);
-	const [rotateX, setRotateX] = useState(0);
-	const [rotateY, setRotateY] = useState(0);
-	const [glareX, setGlareX] = useState(50);
-	const [glareY, setGlareY] = useState(50);
-	const [isHovered, setIsHovered] = useState(false);
-
-	const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
-		if (!cardRef.current) return;
-		const rect = cardRef.current.getBoundingClientRect();
-		const x = e.clientX - rect.left;
-		const y = e.clientY - rect.top;
-		const centerX = rect.width / 2;
-		const centerY = rect.height / 2;
-
-		setRotateX(((y - centerY) / centerY) * -12);
-		setRotateY(((x - centerX) / centerX) * 12);
-		setGlareX((x / rect.width) * 100);
-		setGlareY((y / rect.height) * 100);
-	};
-
-	const handleMouseLeave = () => {
-		setRotateX(0);
-		setRotateY(0);
-		setIsHovered(false);
-	};
-
 	const descText = extractPlainText(project.description);
 
 	return (
@@ -74,57 +41,32 @@ function TiltCard({
 			transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: index * 0.1 }}
 		>
 			<a href={`/projects/${project.slug}`} className="block">
-				<div
-					ref={cardRef}
-					onMouseMove={handleMouseMove}
-					onMouseEnter={() => setIsHovered(true)}
-					onMouseLeave={handleMouseLeave}
-					className="group relative rounded-[2rem] bg-white dark:bg-zinc-900 border border-slate-200/60 dark:border-zinc-800/60 overflow-hidden will-change-transform"
-					style={{
-						transform: `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
-						transition: isHovered ? "none" : "transform 0.5s ease",
-					}}
-				>
-					{/* Glare / spotlight follow mouse */}
-					<div
-						className="pointer-events-none absolute inset-0 z-10 transition-opacity duration-300"
-						style={{
-							opacity: isHovered ? 0.4 : 0,
-							background: `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.8) 0%, transparent 60%)`,
-						}}
-					/>
-
-					{/* Image */}
-					<div className="aspect-[16/10] overflow-hidden bg-neutral-100 dark:bg-zinc-800">
+				<div className="group rounded-xl border border-border bg-card overflow-hidden">
+					<div className="aspect-[16/10] overflow-hidden bg-muted">
 						<img
-							// @ts-ignore
-							src={`${BASE_URL}${project.cover?.image?.url}`}
+							src={resolveSrc(project.cover?.image?.url ?? "", BASE_URL)}
 							alt={project.title}
-							className="w-full h-full object-cover grayscale group-hover:grayscale-0 scale-100 group-hover:scale-105 transition-all duration-700"
+							className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+							loading="lazy"
 						/>
 					</div>
 
-					{/* Content */}
 					<div className="p-5 md:p-6">
-						<div className="flex items-center justify-between mb-2">
-							<span
-								className={`inline-block px-2.5 py-0.5 text-[10px] md:text-xs font-medium rounded-full ${
-									categoryColors[project.category] || "bg-neutral-100 dark:bg-zinc-800 dark:text-zinc-400"
-								}`}
-							>
+						<div className="flex items-center justify-between mb-3">
+							<span className="border border-border text-muted-foreground text-xs px-2.5 py-0.5 rounded-full">
 								{project.category}
 							</span>
-							<span className="text-xs text-slate-400 dark:text-zinc-500 font-mono">
+							<span className="font-mono text-xs text-muted-foreground">
 								{project.years || "2026"}
 							</span>
 						</div>
 
-						<h3 className="text-lg md:text-xl font-bold uppercase tracking-tighter text-slate-900 dark:text-zinc-100">
+						<h3 className="font-serif text-lg md:text-xl font-medium text-foreground transition-colors group-hover:text-primary">
 							{project.title}
 						</h3>
 
 						{descText && (
-							<p className="mt-1.5 text-xs md:text-sm text-slate-500 dark:text-zinc-400 leading-relaxed line-clamp-2">
+							<p className="mt-1.5 text-sm text-muted-foreground leading-relaxed line-clamp-2">
 								{descText}
 							</p>
 						)}
@@ -155,40 +97,29 @@ export default function PortfolioSlider() {
 	}, []);
 
 	return (
-		<section className="relative py-28 md:py-36 bg-white dark:bg-zinc-950 overflow-hidden">
-			{/* Old paper texture */}
-			<div
-				className="absolute inset-0 opacity-[0.04] pointer-events-none"
-				style={{
-					backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
-				}}
-			/>
-
-			{/* Header */}
-			<motion.div
-				initial={{ opacity: 0, y: 30 }}
-				whileInView={{ opacity: 1, y: 0 }}
-				viewport={{ once: true }}
-				transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-				className="px-6 max-w-7xl mx-auto mb-16 md:mb-20"
-			>
-				<h2 className="text-4xl md:text-6xl font-bold tracking-tight text-slate-900 dark:text-zinc-100">
+		<section className="relative py-24 md:py-32 bg-background">
+			<div className="px-6 max-w-7xl mx-auto mb-16 md:mb-20">
+				<h2 className="font-serif text-4xl md:text-5xl font-medium text-foreground text-balance">
 					Recent Projects
 				</h2>
-				<p className="mt-4 text-lg text-slate-500 dark:text-zinc-400 max-w-xl">
-					A curated selection of work across branding, web development, content strategy, and public speaking.
+				<p className="mt-4 text-base md:text-lg text-muted-foreground max-w-xl">
+					A curated selection of work across branding, web development, content
+					strategy, and public speaking.
 				</p>
-			</motion.div>
+			</div>
 
 			{loading && (
-				<div className="px-6 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+				<div className="px-6 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
 					{[1, 2, 3].map((i) => (
-						<div key={i} className="rounded-[2rem] bg-neutral-100 dark:bg-zinc-800 animate-pulse overflow-hidden">
-							<div className="aspect-[16/10] bg-neutral-200 dark:bg-zinc-700" />
+						<div
+							key={i}
+							className="rounded-xl bg-card border border-border overflow-hidden"
+						>
+							<div className="aspect-[16/10] bg-muted animate-pulse" />
 							<div className="p-5 space-y-3">
-								<div className="h-4 w-20 bg-neutral-200 dark:bg-zinc-700 rounded-full" />
-								<div className="h-6 w-40 bg-neutral-200 dark:bg-zinc-700 rounded" />
-								<div className="h-4 w-32 bg-neutral-200 dark:bg-zinc-700 rounded" />
+								<div className="h-4 w-20 bg-muted rounded-full animate-pulse" />
+								<div className="h-6 w-40 bg-muted rounded animate-pulse" />
+								<div className="h-4 w-32 bg-muted rounded animate-pulse" />
 							</div>
 						</div>
 					))}
@@ -196,13 +127,15 @@ export default function PortfolioSlider() {
 			)}
 
 			{!loading && projects.length === 0 && (
-				<div className="px-6 max-w-7xl mx-auto text-neutral-400">No projects available.</div>
+				<div className="px-6 max-w-7xl mx-auto text-muted-foreground">
+					No projects available.
+				</div>
 			)}
 
 			{!loading && projects.length > 0 && (
 				<div className="px-6 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
 					{projects.map((project, i) => (
-						<TiltCard
+						<ProjectCard
 							key={project.id}
 							project={project}
 							index={i}

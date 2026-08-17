@@ -8,10 +8,10 @@ export default function HeroAnchorSectionComponent({
 	image,
 }: HeroAnchorSection) {
 	return (
-		<section className="relative h-[60vh] md:h-[70vh] bg-neutral-950 overflow-hidden">
+		<section className="relative h-[60vh] overflow-hidden bg-ink md:h-[70vh]">
 			<img
 				src={image.url}
-				className="absolute inset-0 w-full h-full object-cover opacity-50"
+				className="absolute inset-0 h-full w-full object-cover opacity-50"
 				alt=""
 			/>
 			<div className="absolute inset-0 flex items-center justify-center">
@@ -19,16 +19,16 @@ export default function HeroAnchorSectionComponent({
 					initial={{ opacity: 0, y: 30 }}
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.8 }}
-					className="text-center text-white max-w-4xl px-6"
+					className="max-w-4xl px-6 text-center text-white"
 				>
-					<h1 className="text-5xl md:text-7xl font-black tracking-tight mb-8">
+					<h1 className="mb-8 font-serif text-4xl font-medium text-balance text-white md:text-6xl">
 						{title}
 					</h1>
 					<motion.a
 						href={slug ? `/${slug}` : "#"}
-						whileHover={{ scale: 1.05 }}
-						whileTap={{ scale: 0.95 }}
-						className="inline-block bg-white text-black px-8 py-4 rounded-full font-bold uppercase tracking-widest hover:bg-indigo-500 hover:text-white transition-colors"
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						className="inline-block rounded-full bg-primary px-8 py-4 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
 					>
 						{action_text}
 					</motion.a>

@@ -20,9 +20,14 @@ const Footer = () => {
 
 	if (!footerData) {
 		return (
-			<footer className="bg-[#080C14] border-t border-white/5 py-16 text-center">
-				<div className="max-w-7xl mx-auto px-6 text-slate-600 text-sm animate-pulse">
-					<p>Loading...</p>
+			<footer className="bg-ink text-ink-foreground">
+				<div className="max-w-7xl mx-auto px-6 py-20">
+					<div className="h-6 w-32 rounded bg-white/10 animate-pulse" />
+					<div className="mt-10 h-px w-full bg-ink-border" />
+					<div className="mt-10 flex flex-col gap-3">
+						<div className="h-4 w-48 rounded bg-white/10 animate-pulse" />
+						<div className="h-4 w-64 rounded bg-white/10 animate-pulse" />
+					</div>
 				</div>
 			</footer>
 		);
@@ -31,87 +36,79 @@ const Footer = () => {
 	const { attributes } = footerData;
 
 	return (
-		<footer className="bg-[#080C14] border-t border-white/5">
-			{/* Main footer content */}
-			<div className="max-w-7xl mx-auto px-6 py-16">
-
-				{/* Top row: Logo + Nav + Copyright */}
-				<div className="flex flex-col md:flex-row justify-between items-center gap-8 pb-10 border-b border-white/5">
-					{/* Logo */}
+		<footer className="bg-ink text-ink-foreground">
+			<div className="max-w-7xl mx-auto px-6 py-16 md:py-20">
+				{/* Top row: Logo + Nav */}
+				<div className="flex flex-col gap-8 pb-10 border-b border-ink-border md:flex-row md:items-center md:justify-between">
 					{attributes.logo?.url && (
 						<img
 							src={`${BASE_URL}${attributes.logo.url}`}
 							alt="Logo"
-							className="h-7 brightness-0 invert opacity-50 hover:opacity-80 transition-opacity duration-300"
+							className="h-8 w-auto self-start brightness-0 invert opacity-90"
 						/>
 					)}
 
-					{/* Nav Links */}
 					{attributes.links && attributes.links.length > 0 && (
-						<nav className="flex items-center gap-1">
+						<nav className="flex flex-wrap items-center gap-x-8 gap-y-3 font-sans">
 							{attributes.links.map((link, index) => (
 								<a
 									key={index}
 									href={link.href || "#"}
-									className="px-4 py-2 text-xs text-slate-500 hover:text-slate-200 uppercase tracking-[0.18em] font-medium transition-colors duration-200 rounded-md hover:bg-white/5"
+									className="text-sm text-ink-muted hover:text-ink-foreground transition-colors duration-200"
 								>
 									{link.title}
 								</a>
 							))}
 						</nav>
 					)}
-
-					{/* Copyright */}
-					{attributes.copyright && (
-						<p className="text-xs text-slate-600 tracking-wide">
-							{attributes.copyright}
-						</p>
-					)}
 				</div>
 
 				{/* Bottom row: Address + Contacts */}
-				<div className="pt-10 flex flex-col md:flex-row justify-between items-start gap-10">
-
-					{/* Address */}
+				<div className="pt-10 grid gap-10 md:grid-cols-2">
 					{attributes.address && (
-						<div className="text-left">
+						<div>
 							{attributes.address.title && (
-								<p className="text-[10px] uppercase tracking-[0.2em] text-slate-600 font-semibold mb-3">
+								<h2 className="font-sans text-xs font-semibold tracking-wide text-ink-muted">
 									{attributes.address.title}
-								</p>
+								</h2>
 							)}
-							<div className="text-sm text-slate-500 leading-relaxed [&_p]:mb-0 [&_p]:leading-7">
+							<div className="mt-3 max-w-sm text-base leading-relaxed text-ink-foreground/80 [&_p]:mb-0 [&_p]:leading-7">
 								<StrapiBlocks data={attributes.address.content} />
 							</div>
 						</div>
 					)}
 
-					{/* Contacts */}
 					{attributes.contacts && attributes.contacts.length > 0 && (
-						<div className="text-left md:text-right flex flex-col gap-3">
-							<p className="text-[10px] uppercase tracking-[0.2em] text-slate-600 font-semibold">
+						<div className="md:text-right">
+							<h2 className="font-sans text-xs font-semibold tracking-wide text-ink-muted">
 								Contact
-							</p>
-							{attributes.contacts.map((contact, index) => (
-								<a
-									key={index}
-									href={contact.anchor?.href || "#"}
-									className="text-sm text-slate-500 hover:text-indigo-400 transition-colors duration-200"
-								>
-									{contact.title}
-								</a>
-							))}
+							</h2>
+							<div className="mt-3 flex flex-col gap-2 md:items-end">
+								{attributes.contacts.map((contact, index) => (
+									<a
+										key={index}
+										href={contact.anchor?.href || "#"}
+										className="text-base text-ink-foreground/80 underline decoration-transparent underline-offset-4 hover:text-ink-foreground hover:decoration-current transition-colors duration-200"
+									>
+										{contact.title}
+									</a>
+								))}
+							</div>
 						</div>
 					)}
 				</div>
 			</div>
 
 			{/* Bottom bar */}
-			<div className="border-t border-white/5 py-4">
-				<p className="text-center text-[10px] text-slate-700 tracking-[0.25em] uppercase">
-					Built with care
-				</p>
-			</div>
+			{attributes.copyright && (
+				<div className="border-t border-ink-border">
+					<div className="max-w-7xl mx-auto px-6 py-6">
+						<p className="font-sans text-xs text-ink-muted">
+							{attributes.copyright}
+						</p>
+					</div>
+				</div>
+			)}
 		</footer>
 	);
 };

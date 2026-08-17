@@ -6,8 +6,8 @@ export default function TextHeadlineSectionComponent({
 	divider,
 }: TextHeadlineSection) {
 	return (
-		<section className="py-16 md:py-24 px-6 bg-white">
-			<div className="max-w-7xl mx-auto">
+		<section className="bg-background py-16 md:py-24">
+			<div className="mx-auto max-w-7xl px-6">
 				<motion.div
 					initial={{ opacity: 0, y: 30 }}
 					whileInView={{ opacity: 1, y: 0 }}
@@ -15,8 +15,8 @@ export default function TextHeadlineSectionComponent({
 					transition={{ duration: 0.8 }}
 					className="text-center"
 				>
-					{divider && <div className="w-16 h-1 bg-indigo-500 mx-auto mb-8" />}
-					<h2 className="text-4xl md:text-6xl font-bold tracking-tight text-neutral-900">
+					{divider && <div className="mx-auto mb-8 h-1 w-16 bg-primary" />}
+					<h2 className="font-serif text-4xl font-medium text-balance text-foreground md:text-6xl">
 						{title}
 					</h2>
 				</motion.div>

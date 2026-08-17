@@ -319,7 +319,7 @@ export default function ScrollZoomTimeline({
   };
 
   return (
-    <div className="w-full min-h-screen bg-[#0E172B]">
+    <div className="w-full min-h-screen bg-ink">
     <section
       ref={wrapRef}
       className="flex relative max-w-7xl mx-auto px-16 py-20 box-border"

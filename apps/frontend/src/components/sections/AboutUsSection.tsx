@@ -18,7 +18,7 @@ export default function AboutUsSectionComponent({
 				transition={{ duration: 0.8 }}
 				className="max-w-7xl mx-auto px-6 mb-16"
 			>
-				<h2 className="text-4xl md:text-6xl font-bold tracking-tight text-neutral-900 dark:text-zinc-100 mb-8">
+				<h2 className="mb-8 font-serif text-4xl font-medium text-foreground md:text-6xl">
 					{title}
 				</h2>
 				<StrapiBlocks data={content} />
@@ -51,7 +51,7 @@ export default function AboutUsSectionComponent({
 					<img
 						src={maps_lottie.url}
 						alt="Map or Animation"
-						className="w-full rounded-3xl"
+						className="w-full rounded-xl"
 					/>
 				</motion.div>
 			)}

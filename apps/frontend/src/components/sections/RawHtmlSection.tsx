@@ -3,7 +3,7 @@ import type { RawHtmlSection } from "../../types/sections/raw-html";
 
 export default function RawHtmlSectionComponent({ content }: RawHtmlSection) {
 	return (
-		<section className="py-24 md:py-32 px-6 bg-white">
+		<section className="py-24 md:py-32 px-6 bg-background">
 			<div className="max-w-7xl mx-auto">
 				<motion.div
 					initial={{ opacity: 0 }}

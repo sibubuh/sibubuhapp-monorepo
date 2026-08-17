@@ -82,13 +82,11 @@ function GallerySlider({ images, baseUrl, title }: any) {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Sans:wght@300;400&display=swap');
-
         .g-root {
-          font-family: 'DM Sans', sans-serif;
-          --accent: #ff5c3a;
-          --bg: #f7f4f0;
-          --dark: #1a1714;
+          font-family: var(--font-sans);
+          --accent: oklch(0.55 0.18 264);
+          --bg: oklch(0.985 0.006 85);
+          --dark: oklch(0.22 0.012 70);
           background: var(--bg);
           border-radius: 16px;
           padding: 20px;
@@ -107,7 +105,7 @@ function GallerySlider({ images, baseUrl, title }: any) {
           margin-bottom: 16px;
         }
         .g-title {
-          font-family: 'Syne', sans-serif;
+          font-family: var(--font-serif);
           font-size: 18px;
           font-weight: 700;
           color: var(--dark);

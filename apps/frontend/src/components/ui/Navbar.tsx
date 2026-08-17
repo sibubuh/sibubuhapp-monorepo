@@ -39,12 +39,13 @@ const Navbar = () => {
 			<motion.nav
 				initial={{ y: -100 }}
 				animate={{ y: 0 }}
-				className="fixed top-0 w-full z-[999] px-6 py-4"
+				transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+				className="fixed top-0 w-full z-[999] bg-background/85 backdrop-blur-md border-b border-border"
 			>
-				<div className="max-w-7xl mx-auto flex justify-between items-center bg-white/90 dark:bg-zinc-900/90 border border-black/10 dark:border-white/10 rounded-full px-6 py-3 shadow-xl backdrop-blur-md">
+				<div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
 
 					{/* LOGO */}
-					<Link to="/" className="flex items-center">
+					<Link to="/" className="flex items-center" aria-label="Sibubuh — home">
 						{logoUrl ? (
 							<img
 								src={`${BASE_URL}${logoUrl}`}
@@ -52,55 +53,58 @@ const Navbar = () => {
 								className="h-8 w-auto"
 							/>
 						) : (
-							<span className="text-2xl font-black tracking-tighter text-black dark:text-white">
-								SIBUBUH<span className="text-indigo-500">.</span>
+							<span className="font-sans text-xl font-semibold tracking-tight text-foreground">
+								SIBUBUH<span className="text-primary">.</span>
 							</span>
 						)}
 					</Link>
 
-					{/* 🔥 DESKTOP MENU */}
-					<div className="hidden md:flex gap-3 text-[10px] font-black uppercase tracking-widest">
+					{/* DESKTOP MENU */}
+					<div className="hidden md:flex items-center gap-1 font-sans text-sm font-medium">
 						{menuItems.map((item, index) => {
 							/*@ts-ignore*/
 							const hasSubmenu = item.sub_menus?.length > 0;
 
 							return (
 								<div key={index} className="relative">
-									{/* ✅ LINK (NO SUBMENU) */}
+									{/* LINK (NO SUBMENU) */}
 									{!hasSubmenu ? (
 										<Link
 											to={item.title?.href || "/"}
-											className="px-5 py-2 rounded-full border border-black/10 dark:border-white/10 bg-white dark:bg-zinc-800 text-black dark:text-white hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-all duration-200"
+											className="px-4 py-2 rounded-full text-muted-foreground hover:text-foreground transition-colors"
 										>
 											{item.title?.title}
 										</Link>
 									) : (
-										/* ✅ HOVER BUTTON (WITH SUBMENU) */
+										/* HOVER BUTTON (WITH SUBMENU) */
 										<div
 											onMouseEnter={() => setActiveMenu(index)}
 											onMouseLeave={() => setActiveMenu(null)}
 											className="relative"
 										>
-											<div className="px-5 py-2 rounded-full border border-black/10 dark:border-white/10 bg-white dark:bg-zinc-800 text-black dark:text-white hover:bg-black dark:hover:bg-white hover:text-white dark:hover:text-black transition-all duration-200 cursor-pointer">
+											<button
+												type="button"
+												className="px-4 py-2 rounded-full text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+											>
 												{item.title?.title}
-											</div>
+											</button>
 
 											{/* DROPDOWN */}
 											<AnimatePresence>
 												{activeMenu === index && (
 													<motion.div
-														initial={{ opacity: 0, y: 10 }}
+														initial={{ opacity: 0, y: 8 }}
 														animate={{ opacity: 1, y: 0 }}
-														exit={{ opacity: 0, y: 10 }}
-														transition={{ duration: 0.2 }}
-														className="absolute left-0 top-full mt-3 w-48 bg-white dark:bg-zinc-900 border border-black/10 dark:border-white/10 rounded-xl p-3 shadow-xl dark:shadow-zinc-900/50"
+														exit={{ opacity: 0, y: 8 }}
+														transition={{ duration: 0.18 }}
+														className="absolute left-0 top-full mt-2 w-52 bg-card border border-border rounded-xl p-2 shadow-card"
 													>
 														{/*@ts-ignore*/}
 														{item.sub_menus.map((sub, subIndex) => (
 															<Link
 																key={subIndex}
 																to={sub.href}
-																className="block px-3 py-2 text-black/70 dark:text-white/70 hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 rounded-lg transition"
+																className="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg transition-colors"
 															>
 																{sub.title}
 															</Link>
@@ -119,9 +123,9 @@ const Navbar = () => {
 					<div className="hidden md:flex items-center gap-3">
 						<motion.a
 							href="mailto:nchan.bkho@gmail.com"
-							whileHover={{ scale: 1.05 }}
-							whileTap={{ scale: 0.95 }}
-							className="bg-black dark:bg-white text-white dark:text-black text-[10px] font-black uppercase px-6 py-2 rounded-full tracking-widest hover:bg-indigo-600 transition-all"
+							whileHover={{ scale: 1.03 }}
+							whileTap={{ scale: 0.97 }}
+							className="bg-primary text-primary-foreground font-sans text-sm font-medium px-5 py-2 rounded-full hover:opacity-90 transition-opacity"
 						>
 							Start Project
 						</motion.a>
@@ -131,12 +135,15 @@ const Navbar = () => {
 					{/* MOBILE: HAMBURGER + THEME TOGGLE */}
 					<div className="flex items-center gap-2 md:hidden">
 						<button
+							type="button"
 							onClick={() => setOpen(!open)}
-							className="flex flex-col gap-1"
+							aria-label="Toggle menu"
+							aria-expanded={open}
+							className="flex flex-col gap-1.5 p-2"
 						>
-							<span className="w-6 h-[2px] bg-black dark:bg-white" />
-							<span className="w-6 h-[2px] bg-black dark:bg-white" />
-							<span className="w-6 h-[2px] bg-black dark:bg-white" />
+							<span className="w-6 h-0.5 bg-foreground" />
+							<span className="w-6 h-0.5 bg-foreground" />
+							<span className="w-6 h-0.5 bg-foreground" />
 						</button>
 						<ThemeToggle />
 					</div>
@@ -152,30 +159,33 @@ const Navbar = () => {
 							initial={{ opacity: 0 }}
 							animate={{ opacity: 1 }}
 							exit={{ opacity: 0 }}
-							className="fixed inset-0 bg-black/50 z-[998]"
+							className="fixed inset-0 bg-foreground/40 z-[998]"
 						/>
 
 						<motion.div
-							initial={{ y: -50, opacity: 0 }}
+							initial={{ y: -24, opacity: 0 }}
 							animate={{ y: 0, opacity: 1 }}
-							exit={{ y: -50, opacity: 0 }}
-							className="fixed top-24 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-white dark:bg-zinc-900 border border-black/10 dark:border-white/10 rounded-2xl p-6 flex flex-col gap-6 text-center text-black dark:text-white uppercase tracking-widest font-bold z-[999]"
+							exit={{ y: -24, opacity: 0 }}
+							className="fixed top-24 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-card border border-border rounded-2xl p-6 flex flex-col gap-1 text-center font-sans z-[999] shadow-card"
 						>
 							{menuItems.map((item, index) => (
 								<Link
 									key={index}
 									to={item.title?.href || "/"}
 									onClick={() => setOpen(false)}
+									className="py-3 text-base font-medium text-foreground/80 hover:text-foreground rounded-lg hover:bg-accent transition-colors"
 								>
 									{item.title?.title}
 								</Link>
 							))}
 
-							<div className="flex items-center justify-center gap-3 mt-4">
-								<button className="bg-black dark:bg-white text-white dark:text-black py-3 rounded-full px-6">
-									Start Project
-								</button>
-							</div>
+							<a
+								href="mailto:nchan.bkho@gmail.com"
+								onClick={() => setOpen(false)}
+								className="mt-3 bg-primary text-primary-foreground font-medium py-3 rounded-full"
+							>
+								Start Project
+							</a>
 						</motion.div>
 					</>
 				)}

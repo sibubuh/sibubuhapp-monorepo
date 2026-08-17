@@ -7,21 +7,17 @@ export default function ImageWithContentSectionComponent({
 	content,
 }: ImageWithContentSection) {
 	return (
-		<section className="py-24 md:py-32 px-6 bg-white dark:bg-zinc-950">
-			<div className="max-w-7xl mx-auto">
-				<div className="grid lg:grid-cols-2 gap-16 items-center">
+		<section className="bg-background py-24 md:py-32">
+			<div className="mx-auto max-w-7xl px-6">
+				<div className="grid items-center gap-16 lg:grid-cols-2">
 					<motion.div
 						initial={{ opacity: 0, x: -50 }}
 						whileInView={{ opacity: 1, x: 0 }}
 						viewport={{ once: true }}
 						transition={{ duration: 0.8 }}
-						className="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl order-2 lg:order-1"
+						className="order-2 aspect-[4/3] overflow-hidden rounded-xl shadow-card lg:order-1"
 					>
-						<img
-							src={image.url}
-							alt=""
-							className="w-full h-full object-cover"
-						/>
+						<img src={image.url} alt="" className="h-full w-full object-cover" />
 					</motion.div>
 
 					<motion.div

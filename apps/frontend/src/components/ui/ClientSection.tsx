@@ -111,7 +111,7 @@ function OrbitingLogo({
           className="bg-white/10 rounded-full mb-1"
         />
       )}
-      <span className="text-[10px] text-white/60 tracking-wide">{name}</span>
+      <span className="font-sans text-xs text-ink-muted">{name}</span>
     </motion.div>
   );
 }
@@ -164,16 +164,16 @@ export default function ClientsParallax() {
   }, [clientData, orbitConfigs]);
 
   return (
-    <section ref={ref} className="relative h-[250vh] bg-[#0E172B]">
-      <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden text-white">
+    <section ref={ref} className="relative h-[250vh] bg-ink">
+      <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden text-ink-foreground">
 
         {/* CENTER TEXT */}
-        <div className="absolute z-20 text-center max-w-2xl px-4 pointer-events-none">
-          <h2 className="text-4xl md:text-6xl font-bold mb-6">
+        <div className="absolute z-20 text-center max-w-2xl px-6 pointer-events-none">
+          <h2 className="font-serif text-3xl font-medium tracking-tight text-balance sm:text-4xl lg:text-5xl">
             {clientTitle}
           </h2>
-          <div className="text-white/80 [&_p]:mb-0">
-            <StrapiBlocks data={clientDescription} className="text-white" />
+          <div className="mt-5 font-sans text-lg leading-relaxed text-ink-muted [&_p]:mb-0">
+            <StrapiBlocks data={clientDescription} />
           </div>
         </div>
 
