@@ -7,7 +7,7 @@ export default function MultipleDownloadSectionComponent({
 	if (!items || items.length === 0) return null;
 
 	return (
-		<section className="py-24 md:py-32 px-6 bg-neutral-50">
+		<section className="py-24 md:py-32 px-6 bg-background">
 			<div className="max-w-7xl mx-auto">
 				<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 					{items.map((item, index) => (
@@ -19,11 +19,11 @@ export default function MultipleDownloadSectionComponent({
 							viewport={{ once: true }}
 							transition={{ duration: 0.5, delay: index * 0.1 }}
 							whileHover={{ y: -5 }}
-							className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow flex items-center gap-4"
+							className="bg-card border border-border p-6 rounded-xl shadow-card hover:shadow-card transition-shadow flex items-center gap-4"
 						>
-							<div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center flex-shrink-0">
+							<div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
 								<svg
-									className="w-6 h-6 text-indigo-500"
+									className="w-6 h-6 text-primary"
 									fill="none"
 									stroke="currentColor"
 									viewBox="0 0 24 24"
@@ -36,7 +36,7 @@ export default function MultipleDownloadSectionComponent({
 									/>
 								</svg>
 							</div>
-							<span className="font-semibold text-neutral-900">
+							<span className="font-semibold text-foreground">
 								{item.title}
 							</span>
 						</motion.a>

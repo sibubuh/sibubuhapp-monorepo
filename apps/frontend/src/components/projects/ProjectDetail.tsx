@@ -40,38 +40,38 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
   return (
     <article>
       {/* HERO */}
-      <div className="relative w-full h-[70vh] min-h-[500px] overflow-hidden">
+      <div className="relative h-[70vh] min-h-[500px] w-full overflow-hidden">
         {coverImage && (
           <img
             //@ts-ignore
             src={`${BASE_URL}${coverImage.image.url}`}
             alt={project.title}
-            className="absolute inset-0 w-full h-full object-cover scale-105"
+            className="absolute inset-0 h-full w-full scale-105 object-cover"
           />
         )}
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/30 to-transparent" />
 
-        <div className="relative z-10 h-full max-w-7xl mx-auto px-6 flex flex-col justify-end pb-16">
+        <div className="relative z-10 flex h-full max-w-7xl flex-col justify-end px-6 pb-16 mx-auto">
           <motion.a
             href="/projects"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6"
+            className="mb-6 inline-flex items-center gap-2 text-sm text-white/80 hover:text-white"
           >
-            <ArrowLeft className="w-4 h-4" />
-            <span className="text-sm">Back to Projects</span>
+            <ArrowLeft className="h-4 w-4" />
+            <span>Back to Projects</span>
           </motion.a>
 
-          <div className="flex flex-wrap items-center gap-3 mb-4">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 backdrop-blur text-white text-xs rounded-full uppercase tracking-widest">
-              <Tag className="w-3 h-3" />
+          <div className="mb-4 flex flex-wrap items-center gap-3">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-white/5 px-3 py-1 text-[11px] font-medium text-white">
+              <Tag className="h-3 w-3" />
               {project.category}
             </span>
 
             {project.years && (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 backdrop-blur text-white text-xs rounded-full uppercase tracking-widest">
-                <Calendar className="w-3 h-3" />
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-white/5 px-3 py-1 text-[11px] font-medium text-white">
+                <Calendar className="h-3 w-3" />
                 {project.years}
               </span>
             )}
@@ -80,7 +80,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-6xl font-black text-white tracking-tight max-w-3xl"
+            className="max-w-3xl font-serif text-4xl font-medium text-white md:text-6xl"
           >
             {project.title}
           </motion.h1>
@@ -88,7 +88,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
       </div>
 
       {/* CONTENT */}
-      <div className="max-w-7xl mx-auto px-6 py-20">
+      <div className="mx-auto max-w-7xl px-6 py-20">
         <div className="prose prose-lg max-w-none">
           <StrapiBlocks data={project.description} />
         </div>
@@ -96,11 +96,11 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         {/* GALLERY - Diagonal Carousel */}
         {galleryImages.length > 0 && (
           <div className="mt-10">
-            <h2 className="text-2xl font-bold mb-8 dark:text-zinc-100">
+            <h2 className="mb-8 font-serif text-2xl font-medium text-foreground">
               Project Gallery
             </h2>
 
-            <div className="relative h-[700px] w-full rounded-2xl overflow-hidden bg-white dark:bg-zinc-950">
+            <div className="relative h-[700px] w-full overflow-hidden rounded-xl bg-card">
               <DiagonalCarousel
                 items={galleryImages.map((img: any) => ({
                   src: `${BASE_URL}${img.url}`,
@@ -123,7 +123,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
       {showReels && project.reelsandtiktok?.length > 0 && (
         <div className="w-full">
           <div className="mt-20">
-            {project.reelsandtiktok.map((section) => (
+            {project.reelsandtiktok?.map((section) => (
               <div key={section.id}>
                 {section.reels?.length > 0 && (
                   <InstagramReelsSection
@@ -146,4 +146,3 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
     </article>
   );
 }
-

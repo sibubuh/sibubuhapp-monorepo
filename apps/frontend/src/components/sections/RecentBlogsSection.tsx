@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { ExternalLink, AlertCircle, PenLine, BookOpen, Feather, BookMarked, MessageCircle } from "lucide-react";
+import { ExternalLink, AlertCircle } from "lucide-react";
 import BubuhBlogCard from "../ui/BubuhBlogCard";
 import BubuhBlogCardSkeleton from "../ui/BubuhBlogCardSkeleton";
 import { getRecentBubuhBlogs } from "../../services/bubuhApi";
@@ -14,16 +14,6 @@ interface RecentBlogsSectionProps {
 	limit?: number;
 	showViewAll?: boolean;
 }
-
-const EASE = [0.22, 1, 0.36, 1] as const;
-
-const storyIcons = [
-	{ icon: PenLine, position: "top-12 left-[8%] md:left-[12%]", animate: { x: [0, 5, 0], y: [0, -7, 0] }, delay: 0 },
-	{ icon: BookOpen, position: "top-12 right-[8%] md:right-[12%]", animate: { x: [0, -5, 0], y: [0, -9, 0] }, delay: 0.15 },
-	{ icon: Feather, position: "bottom-12 left-[8%] md:left-[12%]", animate: { x: [0, 6, 0], y: [0, 5, 0] }, delay: 0.3 },
-	{ icon: BookMarked, position: "bottom-12 right-[8%] md:right-[12%]", animate: { x: [0, -7, 0], y: [0, 6, 0] }, delay: 0.45 },
-	{ icon: MessageCircle, position: "top-1/3 right-[4%] md:right-[6%]", animate: { x: [0, 3, 0], y: [0, -8, 3, 0] }, delay: 0.6 },
-];
 
 export default function RecentBlogsSection({
 	title = "Blog dari Bubuh.id",
@@ -50,59 +40,43 @@ export default function RecentBlogsSection({
 	}, [limit]);
 
 	return (
-		<section className="relative py-20 md:py-28 bg-[#080C14] overflow-hidden">
-			{storyIcons.map(({ icon: Icon, position, animate, delay }) => (
-				<motion.div
-					key={position}
-					className={`absolute ${position}`}
-					initial={{ opacity: 0, scale: 0.6 }}
-					whileInView={{ opacity: 1, scale: 1 }}
-					viewport={{ once: true }}
-					transition={{ duration: 0.7, ease: EASE, delay }}
-				>
-					<motion.div
-						animate={animate}
-						transition={{
-							duration: 4,
-							repeat: Infinity,
-							repeatType: "reverse",
-							ease: EASE,
-							delay,
-						}}
-					>
-						<Icon className="w-7 h-7 md:w-9 md:h-9 text-white/10" />
-					</motion.div>
-				</motion.div>
-			))}
+		<section className="bg-muted px-6 py-20 md:py-28">
+			<div className="mx-auto max-w-7xl">
+				<div className="flex flex-col gap-6 border-b border-border pb-8 md:flex-row md:items-end md:justify-between">
+					<div>
+						<h2 className="font-serif text-3xl font-medium tracking-tight text-foreground md:text-4xl">
+							{title}
+						</h2>
+						<p className="mt-3 max-w-xl font-sans text-base leading-relaxed text-muted-foreground">
+							{subtitle}
+						</p>
+					</div>
 
-			<div className="px-6 max-w-screen-xl mx-auto">
-				<motion.div
-					initial={{ opacity: 0, y: 30 }}
-					whileInView={{ opacity: 1, y: 0 }}
-					viewport={{ once: true }}
-					transition={{ duration: 0.6 }}
-					className="text-center mb-12"
-				>
-					<h2 className="text-3xl md:text-5xl font-bold tracking-tight text-white mb-4">
-						{title}
-					</h2>
-					<p className="text-lg text-neutral-500 max-w-2xl mx-auto">
-						{subtitle}
-					</p>
-				</motion.div>
+					{showViewAll && (
+						<a
+							href="https://www.bubuh.id"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="inline-flex shrink-0 items-center gap-2 font-sans text-sm font-medium text-foreground underline decoration-border underline-offset-4 transition-colors hover:text-primary hover:decoration-current"
+						>
+							Lihat Semua di Bubuh.id
+							<ExternalLink className="h-4 w-4" />
+						</a>
+					)}
+				</div>
 
 				{error ? (
 					<motion.div
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
-						className="flex flex-col items-center justify-center py-16 text-center"
+						className="flex flex-col items-center justify-center gap-3 py-20 text-center"
 					>
-						<AlertCircle className="w-12 h-12 text-red-400 mb-4" />
-						<p className="text-neutral-600">{error}</p>
+						<AlertCircle className="h-6 w-6 text-destructive" />
+						<p className="font-sans text-base text-muted-foreground">{error}</p>
 					</motion.div>
 				) : (
 					<>
-						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+						<div className="mt-12 grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
 							{posts === null ? (
 								<BubuhBlogCardSkeleton count={limit} />
 							) : (
@@ -112,38 +86,15 @@ export default function RecentBlogsSection({
 							)}
 						</div>
 
-						{posts !== null && posts.length === 0 && !error && (
+						{posts !== null && posts.length === 0 && (
 							<motion.div
 								initial={{ opacity: 0 }}
 								animate={{ opacity: 1 }}
-								className="flex flex-col items-center justify-center py-16 text-center"
+								className="py-20 text-center"
 							>
-								<p className="text-neutral-500">
+								<p className="font-sans text-base text-muted-foreground">
 									Tidak ada artikel yang ditemukan.
 								</p>
-								<p className="text-sm text-neutral-400 mt-2">
-									Cek console browser untuk detail error.
-								</p>
-							</motion.div>
-						)}
-
-						{showViewAll && posts !== null && posts.length > 0 && (
-							<motion.div
-								initial={{ opacity: 0 }}
-								whileInView={{ opacity: 1 }}
-								viewport={{ once: true }}
-								transition={{ delay: 0.3 }}
-								className="text-center"
-							>
-								<a
-									href="https://www.bubuh.id"
-									target="_blank"
-									rel="noopener noreferrer"
-									className="inline-flex items-center gap-2 px-8 py-4 bg-neutral-900 text-white font-medium rounded-full hover:bg-indigo-600 transition-colors"
-								>
-									Lihat Semua di Bubuh.id
-									<ExternalLink className="w-4 h-4" />
-								</a>
 							</motion.div>
 						)}
 					</>

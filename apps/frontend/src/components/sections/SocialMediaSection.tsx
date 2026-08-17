@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, type MouseEvent } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { getSocialMedia } from "../../../services/api";
@@ -18,12 +18,11 @@ const shelfContainerVariants = {
 };
 
 const shelfCardVariants = {
-  hidden: { x: 40, opacity: 0, scale: 0.9 },
+  hidden: { y: 16, opacity: 0 },
   show: {
-    x: 0,
+    y: 0,
     opacity: 1,
-    scale: 1,
-    transition: { duration: 0.6, ease: EASE },
+    transition: { duration: 0.5, ease: EASE },
   },
 };
 
@@ -39,59 +38,6 @@ const skeletonItem = {
   hidden: { opacity: 0, y: 12 },
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: EASE } },
 };
-
-/* ─── 3D Tilt Card with Glare ─── */
-function TiltCard({ children }: { children: React.ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [rotateX, setRotateX] = useState(0);
-  const [rotateY, setRotateY] = useState(0);
-  const [glareX, setGlareX] = useState(50);
-  const [glareY, setGlareY] = useState(50);
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    setRotateX(((y - rect.height / 2) / (rect.height / 2)) * -10);
-    setRotateY(((x - rect.width / 2) / (rect.width / 2)) * 10);
-    setGlareX((x / rect.width) * 100);
-    setGlareY((y / rect.height) * 100);
-  };
-
-  const handleMouseLeave = () => {
-    setRotateX(0);
-    setRotateY(0);
-    setIsHovered(false);
-  };
-
-  return (
-    <div
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={handleMouseLeave}
-      className="relative overflow-hidden rounded-2xl will-change-transform"
-      style={{
-        transform: `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
-        transition: isHovered ? "none" : "transform 0.5s ease",
-      }}
-    >
-      {children}
-
-      {/* Glare spotlight following cursor */}
-      <div
-        className="pointer-events-none absolute inset-0 z-10 transition-opacity duration-300"
-        style={{
-          opacity: isHovered ? 0.3 : 0,
-          background: `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.8) 0%, transparent 60%)`,
-        }}
-      />
-    </div>
-  );
-}
 
 /* ─── Main Component ─── */
 const SocialMediaSection = () => {
@@ -134,10 +80,10 @@ const SocialMediaSection = () => {
   };
 
   return (
-    <section className="py-20 md:py-32 overflow-hidden">
+    <section className="bg-background py-20 md:py-28 overflow-hidden">
       {/* TITLE with word-stagger reveal */}
-      <div className="mb-12 md:mb-16 px-4 md:px-6 max-w-7xl mx-auto">
-        <h2 className="text-3xl md:text-5xl font-black tracking-tight text-neutral-900 dark:text-zinc-100">
+      <div className="mx-auto mb-12 max-w-7xl border-b border-border px-6 pb-8">
+        <h2 className="font-serif text-3xl font-medium tracking-tight text-foreground md:text-4xl">
           <TextAnimation delay={0.05} divideBy="word">
             {socialData?.title || "My All Publication"}
           </TextAnimation>
@@ -150,80 +96,81 @@ const SocialMediaSection = () => {
           variants={skeletonContainer}
           initial="hidden"
           animate="show"
-          className="overflow-x-auto pb-4 px-4 md:px-8"
+          className="overflow-x-auto px-6 pb-4"
         >
-          <div className="flex gap-6 md:gap-8">
+          <div className="mx-auto flex max-w-7xl gap-6 md:gap-8">
             {[1, 2, 3, 4].map((i) => (
               <motion.div
                 key={i}
                 variants={skeletonItem}
-                className="flex-shrink-0 w-56 md:w-72"
+                className="w-56 flex-shrink-0 md:w-72"
               >
-                <div className="aspect-[4/5] bg-gray-200 dark:bg-zinc-800 rounded-2xl animate-pulse" />
-                <div className="h-5 bg-gray-200 dark:bg-zinc-800 rounded w-24 mt-3 md:mt-4 animate-pulse" />
+                <div className="aspect-[4/5] animate-pulse rounded-lg bg-muted" />
+                <div className="mt-4 h-5 w-24 animate-pulse rounded bg-muted" />
               </motion.div>
             ))}
           </div>
         </motion.div>
       ) : socialData?.social && socialData.social.length > 0 ? (
-        <div className="relative group/shelf">
-          {/* Gradient edge mask for scroll hint (right only) */}
-          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 md:w-24 bg-gradient-to-l from-white dark:from-zinc-950 to-transparent" />
+        <div className="group/shelf relative">
+          {/* Edge mask for scroll hint (right only) */}
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-background to-transparent md:w-24" />
 
           {/* Arrow buttons */}
           <button
+            type="button"
             onClick={() => scroll("left")}
             aria-label="Scroll left"
-            className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/80 dark:bg-zinc-800/80 backdrop-blur shadow-lg border border-neutral-200 dark:border-zinc-700 flex items-center justify-center opacity-0 group-hover/shelf:opacity-100 transition-opacity duration-300 hover:bg-neutral-900 dark:hover:bg-zinc-100 hover:text-white dark:hover:text-black"
+            className="absolute left-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-card text-foreground opacity-0 shadow-card transition-opacity duration-300 hover:bg-secondary focus-visible:opacity-100 group-hover/shelf:opacity-100 md:left-6"
           >
-            <ChevronLeft size={20} />
+            <ChevronLeft size={18} />
           </button>
           <button
+            type="button"
             onClick={() => scroll("right")}
             aria-label="Scroll right"
-            className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/80 dark:bg-zinc-800/80 backdrop-blur shadow-lg border border-neutral-200 dark:border-zinc-700 flex items-center justify-center opacity-0 group-hover/shelf:opacity-100 transition-opacity duration-300 hover:bg-neutral-900 dark:hover:bg-zinc-100 hover:text-white dark:hover:text-black"
+            className="absolute right-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-card text-foreground opacity-0 shadow-card transition-opacity duration-300 hover:bg-secondary focus-visible:opacity-100 group-hover/shelf:opacity-100 md:right-6"
           >
-            <ChevronRight size={20} />
+            <ChevronRight size={18} />
           </button>
 
           {/* Horizontal scroll shelf — left aligned start */}
           <div
             ref={scrollRef}
-            className="overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin px-4 md:px-8"
+            className="snap-x snap-mandatory overflow-x-auto px-6 pb-4"
           >
             <motion.div
               variants={shelfContainerVariants}
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, margin: "-50px" }}
-              className="flex gap-6 md:gap-8"
+              className="mx-auto flex max-w-7xl gap-6 md:gap-8"
             >
               {socialData.social.map((item, i) => (
-                <motion.div
+                <motion.button
+                  type="button"
                   key={item.id || i}
                   variants={shelfCardVariants}
-                  className="flex-shrink-0 w-56 md:w-72 snap-start group cursor-pointer"
+                  className="group w-56 flex-shrink-0 snap-start text-left md:w-72"
                   onClick={() => setActive(item)}
                 >
-                  <TiltCard>
-                    <div className="aspect-[4/5] bg-gray-100 dark:bg-zinc-800 overflow-hidden rounded-2xl">
-                      <img
-                        src={`${BASE_URL}${item.thumbnail?.url}`}
-                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
-                        alt={item.name}
-                      />
-                    </div>
-                  </TiltCard>
-                  <h3 className="mt-3 md:mt-4 text-lg md:text-xl font-bold text-neutral-900 dark:text-zinc-100">
+                  <div className="aspect-[4/5] overflow-hidden rounded-lg bg-muted">
+                    <img
+                      src={`${BASE_URL}${item.thumbnail?.url}`}
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                      alt={item.name}
+                    />
+                  </div>
+                  <h3 className="mt-4 font-sans text-base font-medium text-foreground transition-colors group-hover:text-primary">
                     {item.name}
                   </h3>
-                </motion.div>
+                </motion.button>
               ))}
             </motion.div>
           </div>
         </div>
       ) : (
-        <div className="text-center text-neutral-400 py-12">
+        <div className="px-6 py-12 text-center font-sans text-base text-muted-foreground">
           No social media items available.
         </div>
       )}
@@ -232,7 +179,7 @@ const SocialMediaSection = () => {
       <AnimatePresence>
         {active && (
           <motion.div
-            className="fixed inset-0 z-50 bg-black/70 flex items-end md:items-center justify-center"
+            className="fixed inset-0 z-50 flex items-end justify-center bg-foreground/60 backdrop-blur-sm md:items-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -241,39 +188,40 @@ const SocialMediaSection = () => {
             <motion.div
               onClick={(e) => e.stopPropagation()}
               className="
-                relative bg-white dark:bg-zinc-900 w-full md:max-w-4xl
-                rounded-t-3xl md:rounded-2xl
-                max-h-[90vh] overflow-y-auto shadow-xl
+                relative max-h-[90vh] w-full overflow-y-auto bg-card text-card-foreground
+                rounded-t-2xl shadow-card md:max-w-3xl md:rounded-xl
               "
-              initial={{ y: "100%", opacity: 0, scale: 0.95 }}
-              animate={{ y: 0, opacity: 1, scale: 1 }}
-              exit={{ y: "100%", opacity: 0, scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 300, damping: 28, mass: 0.8 }}
+              initial={{ y: "100%", opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: "100%", opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30, mass: 0.8 }}
             >
               {/* CLOSE BUTTON */}
               <button
+                type="button"
                 onClick={() => setActive(null)}
-                className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white/80 dark:bg-zinc-800/80 backdrop-blur hover:bg-neutral-900 dark:hover:bg-zinc-100 hover:text-white dark:hover:text-black transition"
+                aria-label="Close"
+                className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground transition-colors hover:bg-secondary"
               >
-                <X size={20} />
+                <X size={18} />
               </button>
 
               {/* IMAGE */}
-              <div className="aspect-video bg-gray-100 dark:bg-zinc-800">
+              <div className="aspect-video bg-muted">
                 <img
                   src={`${BASE_URL}${active.thumbnail?.url}`}
-                  className="w-full h-full object-cover"
+                  className="h-full w-full object-cover"
                   alt={active.name}
                 />
               </div>
 
               {/* CONTENT */}
-              <div className="p-5 md:p-8">
-                <h3 className="text-xl md:text-2xl font-bold mb-4">
+              <div className="p-6 md:p-10">
+                <h3 className="font-serif text-2xl font-medium tracking-tight md:text-3xl">
                   {active.name}
                 </h3>
 
-                <div className="prose prose-sm md:prose-lg max-w-none mb-6">
+                <div className="mt-5 font-sans text-base text-muted-foreground">
                   <StrapiBlocks data={active.description} />
                 </div>
 
@@ -281,9 +229,10 @@ const SocialMediaSection = () => {
                   href={active.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block w-full md:w-auto text-center px-6 py-3 bg-neutral-900 dark:bg-white dark:text-black text-white rounded-full text-sm font-medium hover:bg-indigo-600 transition-colors"
+                  className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-md bg-primary px-6 py-3 font-sans text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 md:w-auto"
                 >
                   Visit Page
+                  <span aria-hidden="true">&rarr;</span>
                 </a>
               </div>
             </motion.div>

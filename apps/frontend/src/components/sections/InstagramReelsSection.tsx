@@ -127,7 +127,7 @@ function ReelCard({
           {isActive && allowIframe ? (
             <>
               {!loaded && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[#0a0a0a] z-10">
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-ink z-10">
                   <div
                     className="w-9 h-9 rounded-full border-2 border-t-transparent animate-spin"
                     style={{ borderColor: "#dd2a7b transparent #dd2a7b #dd2a7b" }}
@@ -264,7 +264,7 @@ function MobileReelViewer({
           />
           <div className="absolute inset-0 z-10 rounded-[24px] overflow-hidden bg-black">
             {!allowIframe ? (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[#0a0a0a]">
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-ink">
                 <div
                   className="w-10 h-10 rounded-full border-2 border-t-transparent animate-spin"
                   style={{ borderColor: "#dd2a7b transparent #dd2a7b #dd2a7b" }}
@@ -274,7 +274,7 @@ function MobileReelViewer({
             ) : (
               <>
                 {!loaded && (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[#0a0a0a] z-10">
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-ink z-10">
                     <div
                       className="w-10 h-10 rounded-full border-2 border-t-transparent animate-spin"
                       style={{ borderColor: "#dd2a7b transparent #dd2a7b #dd2a7b" }}
@@ -430,23 +430,18 @@ export default function InstagramReelsSection({ reels, title }: InstagramReelsSe
   if (reels.length === 0) return null;
 
   return (
-    <section className="py-16 bg-[#050505] w-full overflow-hidden">
-      <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute top-1/3 left-1/4 w-80 h-80 rounded-full bg-pink-600/8 blur-[110px]" />
-        <div className="absolute bottom-1/3 right-1/4 w-80 h-80 rounded-full bg-purple-700/8 blur-[110px]" />
-      </div>
-
+    <section className="py-16 bg-ink w-full overflow-hidden">
       <div className="w-full relative z-10">
         {/* Header */}
         <div className="text-center mb-8 md:mb-10 px-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur mb-4">
+          <div className="inline-flex items-center gap-2 mb-4">
             <span className="w-2 h-2 rounded-full bg-pink-500 animate-pulse" />
-            <span className="text-white/50 text-xs tracking-widest uppercase font-medium">
+            <span className="text-white/60 text-sm font-medium">
               Instagram Reels
             </span>
           </div>
           {title && (
-            <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">{title}</h2>
+            <h2 className="text-3xl sm:text-4xl font-serif font-medium text-white">{title}</h2>
           )}
         </div>
 

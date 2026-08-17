@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import type { HeroHomeSection } from "../../types/sections/hero-home";
+import { Eyebrow } from "../ui/Eyebrow";
 
 export default function HeroHomeSectionComponent({ items }: HeroHomeSection) {
 	const [currentIndex, setCurrentIndex] = useState(0);
@@ -18,7 +19,7 @@ export default function HeroHomeSectionComponent({ items }: HeroHomeSection) {
 	const currentItem = items[currentIndex];
 
 	return (
-		<section className="relative h-screen bg-neutral-950 overflow-hidden">
+		<section className="relative h-screen overflow-hidden bg-ink">
 			<AnimatePresence mode="wait">
 				<motion.div
 					key={currentIndex}
@@ -30,7 +31,7 @@ export default function HeroHomeSectionComponent({ items }: HeroHomeSection) {
 				>
 					<img
 						src={currentItem.image.url}
-						className="w-full h-full object-cover opacity-40"
+						className="h-full w-full object-cover opacity-40"
 						alt={currentItem.title}
 					/>
 					<div className="absolute inset-0 flex flex-col items-center justify-center text-center">
@@ -38,25 +39,25 @@ export default function HeroHomeSectionComponent({ items }: HeroHomeSection) {
 							initial={{ y: 40, opacity: 0 }}
 							animate={{ y: 0, opacity: 1 }}
 							transition={{ delay: 0.4 }}
-							className="text-7xl md:text-9xl font-black text-white tracking-tighter"
+							className="font-serif text-5xl font-medium text-balance text-white md:text-7xl"
 						>
 							{currentItem.title}
 						</motion.h1>
-						<motion.p
+						<motion.div
 							initial={{ opacity: 0 }}
 							animate={{ opacity: 1 }}
 							transition={{ delay: 0.6 }}
-							className="text-xl text-neutral-400 mt-4 tracking-widest uppercase"
+							className="mt-4"
 						>
-							{currentItem.content_title}
-						</motion.p>
+							<Eyebrow>{currentItem.content_title}</Eyebrow>
+						</motion.div>
 						{currentItem.link && (
 							<motion.a
 								href={currentItem.link.link}
 								initial={{ opacity: 0 }}
 								animate={{ opacity: 1 }}
 								transition={{ delay: 0.8 }}
-								className="mt-8 bg-white text-black px-8 py-3 rounded-full font-bold uppercase tracking-widest hover:bg-indigo-500 hover:text-white transition-colors"
+								className="mt-8 rounded-full bg-primary px-8 py-3 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
 							>
 								{currentItem.link.label}
 							</motion.a>
@@ -66,13 +67,14 @@ export default function HeroHomeSectionComponent({ items }: HeroHomeSection) {
 			</AnimatePresence>
 
 			{items.length > 1 && (
-				<div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2">
+				<div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 gap-2">
 					{items.map((_, index) => (
 						<button
 							key={index}
 							onClick={() => setCurrentIndex(index)}
-							className={`w-2 h-2 rounded-full transition-colors ${
-								index === currentIndex ? "bg-white" : "bg-white/30"
+							aria-label={`Go to slide ${index + 1}`}
+							className={`h-2 w-2 rounded-full transition-colors ${
+								index === currentIndex ? "bg-primary" : "bg-white/40"
 							}`}
 						/>
 					))}

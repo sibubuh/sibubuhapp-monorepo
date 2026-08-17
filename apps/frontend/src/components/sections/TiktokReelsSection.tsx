@@ -84,7 +84,7 @@ function TikTokCard({
         {isActive && (
           <div className="absolute inset-0 overflow-hidden">
             {!loaded && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 z-10 bg-[#010101]">
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 z-10 bg-ink">
                 <div className="relative w-12 h-12">
                   <div
                     className="absolute inset-0 rounded-full border-2 border-t-transparent animate-spin"
@@ -218,7 +218,7 @@ export default function TiktokReelsSection({ videos, title }: TiktokReelsSection
   if (videos.length === 0) return null;
 
   return (
-    <div className="py-20 w-full" style={{ background: "#010101" }}>
+    <div className="py-20 w-full bg-ink">
       <style>{`
         @keyframes marquee {
           0% { transform: translateX(0); }
@@ -233,17 +233,17 @@ export default function TiktokReelsSection({ videos, title }: TiktokReelsSection
 
       <div className="w-full px-4 md:px-8 lg:px-12">
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5">
+          <div className="inline-flex items-center gap-2 mb-5">
             <svg viewBox="0 0 24 24" fill="white" className="w-3.5 h-3.5 opacity-70">
               <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.73a4.85 4.85 0 0 1-1.01-.04z" />
             </svg>
-            <span className="text-white/50 text-xs tracking-widest uppercase font-medium">
+            <span className="text-white/60 text-sm font-medium">
               TikTok
             </span>
             <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#EE1D52" }} />
           </div>
           {title && (
-            <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-serif font-medium text-white">
               {title}
             </h2>
           )}

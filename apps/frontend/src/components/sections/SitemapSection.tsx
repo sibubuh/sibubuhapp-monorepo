@@ -7,7 +7,7 @@ export default function SitemapSectionComponent({
 	if (!sitemap_list || sitemap_list.length === 0) return null;
 
 	return (
-		<section className="py-24 md:py-32 px-6 bg-white dark:bg-zinc-950">
+		<section className="py-24 md:py-32 px-6 bg-background">
 			<div className="max-w-7xl mx-auto">
 				<motion.div
 					initial={{ opacity: 0, y: 50 }}
@@ -24,11 +24,11 @@ export default function SitemapSectionComponent({
 							viewport={{ once: true }}
 							transition={{ duration: 0.5, delay: index * 0.1 }}
 						>
-							<h3 className="text-xl font-bold text-neutral-900 dark:text-zinc-100 mb-4">
+							<h3 className="text-xl font-serif font-medium text-balance text-foreground mb-4">
 								{item.href ? (
 									<a
 										href={item.href}
-										className="hover:text-indigo-500 transition-colors"
+										className="hover:text-primary transition-colors"
 									>
 										{item.title}
 									</a>
@@ -42,7 +42,7 @@ export default function SitemapSectionComponent({
 										<li key={subIndex}>
 											<a
 												href={subItem.href || "#"}
-												className="text-neutral-600 dark:text-zinc-400 hover:text-indigo-500 transition-colors"
+												className="text-muted-foreground hover:text-primary transition-colors"
 											>
 												{subItem.title}
 											</a>
