@@ -153,7 +153,7 @@ function renderBlock(block: any, key: number): React.ReactNode {
 			return (
 				<pre
 					key={key}
-					className="bg-neutral-900 text-neutral-100 dark:text-neutral-100 p-4 rounded-xl overflow-x-auto my-6 text-sm font-mono"
+					className="bg-ink text-ink-foreground p-4 rounded-xl overflow-x-auto my-6 text-sm font-mono"
 				>
 					<code>{text}</code>
 				</pre>

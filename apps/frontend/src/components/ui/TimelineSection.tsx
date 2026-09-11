@@ -104,12 +104,12 @@ function YearPip({
       {/* Dot */}
       <span
         className={[
-          "block rounded-full transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
+          "block rounded-full transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
           isActive
-            ? "w-3 h-3 bg-[#E8EDF5]"
+            ? "w-3 h-3 bg-ink-foreground"
             : isNear
-            ? "w-2.5 h-2.5 bg-[#4A5E7A]"
-            : "w-2 h-2 bg-[#1E2D47]",
+            ? "w-2.5 h-2.5 bg-ink-muted"
+            : "w-2 h-2 bg-ink-border",
         ].join(" ")}
       />
       {/* Label */}
@@ -117,10 +117,10 @@ function YearPip({
         className={[
           "whitespace-nowrap select-none transition-all duration-300 tracking-[0.05em]",
           isActive
-            ? "text-[15px] font-medium text-[#E8EDF5]"
+            ? "text-[15px] font-medium text-ink-foreground"
             : isNear
-            ? "text-xs font-normal text-[#7B8BAA]"
-            : "text-[11px] font-normal text-[#354160]",
+            ? "text-xs font-normal text-ink-muted"
+            : "text-[11px] font-normal text-ink-muted/60",
         ].join(" ")}
       >
         {year}
@@ -146,7 +146,7 @@ function TimelineSection({
     <div
       ref={sectionRef}
       className={[
-        "relative min-h-[380px] py-12 border-b border-white/[0.08]",
+        "relative min-h-[380px] py-12 border-b border-ink-border",
         "flex flex-col justify-center",
         "transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]",
         isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-6",
@@ -156,7 +156,7 @@ function TimelineSection({
       <div
         className={[
           "absolute top-1/2 -translate-y-1/2 -left-8 h-px transition-all duration-300",
-          isActive ? "bg-white/55" : "bg-white/10",
+          isActive ? "bg-ink-foreground/55" : "bg-ink-border",
         ].join(" ")}
         style={{ width: isActive ? 28 : 20 }}
       />
@@ -165,7 +165,7 @@ function TimelineSection({
       <div
         className={[
           "font-serif text-[64px] font-medium leading-none tracking-[-0.04em] mb-1 select-none",
-          "text-[#E8EDF5] transition-opacity duration-500",
+          "text-ink-foreground transition-opacity duration-500",
           isActive ? "opacity-100" : "opacity-[0.06]",
         ].join(" ")}
       >
@@ -176,7 +176,7 @@ function TimelineSection({
       <div
         className={[
           "text-[11px] font-medium tracking-[0.15em] uppercase mb-5 transition-colors duration-300",
-          isActive ? "text-[#A8BCDA]" : "text-[#354160]",
+          isActive ? "text-ink-muted" : "text-ink-muted/60",
         ].join(" ")}
       >
         {event.month}
@@ -192,12 +192,12 @@ function TimelineSection({
       />
 
       {/* Title */}
-      <h3 className="text-[22px] font-medium leading-snug text-[#E8EDF5] mb-3.5 mt-0">
+      <h3 className="text-[22px] font-medium leading-snug text-ink-foreground mb-3.5 mt-0">
         {event.title}
       </h3>
 
       {/* Body */}
-      <p className="text-sm leading-[1.75] text-[#7B8BAA] max-w-[560px] m-0">
+      <p className="text-sm leading-[1.75] text-ink-muted max-w-[560px] m-0">
         {event.body}
       </p>
 
@@ -330,10 +330,10 @@ export default function ScrollZoomTimeline({
         style={{ top: navHeight, height: sidebarH }}
       >
         {/* Spine track */}
-        <div className="absolute left-1/2 -translate-x-1/2 top-7 bottom-7 w-px bg-white/10">
+        <div className="absolute left-1/2 -translate-x-1/2 top-7 bottom-7 w-px bg-ink-border">
           {/* Progress fill */}
           <div
-            className="absolute top-0 left-0 w-full bg-white/55 transition-[height] duration-[50ms] linear"
+            className="absolute top-0 left-0 w-full bg-ink-foreground/55 transition-[height] duration-[50ms] linear"
             style={{ height: `${linePct}%` }}
           />
         </div>
@@ -368,9 +368,9 @@ export default function ScrollZoomTimeline({
 
         {/* End cap */}
         <div className="flex flex-col items-start pt-10 gap-2">
-          <div className="w-px h-8 bg-white/10" />
-          <div className="w-2 h-2 rounded-full bg-[#F0A030]" />
-          <span className="text-[11px] tracking-[0.12em] uppercase text-[#354160] mt-1">
+          <div className="w-px h-8 bg-ink-border" />
+          <div className="w-2 h-2 rounded-full bg-ink-muted" />
+          <span className="text-[11px] tracking-[0.12em] uppercase text-ink-muted/60 mt-1">
             Ongoing
           </span>
         </div>
@@ -379,3 +379,4 @@ export default function ScrollZoomTimeline({
     </div>
   );
 }
+

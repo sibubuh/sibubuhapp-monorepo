@@ -15,21 +15,21 @@ function LoginPage() {
                 Demo form only (no auth wired).
             </p>
 
-            <form className="mt-8 rounded-xl border bg-card p-6 shadow-sm">
-                <label className="block text-sm">
+            <form className="mt-8 rounded-xl border border-border bg-card p-6 shadow-card">
+                <label className="block text-sm font-sans">
                     <span className="text-muted-foreground">Email</span>
                     <input
                         value={email}
                         onChange={(e) => setEmail(e.currentTarget.value)}
                         type="email"
                         placeholder="you@company.com"
-                        className="mt-2 w-full rounded-md border bg-background px-3 py-2"
+                        className="mt-2 w-full rounded-md border border-input bg-background px-3 py-2 font-sans outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
                     />
                 </label>
 
                 <button
                     type="button"
-                    className="mt-4 inline-flex w-full items-center justify-center rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground"
+						className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-md bg-foreground px-4 py-2.5 font-sans text-sm font-medium text-background transition-colors hover:bg-ink hover:text-ink-foreground"
                     onClick={() => alert(`Hello, ${email || "friend"}!`)}
                 >
                     Continue

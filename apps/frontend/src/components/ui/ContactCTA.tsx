@@ -12,7 +12,7 @@ const ContactCTA = () => (
 			<div className="lg:col-span-5 lg:justify-self-end">
 				<a
 					href="mailto:nchan.bkho@gmail.com"
-					className="inline-flex items-center gap-2 rounded-md bg-primary px-7 py-3.5 font-sans text-sm font-medium text-primary-foreground transition-opacity duration-200 hover:opacity-90"
+					className="inline-flex items-center gap-2 rounded-md bg-foreground px-7 py-3.5 font-sans text-sm font-medium text-background hover:text-ink-foreground transition-colors hover:bg-ink"
 				>
 					Let&rsquo;s Talk
 					<span aria-hidden="true">&rarr;</span>

@@ -108,7 +108,7 @@ function OrbitingLogo({
       ) : (
         <div
           style={{ width: size, height: size }}
-          className="bg-white/10 rounded-full mb-1"
+          className="bg-ink-border rounded-full mb-1"
         />
       )}
       <span className="font-sans text-xs text-ink-muted">{name}</span>
@@ -121,6 +121,11 @@ function OrbitingLogo({
 // ------------------------------------------------------------------
 export default function ClientsParallax() {
   const ref = useRef(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const [clientData, setClientData] = useState<ClientItem[]>([]);
   const [clientTitle, setClientTitle] = useState("");
@@ -177,16 +182,18 @@ export default function ClientsParallax() {
           </div>
         </div>
 
-        {/* ORBITING LOGOS */}
-        {clients.map((client, i) => (
-          <OrbitingLogo
-            key={i}
-            src={client.src}
-            //@ts-ignore
-            name={client.name}
-            config={client.config}
-            scrollYProgress={scrollYProgress}
-          />
+        {/* ORBITING LOGOS — rendered client-side only: scroll-linked motion values
+            would mismatch the SSR style string and log a hydration warning. */}
+        {mounted &&
+          clients.map((client, i) => (
+            <OrbitingLogo
+              key={i}
+              src={client.src}
+              //@ts-ignore
+              name={client.name}
+              config={client.config}
+              scrollYProgress={scrollYProgress}
+            />
         ))}
       </div>
     </section>

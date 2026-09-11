@@ -110,7 +110,7 @@ function ReelCard({
     >
       {isActive && (
         <div
-          className="absolute -inset-[3px] rounded-[28px] z-0"
+          className="absolute -inset-[3px] rounded-[calc(1.5rem+3px)] z-0"
           style={{
             background: "linear-gradient(135deg,#f58529,#dd2a7b,#8134af,#515bd4)",
             filter: "blur(7px)",
@@ -120,7 +120,7 @@ function ReelCard({
       )}
 
       <div
-        className="relative z-10 rounded-[26px] overflow-hidden bg-black shadow-2xl"
+        className="relative z-10 rounded-xl overflow-hidden bg-ink shadow-card"
         style={{ height: 600 }}
       >
         <div className="absolute inset-0 overflow-hidden">
@@ -157,7 +157,7 @@ function ReelCard({
             </>
           ) : (
             <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#1a0a2e] to-[#0a0a0a]">
-              <div className="w-12 h-12 rounded-full bg-white/10 backdrop-blur flex items-center justify-center group-hover:bg-white/20 transition-colors">
+              <div className="w-12 h-12 rounded-full bg-ink-foreground/10 backdrop-blur flex items-center justify-center group-hover:bg-ink-foreground/20 transition-colors">
                 <svg className="w-5 h-5 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8 5v14l11-7z" />
                 </svg>
@@ -252,17 +252,17 @@ function MobileReelViewer({
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -30, scale: 0.97 }}
           transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
-          className="absolute inset-0 rounded-[24px] overflow-hidden bg-black shadow-2xl"
+          className="absolute inset-0 rounded-xl overflow-hidden bg-ink shadow-card"
         >
           <div
-            className="absolute -inset-[2px] rounded-[24px] pointer-events-none"
+            className="absolute -inset-[2px] rounded-[calc(1.5rem+2px)] pointer-events-none"
             style={{
               background: "linear-gradient(135deg,#f58529,#dd2a7b,#8134af,#515bd4)",
               filter: "blur(5px)",
               opacity: 0.7,
             }}
           />
-          <div className="absolute inset-0 z-10 rounded-[24px] overflow-hidden bg-black">
+          <div className="absolute inset-0 z-10 rounded-xl overflow-hidden bg-ink">
             {!allowIframe ? (
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-ink">
                 <div
@@ -458,7 +458,7 @@ export default function InstagramReelsSection({ reels, title }: InstagramReelsSe
               onClick={() => goTo(activeIndex - 1)}
               disabled={activeIndex === 0}
               whileTap={{ scale: 0.9 }}
-              className="w-10 h-10 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/50 hover:text-white disabled:opacity-20 disabled:cursor-not-allowed transition-all"
+              className="w-10 h-10 rounded-full border border-ink-border bg-ink-foreground/5 flex items-center justify-center text-ink-muted hover:text-ink-foreground disabled:opacity-20 disabled:cursor-not-allowed transition-all"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -469,7 +469,7 @@ export default function InstagramReelsSection({ reels, title }: InstagramReelsSe
               onClick={() => goTo(activeIndex + 1)}
               disabled={activeIndex === reelsWithUrl.length - 1}
               whileTap={{ scale: 0.9 }}
-              className="w-10 h-10 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/50 hover:text-white disabled:opacity-20 disabled:cursor-not-allowed transition-all"
+              className="w-10 h-10 rounded-full border border-ink-border bg-ink-foreground/5 flex items-center justify-center text-ink-muted hover:text-ink-foreground disabled:opacity-20 disabled:cursor-not-allowed transition-all"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -509,7 +509,7 @@ export default function InstagramReelsSection({ reels, title }: InstagramReelsSe
               onClick={() => goTo(activeIndex - 1)}
               disabled={activeIndex === 0}
               whileTap={{ scale: 0.95 }}
-              className="w-10 h-10 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 disabled:opacity-20 disabled:cursor-not-allowed transition-all"
+              className="w-10 h-10 rounded-full border border-ink-border bg-ink-foreground/5 flex items-center justify-center text-ink-muted hover:text-ink-foreground hover:bg-ink-foreground/10 disabled:opacity-20 disabled:cursor-not-allowed transition-all"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -522,7 +522,7 @@ export default function InstagramReelsSection({ reels, title }: InstagramReelsSe
               onClick={() => goTo(activeIndex + 1)}
               disabled={activeIndex === reelsWithUrl.length - 1}
               whileTap={{ scale: 0.95 }}
-              className="w-10 h-10 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 disabled:opacity-20 disabled:cursor-not-allowed transition-all"
+              className="w-10 h-10 rounded-full border border-ink-border bg-ink-foreground/5 flex items-center justify-center text-ink-muted hover:text-ink-foreground hover:bg-ink-foreground/10 disabled:opacity-20 disabled:cursor-not-allowed transition-all"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -534,3 +534,4 @@ export default function InstagramReelsSection({ reels, title }: InstagramReelsSe
     </section>
   );
 }
+

@@ -143,7 +143,7 @@ export default function DiagonalCarousel({
                     src={item.src}
                     alt={item.alt ?? item.title}
                     draggable={false}
-                    className="h-full w-full select-none rounded-2xl object-cover shadow-xl"
+                    className="h-full w-full select-none rounded-2xl object-cover shadow-card"
                   />
                 </button>
               </motion.div>
@@ -153,12 +153,12 @@ export default function DiagonalCarousel({
       </div>
 
       {showControls && (
-        <div className="absolute inset-x-4 bottom-5 z-10 mx-auto flex w-fit items-center justify-center gap-3 rounded-full border border-white/20 bg-black/50 px-2 text-white shadow-lg backdrop-blur-md">
+        <div className="absolute inset-x-4 bottom-5 z-10 mx-auto flex w-fit items-center justify-center gap-3 rounded-full border border-ink-border bg-ink-foreground/10 px-2 text-ink-foreground backdrop-blur-md">
           <button
             type="button"
             aria-label="Show previous slide"
             disabled={isPreviousDisabled}
-            className="inline-flex size-9 items-center justify-center rounded-full transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-35"
+            className="inline-flex size-9 items-center justify-center rounded-full transition-colors hover:bg-ink-foreground/20 disabled:cursor-not-allowed disabled:opacity-35"
             onClick={() => selectSlide(currentIndex - 1)}
           >
             <ChevronLeft className="size-5" />
@@ -187,7 +187,7 @@ export default function DiagonalCarousel({
             type="button"
             aria-label="Show next slide"
             disabled={isNextDisabled}
-            className="inline-flex size-9 items-center justify-center rounded-full transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-35"
+            className="inline-flex size-9 items-center justify-center rounded-full transition-colors hover:bg-ink-foreground/20 disabled:cursor-not-allowed disabled:opacity-35"
             onClick={() => selectSlide(currentIndex + 1)}
           >
             <ChevronRight className="size-5" />
@@ -197,3 +197,4 @@ export default function DiagonalCarousel({
     </div>
   );
 }
+

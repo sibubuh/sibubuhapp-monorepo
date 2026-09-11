@@ -12,7 +12,7 @@ export function DefaultCatchBoundary({ error, reset }: ErrorComponentProps) {
             <button
                 type="button"
                 onClick={reset}
-                className="mt-6 inline-flex items-center rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground"
+                className="mt-6 inline-flex items-center rounded-md bg-foreground px-4 py-2 font-medium text-background hover:text-ink-foreground transition-colors hover:bg-ink"
             >
                 Try again
             </button>

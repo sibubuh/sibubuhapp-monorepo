@@ -125,7 +125,7 @@ const Navbar = () => {
 							href="mailto:nchan.bkho@gmail.com"
 							whileHover={{ scale: 1.03 }}
 							whileTap={{ scale: 0.97 }}
-							className="bg-primary text-primary-foreground font-sans text-sm font-medium px-5 py-2 rounded-full hover:opacity-90 transition-opacity"
+							className="bg-foreground text-background font-sans text-sm font-medium px-5 py-2 rounded-full hover:bg-ink hover:text-ink-foreground transition-colors"
 						>
 							Start Project
 						</motion.a>
@@ -182,7 +182,7 @@ const Navbar = () => {
 							<a
 								href="mailto:nchan.bkho@gmail.com"
 								onClick={() => setOpen(false)}
-								className="mt-3 bg-primary text-primary-foreground font-medium py-3 rounded-full"
+								className="mt-3 bg-foreground text-background font-medium py-3 rounded-full hover:bg-ink hover:text-ink-foreground transition-colors"
 							>
 								Start Project
 							</a>

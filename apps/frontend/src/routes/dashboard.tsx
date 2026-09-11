@@ -22,7 +22,7 @@ function DashboardPage() {
                 A simple client-side fetch against a Start server route.
             </p>
 
-            <div className="mt-6 rounded-lg border bg-card p-5 shadow-sm">
+            <div className="mt-6 rounded-xl border border-border bg-card p-5 shadow-card">
                 <div className="flex items-center justify-between">
                     <div>
                         <p className="font-medium">/api/health</p>
@@ -31,8 +31,8 @@ function DashboardPage() {
                     <span
                         className={`inline-flex items-center rounded-full px-3 py-1 text-sm ${
                             health?.ok
-                                ? "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300"
-                                : "bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300"
+                                ? "bg-accent text-accent-foreground"
+                                : "bg-destructive/10 text-destructive"
                         }`}
                     >
                         {health ? (health.ok ? "OK" : "DEGRADED") : "LOADING"}

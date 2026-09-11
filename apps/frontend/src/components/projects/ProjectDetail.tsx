@@ -64,13 +64,13 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           </motion.a>
 
           <div className="mb-4 flex flex-wrap items-center gap-3">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-white/5 px-3 py-1 text-[11px] font-medium text-white">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-ink-border bg-ink-foreground/5 px-3 py-1 text-[11px] font-medium text-ink-foreground">
               <Tag className="h-3 w-3" />
               {project.category}
             </span>
 
             {project.years && (
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-white/5 px-3 py-1 text-[11px] font-medium text-white">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-ink-border bg-ink-foreground/5 px-3 py-1 text-[11px] font-medium text-ink-foreground">
                 <Calendar className="h-3 w-3" />
                 {project.years}
               </span>

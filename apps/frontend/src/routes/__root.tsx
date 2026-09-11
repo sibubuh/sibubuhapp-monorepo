@@ -79,9 +79,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			</head>
 			<body>
 				<div className="min-h-screen bg-background text-foreground">
-					<header className="border-b bg-card">
-						<Navbar />
-					</header>
+					<Navbar />
 					{children}
 				</div>
 

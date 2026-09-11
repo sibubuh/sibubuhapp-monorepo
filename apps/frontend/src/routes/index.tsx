@@ -28,8 +28,13 @@ function extractStrapiText(content: unknown): string {
 
 export const Route = createFileRoute("/")({
 	loader: async () => {
-		const homeSlider = await getHomeSlider({ locale: null });
-		return { homeSlider };
+		try {
+			const homeSlider = await getHomeSlider({ locale: null });
+			return { homeSlider };
+		} catch {
+			// CMS unreachable — render with HeroSlider fallback instead of hard-failing the page.
+			return { homeSlider: null };
+		}
 	},
 	component: Index,
 });
