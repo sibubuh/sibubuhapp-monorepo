@@ -53,7 +53,7 @@ function TikTokCard({
     <div
       onClick={!isActive ? onClick : undefined}
       className={`
-        relative flex-shrink-0 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]
+        relative flex-shrink-0 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
         ${
           isActive
             ? "z-10 scale-100 opacity-100 cursor-default"
@@ -74,7 +74,7 @@ function TikTokCard({
       )}
 
       <div
-        className="relative z-10 rounded-[28px] overflow-hidden shadow-2xl"
+        className="relative z-10 rounded-xl overflow-hidden shadow-card"
         style={{
           height: 580,
           background: "#010101",
@@ -265,8 +265,8 @@ export default function TiktokReelsSection({ videos, title }: TiktokReelsSection
             onClick={prev}
             disabled={activeIndex === 0}
             whileTap={{ scale: 0.95 }}
-            className="w-10 h-10 rounded-full flex items-center justify-center text-white/50 hover:text-white transition-all disabled:opacity-15 disabled:cursor-not-allowed"
-            style={{ border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.04)" }}
+            className="w-10 h-10 rounded-full flex items-center justify-center text-ink-muted hover:text-ink-foreground transition-all disabled:opacity-15 disabled:cursor-not-allowed"
+            style={{ border: "1px solid var(--color-ink-border)", background: "oklch(1 0 0 / 0.04)" }}
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -294,8 +294,8 @@ export default function TiktokReelsSection({ videos, title }: TiktokReelsSection
             onClick={next}
             disabled={activeIndex === videos.length - 1}
             whileTap={{ scale: 0.95 }}
-            className="w-10 h-10 rounded-full flex items-center justify-center text-white/50 hover:text-white transition-all disabled:opacity-15 disabled:cursor-not-allowed"
-            style={{ border: "1px solid rgba(255,255,255,0.1)", background: "rgba(255,255,255,0.04)" }}
+            className="w-10 h-10 rounded-full flex items-center justify-center text-ink-muted hover:text-ink-foreground transition-all disabled:opacity-15 disabled:cursor-not-allowed"
+            style={{ border: "1px solid var(--color-ink-border)", background: "oklch(1 0 0 / 0.04)" }}
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />

@@ -113,7 +113,7 @@ function GallerySlider({ images, baseUrl, title }: any) {
         }
         .g-count {
           font-size: 12px;
-          color: #999;
+          color: oklch(0.5 0.014 70);
           font-weight: 300;
           letter-spacing: 0.05em;
         }
@@ -133,7 +133,7 @@ function GallerySlider({ images, baseUrl, title }: any) {
           cursor: zoom-in;
           background: #e8e4de;
           opacity: 0;
-          animation: thumbIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+          animation: thumbIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
         @keyframes thumbIn {
           to { opacity: 1; }
@@ -300,12 +300,12 @@ function GallerySlider({ images, baseUrl, title }: any) {
           left: 50%;
           transform: translateX(-50%);
           color: rgba(255,255,255,0.45);
-          font-size: 11px;
+          font-size: 12px;
           letter-spacing: 0.12em;
-          font-family: 'Syne', sans-serif;
+          font-family: var(--font-sans);
           background: rgba(0,0,0,0.3);
           padding: 5px 12px;
-          border-radius: 20px;
+          border-radius: 9999px;
           backdrop-filter: blur(8px);
           border: 1px solid rgba(255,255,255,0.08);
         }

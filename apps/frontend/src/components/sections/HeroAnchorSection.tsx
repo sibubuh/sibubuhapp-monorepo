@@ -28,7 +28,7 @@ export default function HeroAnchorSectionComponent({
 						href={slug ? `/${slug}` : "#"}
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
-						className="inline-block rounded-full bg-primary px-8 py-4 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+						className="inline-block rounded-full bg-foreground px-8 py-4 font-medium text-background hover:text-ink-foreground transition-colors hover:bg-ink"
 					>
 						{action_text}
 					</motion.a>

@@ -162,7 +162,7 @@ export default function ContactUsSectionComponent({
 								type="submit"
 								whileHover={{ scale: 1.02 }}
 								whileTap={{ scale: 0.98 }}
-								className="w-full bg-primary text-primary-foreground rounded-full px-8 py-4 font-medium transition-colors hover:bg-primary/90"
+								className="w-full bg-foreground text-background rounded-full px-8 py-4 font-medium transition-colors hover:bg-ink hover:text-ink-foreground"
 							>
 								{submit_label}
 							</motion.button>

@@ -179,7 +179,7 @@ const SocialMediaSection = () => {
       <AnimatePresence>
         {active && (
           <motion.div
-            className="fixed inset-0 z-50 flex items-end justify-center bg-foreground/60 backdrop-blur-sm md:items-center"
+            className="fixed inset-0 z-[1000] flex items-end justify-center bg-foreground/60 backdrop-blur-sm md:items-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -229,7 +229,7 @@ const SocialMediaSection = () => {
                   href={active.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-md bg-primary px-6 py-3 font-sans text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 md:w-auto"
+				className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-md bg-foreground px-6 py-3 font-sans text-sm font-medium text-background hover:text-ink-foreground transition-colors hover:bg-ink md:w-auto"
                 >
                   Visit Page
                   <span aria-hidden="true">&rarr;</span>

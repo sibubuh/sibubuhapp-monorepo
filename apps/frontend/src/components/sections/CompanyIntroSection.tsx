@@ -31,7 +31,7 @@ export default function CompanyIntroSectionComponent({
 						{link && (
 							<a
 								href={link.href || "#"}
-								className="inline-flex items-center rounded-full bg-primary px-8 py-4 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+								className="inline-flex items-center rounded-full bg-foreground px-8 py-4 font-medium text-background hover:text-ink-foreground transition-colors hover:bg-ink"
 							>
 								{link.title}
 							</a>

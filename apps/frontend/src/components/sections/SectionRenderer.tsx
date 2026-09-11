@@ -64,7 +64,7 @@ export default function SectionRenderer({ sections }: SectionRendererProps) {
 				const Component = sectionComponents[section.__component];
 				if (!Component) {
 					return (
-						<div key={index} className="p-8 text-center text-neutral-400">
+						<div key={index} className="p-8 text-center text-muted-foreground">
 							Unknown section: {section.__component}
 						</div>
 					);

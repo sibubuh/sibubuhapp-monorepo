@@ -22,9 +22,9 @@ export function Pill({
       onClick={onClick}
       aria-pressed={active}
       className={`rounded-full border px-5 py-2 font-sans text-sm font-medium transition-colors duration-300 ${
-        active
-          ? "border-primary bg-primary text-primary-foreground"
-          : "border-border bg-transparent text-muted-foreground hover:border-foreground/20 hover:text-foreground"
+				active
+					? "border-foreground bg-foreground text-background"
+					: "border-border bg-transparent text-muted-foreground hover:border-foreground/20 hover:text-foreground"
       } ${className}`}
     >
       {children}

@@ -57,7 +57,7 @@ export default function HeroHomeSectionComponent({ items }: HeroHomeSection) {
 								initial={{ opacity: 0 }}
 								animate={{ opacity: 1 }}
 								transition={{ delay: 0.8 }}
-								className="mt-8 rounded-full bg-primary px-8 py-3 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+								className="mt-8 rounded-full bg-foreground px-8 py-3 font-medium text-background hover:text-ink-foreground transition-colors hover:bg-ink"
 							>
 								{currentItem.link.label}
 							</motion.a>
@@ -74,7 +74,7 @@ export default function HeroHomeSectionComponent({ items }: HeroHomeSection) {
 							onClick={() => setCurrentIndex(index)}
 							aria-label={`Go to slide ${index + 1}`}
 							className={`h-2 w-2 rounded-full transition-colors ${
-								index === currentIndex ? "bg-primary" : "bg-white/40"
+								index === currentIndex ? "bg-foreground" : "bg-ink-border"
 							}`}
 						/>
 					))}

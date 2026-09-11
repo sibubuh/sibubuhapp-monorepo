@@ -1,0 +1,274 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-11T00:00:00.000Z",
+  "title": "Design System: Sibubuh Playground",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Playground Indigo",
+        "canonical": "oklch(0.55 0.18 264)",
+        "tonalRamp": [
+          "oklch(0.15 0.12 264)",
+          "oklch(0.25 0.14 264)",
+          "oklch(0.35 0.16 264)",
+          "oklch(0.45 0.17 264)",
+          "oklch(0.55 0.18 264)",
+          "oklch(0.65 0.16 264)",
+          "oklch(0.75 0.12 264)",
+          "oklch(0.92 0.05 264)"
+        ]
+      },
+      "background": {
+        "role": "neutral",
+        "displayName": "Warm Paper",
+        "canonical": "oklch(0.985 0.006 85)",
+        "tonalRamp": [
+          "oklch(0.15 0.008 85)",
+          "oklch(0.28 0.008 85)",
+          "oklch(0.42 0.008 85)",
+          "oklch(0.56 0.008 85)",
+          "oklch(0.7 0.008 85)",
+          "oklch(0.82 0.008 85)",
+          "oklch(0.92 0.006 85)",
+          "oklch(0.985 0.006 85)"
+        ]
+      },
+      "foreground": {
+        "role": "neutral",
+        "displayName": "Soft Ink",
+        "canonical": "oklch(0.22 0.012 70)",
+        "tonalRamp": [
+          "oklch(0.12 0.012 70)",
+          "oklch(0.22 0.012 70)",
+          "oklch(0.34 0.012 70)",
+          "oklch(0.46 0.012 70)",
+          "oklch(0.58 0.014 70)",
+          "oklch(0.7 0.014 70)",
+          "oklch(0.82 0.012 70)",
+          "oklch(0.92 0.01 70)"
+        ]
+      },
+      "card": {
+        "role": "neutral",
+        "displayName": "Card White",
+        "canonical": "oklch(1 0 0)",
+        "tonalRamp": [
+          "oklch(0.2 0 0)",
+          "oklch(0.4 0 0)",
+          "oklch(0.6 0 0)",
+          "oklch(0.75 0 0)",
+          "oklch(0.85 0 0)",
+          "oklch(0.92 0 0)",
+          "oklch(0.97 0 0)",
+          "oklch(1 0 0)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted Paper",
+        "canonical": "oklch(0.95 0.01 85)",
+        "tonalRamp": [
+          "oklch(0.15 0.01 85)",
+          "oklch(0.3 0.01 85)",
+          "oklch(0.45 0.01 85)",
+          "oklch(0.6 0.01 85)",
+          "oklch(0.74 0.01 85)",
+          "oklch(0.85 0.01 85)",
+          "oklch(0.92 0.01 85)",
+          "oklch(0.97 0.01 85)"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "oklch(0.9 0.01 85)",
+        "tonalRamp": [
+          "oklch(0.15 0.01 85)",
+          "oklch(0.28 0.01 85)",
+          "oklch(0.42 0.01 85)",
+          "oklch(0.56 0.01 85)",
+          "oklch(0.7 0.01 85)",
+          "oklch(0.8 0.01 85)",
+          "oklch(0.88 0.01 85)",
+          "oklch(0.94 0.01 85)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink Cover",
+        "canonical": "oklch(0.2 0.012 70)",
+        "tonalRamp": [
+          "oklch(0.1 0.012 70)",
+          "oklch(0.18 0.012 70)",
+          "oklch(0.28 0.012 70)",
+          "oklch(0.4 0.012 70)",
+          "oklch(0.54 0.012 70)",
+          "oklch(0.68 0.014 70)",
+          "oklch(0.8 0.014 70)",
+          "oklch(0.9 0.012 70)"
+        ]
+      },
+      "destructive": {
+        "role": "destructive",
+        "displayName": "Signal Red",
+        "canonical": "oklch(0.58 0.2 27)",
+        "tonalRamp": [
+          "oklch(0.16 0.12 27)",
+          "oklch(0.28 0.16 27)",
+          "oklch(0.4 0.18 27)",
+          "oklch(0.5 0.2 27)",
+          "oklch(0.58 0.2 27)",
+          "oklch(0.68 0.18 27)",
+          "oklch(0.8 0.12 27)",
+          "oklch(0.92 0.05 27)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero and page titles — Lora serif, editorial voice."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "UI chrome, prose, labels — Inter grotesk, neutral and readable."
+      }
+    },
+    "shadows": [
+      {
+        "name": "card-lift",
+        "value": "0 1px 2px oklch(0.2 0.02 70 / 0.04), 0 12px 32px -16px oklch(0.2 0.02 70 / 0.18)",
+        "purpose": "Soft float for cards and hero image panels. The only shadow in the system."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-quint",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Default easing for entrance and layout transitions."
+      },
+      {
+        "name": "duration-fast",
+        "value": "180ms",
+        "purpose": "Micro-interactions: hover, focus, dropdown."
+      },
+      {
+        "name": "duration-medium",
+        "value": "300ms",
+        "purpose": "State transitions: opacity fades, color shifts."
+      },
+      {
+        "name": "duration-slow",
+        "value": "500ms",
+        "purpose": "Reveals and image zooms."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The default action button — indigo on paper, medium corners, opacity fade on hover.",
+      "html": "<button class=\"ds-btn-primary\">Let's Talk <span aria-hidden=\"true\">→</span></button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--color-primary); color: var(--color-primary-foreground); border: none; border-radius: 0.75rem; padding: 1.5rem 1.75rem; font-family: var(--font-sans); font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: opacity 200ms ease; } .ds-btn-primary:hover { opacity: 0.9; } .ds-btn-primary:focus-visible { outline: 2px solid var(--color-ring); outline-offset: 2px; }"
+    },
+    {
+      "name": "Pill Button",
+      "kind": "button",
+      "refersTo": "button-pill",
+      "description": "Nav CTA — full pill, indigo, with a subtle scale on hover/tap.",
+      "html": "<button class=\"ds-btn-pill\">Start Project</button>",
+      "css": ".ds-btn-pill { display: inline-flex; align-items: center; background: var(--color-primary); color: var(--color-primary-foreground); border: none; border-radius: 9999px; padding: 0.5rem 1.25rem; font-family: var(--font-sans); font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: transform 200ms ease, opacity 200ms ease; } .ds-btn-pill:hover { transform: scale(1.03); opacity: 0.9; } .ds-btn-pill:active { transform: scale(0.97); } .ds-btn-pill:focus-visible { outline: 2px solid var(--color-ring); outline-offset: 2px; }"
+    },
+    {
+      "name": "Filter Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Monochrome tag/chip. Active state carries the single indigo accent.",
+      "html": "<button class=\"ds-chip\" aria-pressed=\"false\">Design</button>\n<button class=\"ds-chip ds-chip-active\" aria-pressed=\"true\">Code</button>",
+      "css": ".ds-chip { display: inline-flex; align-items: center; border-radius: 9999px; border: 1px solid var(--color-border); background: transparent; color: var(--color-muted-foreground); padding: 0.5rem 1.25rem; font-family: var(--font-sans); font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: color 300ms ease, border-color 300ms ease; } .ds-chip:hover { border-color: var(--color-foreground); color: var(--color-foreground); } .ds-chip:focus-visible { outline: 2px solid var(--color-ring); outline-offset: 2px; } .ds-chip-active { background: var(--color-primary); color: var(--color-primary-foreground); border-color: var(--color-primary); }"
+    },
+    {
+      "name": "Content Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Editorial card — card-white surface, hairline border, soft lift shadow, rounded corners.",
+      "html": "<article class=\"ds-card\"><div class=\"ds-card-img\" style=\"background: linear-gradient(135deg, var(--color-muted), var(--color-background)); height: 180px;\"></div><div class=\"ds-card-body\"><h3 class=\"ds-card-title\">Project Title</h3><p class=\"ds-card-text\">A short description of the work.</p></div></article>",
+      "css": ".ds-card { border-radius: 1.5rem; border: 1px solid var(--color-border); background: var(--color-card); box-shadow: 0 1px 2px oklch(0.2 0.02 70 / 0.04), 0 12px 32px -16px oklch(0.2 0.02 70 / 0.18); overflow: hidden; } .ds-card-img { width: 100%; } .ds-card-body { padding: 1.5rem; } .ds-card-title { font-family: var(--font-serif); font-size: 1.125rem; font-weight: 600; color: var(--color-foreground); margin: 0 0 0.5rem; } .ds-card-text { font-family: var(--font-sans); font-size: 0.875rem; color: var(--color-muted-foreground); line-height: 1.6; margin: 0; }"
+    },
+    {
+      "name": "Navbar",
+      "kind": "nav",
+      "refersTo": "nav",
+      "description": "Fixed top bar — blurred paper background, hairline border, logo + links + pill CTA.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-logo\" href=\"/\">SIBUBUH<span class=\"ds-logo-dot\">.</span></a><div class=\"ds-nav-links\"><a class=\"ds-nav-link\" href=\"/projects\">Projects</a><a class=\"ds-nav-link\" href=\"/blog\">Blog</a></div><button class=\"ds-btn-pill\">Start Project</button></nav>",
+      "css": ".ds-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 999; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 1.5rem; background: oklch(0.985 0.006 85 / 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid var(--color-border); } .ds-nav-logo { font-family: var(--font-sans); font-size: 1.25rem; font-weight: 600; letter-spacing: -0.02em; color: var(--color-foreground); text-decoration: none; } .ds-logo-dot { color: var(--color-primary); } .ds-nav-links { display: flex; gap: 0.25rem; } .ds-nav-link { padding: 0.5rem 1rem; border-radius: 9999px; font-family: var(--font-sans); font-size: 0.875rem; font-weight: 500; color: var(--color-muted-foreground); text-decoration: none; transition: color 200ms ease; } .ds-nav-link:hover { color: var(--color-foreground); }"
+    },
+    {
+      "name": "Eyebrow",
+      "kind": "custom",
+      "refersTo": "eyebrow",
+      "description": "Restrained section label — indigo text with a short indigo rule.",
+      "html": "<span class=\"ds-eyebrow\"><span class=\"ds-eyebrow-rule\" aria-hidden=\"true\"></span>Selected Work</span>",
+      "css": ".ds-eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-sans); font-size: 0.875rem; font-weight: 500; color: var(--color-primary); } .ds-eyebrow-rule { display: block; width: 1.5rem; height: 1px; background: var(--color-primary); }"
+    },
+    {
+      "name": "Section Heading",
+      "kind": "custom",
+      "refersTo": "section-heading",
+      "description": "Editorial section heading — eyebrow, serif title, optional lede.",
+      "html": "<div class=\"ds-section-heading\"><span class=\"ds-eyebrow\"><span class=\"ds-eyebrow-rule\" aria-hidden=\"true\"></span>About</span><h2 class=\"ds-section-title\">A short story about the work.</h2><p class=\"ds-section-lede\">One or two sentences that set the context for the section below.</p></div>",
+      "css": ".ds-section-heading { max-width: 48rem; } .ds-section-heading + .ds-section-heading { margin-top: 0; } .ds-section-heading > .ds-eyebrow { margin-bottom: 0.75rem; } .ds-section-title { font-family: var(--font-serif); font-size: clamp(1.875rem, 4vw, 2.5rem); font-weight: 500; line-height: 1.1; color: var(--color-foreground); margin: 0.75rem 0 0; } .ds-section-lede { font-family: var(--font-sans); font-size: 1.0625rem; line-height: 1.6; color: var(--color-muted-foreground); margin: 1rem 0 0; max-width: 40rem; } .ds-eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-sans); font-size: 0.875rem; font-weight: 500; color: var(--color-primary); } .ds-eyebrow-rule { display: block; width: 1.5rem; height: 1px; background: var(--color-primary); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Playground Atelier",
+    "overview": "A personal portfolio built like a warm editorial studio — restrained paper-and-ink neutrals form the calm, curated base, while a single indigo accent and tactile micro-interactions bring the \"playground\" to life. The system is deliberately quiet at rest: surfaces are flat, type does the heavy lifting, and color is used sparingly. Motion and hover states are where the personality surfaces — scale shifts, opacity fades, and the indigo accent lights up only when the visitor reaches for something.\n\nThe incumbent system already commits to this thesis: Lora for editorial voice, Inter for UI chrome, a warm paper background, and an ink-dark footer that closes the page like a book cover. The design preserves all of it and tightens the craft — consistent radius scale, one shadow vocabulary, and a single accent discipline.",
+    "keyCharacteristics": [
+      "Warm paper + soft ink neutrals with one restrained indigo accent (flat-lift depth)",
+      "Editorial serif (Lora) for display, grotesk (Inter) for UI — clear role split",
+      "Tactile, confident components: visible hover/focus, micro-scale motion",
+      "Dark mode via data-theme=\"dark\" flips the whole surface; ink band closes every page",
+      "Accent is rare by design — used on ≤10% of any screen"
+    ],
+    "rules": [
+      {
+        "name": "The One Voice Rule",
+        "body": "Playground Indigo appears on ≤10% of any given screen. Its rarity is the point — every accent earns attention. Never pair it with a second accent.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two-Voice Rule",
+        "body": "Display and section headlines are always Lora (serif); everything else — buttons, nav, labels, timestamps — is Inter (grotesk). Never mix within a single element.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat-Lift Rule",
+        "body": "No shadow at rest on UI chrome (buttons, nav, inputs). The shadow-card token is reserved for content surfaces (cards, hero images) and only intensifies on hover where motion already signals interaction.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep Playground Indigo rare — one primary action per viewport, one active chip, one eyebrow.",
+      "Do use Lora for headlines and Inter for everything else; never mix within one element.",
+      "Do rely on tonal layering (paper → card → muted) for structure before reaching for shadows.",
+      "Do respect the flat-lift rule: shadows only on content surfaces, never on chrome at rest.",
+      "Do use the fixed radius scale — no arbitrary rounded one-offs."
+    ],
+    "donts": [
+      "Don't introduce a second accent color. Indigo is the only voice.",
+      "Don't add shadows to buttons, nav, or inputs at rest.",
+      "Don't use Lora for UI chrome (buttons, labels, timestamps) — that's Inter's role.",
+      "Don't let the indigo accent exceed ~10% of a screen — its power is in its scarcity.",
+      "Don't use pure black (#000) for text or backgrounds — use Soft Ink and Ink Cover for the warm cast."
+    ]
+  }
+}

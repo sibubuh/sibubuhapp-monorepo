@@ -79,9 +79,9 @@ export default function ProjectGrid({ projects }: ProjectGridProps) {
             <motion.div
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: EASE }}
-              className="mx-auto flex h-8 w-5 justify-center rounded-full border border-white/30 pt-2"
+              className="mx-auto flex h-8 w-5 justify-center rounded-full border border-ink-border pt-2"
             >
-              <div className="h-2 w-1 rounded-full bg-white/60" />
+              <div className="h-2 w-1 rounded-full bg-ink-foreground/60" />
             </motion.div>
           </motion.div>
         </Container>
