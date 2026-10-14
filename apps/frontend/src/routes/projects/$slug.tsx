@@ -26,9 +26,6 @@ export const Route = createFileRoute("/projects/$slug")({
     }
   },
 
-  // ✅ 🔥 CRITICAL FIX: disable scroll restore
-  scrollRestoration: false,
-
   component: ProjectPage,
 
   // ✅ 404 PAGE
