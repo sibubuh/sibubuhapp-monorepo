@@ -35,16 +35,24 @@ jobs:
             export PATH=$PATH:$HOME/.local/share/pnpm
 
             export NVM_DIR="$HOME/.nvm"
-            # Ditulis sebagai `if`, bukan `[ -s ... ] && ...`. script_stop
-            # menjalankan skrip dengan `set -e`, dan di sana test yang bernilai
-            # false menghentikan skrip — sedangkan kondisi `if` tidak.
-            if [ -s "$NVM_DIR/nvm.sh" ]; then . "$NVM_DIR/nvm.sh"; fi
+            # Dua penjaga di satu baris ini, keduanya wajib di bawah `set -e`:
+            #
+            # 1. `if`, bukan `[ -s ... ] && ...` — test yang bernilai false
+            #    menghentikan skrip, sedangkan kondisi `if` tidak.
+            # 2. `|| true` pada sourcing-nya — di server yang nvm-nya belum
+            #    punya alias `default`, nvm.sh sendiri selesai dengan status 3
+            #    secara senyap (di dalamnya nvm memakai --silent). Tanpa ini
+            #    deploy mati tepat di baris ini tanpa pesan apa pun.
+            if [ -s "$NVM_DIR/nvm.sh" ]; then . "$NVM_DIR/nvm.sh" || true; fi
+
+            echo "🟩 nvm: $(command -v nvm || echo 'TIDAK DITEMUKAN')"
 
             # `install`, bukan `use`. Di server yang Node 20.20.0-nya belum
             # ada, `nvm use` keluar dengan status 3 dan deploy mati sebelum
             # satu baris pun jalan. `nvm install` memasang kalau belum ada,
             # dan hanya mengaktifkan kalau sudah ada.
             nvm install 20.20.0
+            echo "🟩 node: $(node -v) | pnpm: $(command -v pnpm || echo 'TIDAK DITEMUKAN') | pm2: $(command -v pm2 || echo 'TIDAK DITEMUKAN')"
 
             cd /var/www/sibubuhapp
 
