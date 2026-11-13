@@ -78,5 +78,29 @@ jobs:
 
             pm2 save
 
+            # `pm2 startOrReload` keluar dengan status 0 begitu perintah
+            # reload terkirim — bukan setelah aplikasinya benar-benar hidup.
+            # Tanpa pemeriksaan ini, deploy dilaporkan hijau walau situsnya
+            # 502 karena prosesnya crash-loop.
+            echo "🩺 Health check"
+            sleep 5
+            for app in frontend strapi-backend; do
+              # grep '^\[' membuang baris peringatan pm2 yang ikut ke stdout
+              # dan merusak JSON-nya.
+              status=$(pm2 jlist 2>/dev/null | grep -m1 '^\[' | node -e "
+                let s=''
+                process.stdin.on('data', d => s += d).on('end', () => {
+                  const app = JSON.parse(s || '[]').find(p => p.name === process.argv[1])
+                  console.log(app ? app.pm2_env.status : 'missing')
+                })
+              " "$app")
+              echo "   $app → $status"
+              if [ "$status" != "online" ]; then
+                echo "❌ $app tidak online. 50 baris log terakhir:"
+                pm2 logs "$app" --lines 50 --nostream || true
+                exit 1
+              fi
+            done
+
             echo "♻️ Reload nginx"
             sudo systemctl reload nginx
