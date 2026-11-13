@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { retryImageWithoutCors, VHSHero } from "../src/components/ui/VHSHero";
 
 const BASE_URL = import.meta.env.VITE_PUBLIC_STRAPI_CMS_BASE_URL;
 
@@ -103,22 +104,27 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
 					)}
 				</div>
 
-				{/* Image panel */}
+				{/* Image panel — hanya panel gambar yang dibungkus VHS supaya kolom
+				    teks dan tombol navigasi slider tetap DOM murni & interaktif. */}
 				<div className="lg:col-span-6">
-					<div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-muted shadow-card sm:aspect-[16/10] lg:aspect-[4/5]">
-						<AnimatePresence>
-							<motion.img
-								key={active.id}
-								src={resolveSrc(active.img)}
-								alt=""
-								initial={{ opacity: 0 }}
-								animate={{ opacity: 1 }}
-								exit={{ opacity: 0 }}
-								transition={{ duration: fade }}
-								className="absolute inset-0 h-full w-full object-cover"
-							/>
-						</AnimatePresence>
-					</div>
+					<VHSHero className="relative aspect-[4/3] overflow-hidden rounded-xl bg-muted shadow-card sm:aspect-[16/10] lg:aspect-[4/5]">
+						<div className="relative h-full w-full">
+							<AnimatePresence>
+								<motion.img
+									key={active.id}
+									src={resolveSrc(active.img)}
+									alt=""
+									crossOrigin="anonymous"
+									onError={retryImageWithoutCors}
+									initial={{ opacity: 0 }}
+									animate={{ opacity: 1 }}
+									exit={{ opacity: 0 }}
+									transition={{ duration: fade }}
+									className="absolute inset-0 h-full w-full object-cover"
+								/>
+							</AnimatePresence>
+						</div>
+					</VHSHero>
 				</div>
 			</div>
 		</section>

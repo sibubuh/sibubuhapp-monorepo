@@ -89,6 +89,113 @@
   scrollbar-width: none;
 }
 
+/* === Efek VHS versi CSS ===
+   Dipakai src/components/ui/VHSHero.tsx di browser tanpa html-in-canvas
+   (Safari, Firefox, dan semua browser mobile). Shader WebGL canvasui tidak
+   menghasilkan apa pun di sana, jadi nuansa retronya ditiru dengan layer CSS.
+   Semua layer pointer-events: none supaya konten di bawahnya tetap interaktif.
+   Animasi otomatis berhenti lewat blok prefers-reduced-motion di bawah. */
+
+.vhs-fx {
+  position: relative;
+  /* Kurung mix-blend-mode layer grain supaya tidak bocor ke section lain */
+  isolation: isolate;
+}
+
+.vhs-fx-content {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  animation: vhs-fx-jitter 0.45s steps(1, end) infinite;
+}
+
+.vhs-fx-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Garis scanline CRT */
+.vhs-fx-scanlines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgb(0 0 0 / 0.16) 0px,
+    rgb(0 0 0 / 0.16) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* Butiran statik: petak noise SVG yang digeser tiap frame */
+.vhs-fx-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  opacity: 0.18;
+  mix-blend-mode: overlay;
+  animation: vhs-fx-grain 0.5s steps(1, end) infinite;
+}
+
+/* Pita head-switching yang merayap turun */
+.vhs-fx-roll {
+  /* top: 0 eksplisit — kalau top dibiarkan auto, posisinya jatuh ke static
+     position di bawah konten dan animasi translateY-nya mulai dari tempat
+     yang salah. */
+  inset: 0 0 auto 0;
+  height: 14%;
+  background-image: linear-gradient(
+    to bottom,
+    transparent,
+    rgb(255 255 255 / 0.05) 35%,
+    rgb(255 255 255 / 0.1) 50%,
+    rgb(255 255 255 / 0.05) 65%,
+    transparent
+  );
+  animation: vhs-fx-roll 7s linear infinite;
+}
+
+@keyframes vhs-fx-jitter {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  33% {
+    transform: translate3d(-0.5px, 0, 0);
+  }
+  66% {
+    transform: translate3d(0.5px, 0, 0);
+  }
+}
+
+@keyframes vhs-fx-grain {
+  0% {
+    background-position: 0 0;
+  }
+  20% {
+    background-position: -30px 20px;
+  }
+  40% {
+    background-position: 25px -35px;
+  }
+  60% {
+    background-position: -20px -25px;
+  }
+  80% {
+    background-position: 35px 15px;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+@keyframes vhs-fx-roll {
+  from {
+    transform: translateY(-120%);
+  }
+  to {
+    transform: translateY(820%);
+  }
+}
+
 /* Smooth theme switching: only animate while the theme is being toggled */
 html.theme-transition,
 html.theme-transition *,
