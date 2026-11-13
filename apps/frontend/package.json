@@ -6,7 +6,7 @@
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
-		"start": "node dist/server/server.js",
+		"start": "node server.mjs",
 		"cleanup": "pnpm dlx del-cli node_modules .output .vinxi dist tests-results",
 		"update-deps": "npm-check-updates --configFileName .ncurc.json",
 		"test-report": "pnpm dlx serve tests-results -l 9000 -s -n -C",
