@@ -28,10 +28,12 @@ jobs:
             export PATH=$PATH:$HOME/.local/share/pnpm
 
             export NVM_DIR="$HOME/.nvm"
-            # Dua penjaga di satu baris ini, keduanya wajib di bawah `set -e`:
+            # Dua penjaga di satu baris ini. script_stop menyisipkan penjaga
+            # exit code di antara baris-baris skrip, jadi baris mana pun yang
+            # berakhir non-nol langsung menghentikan deploy:
             #
             # 1. `if`, bukan `[ -s ... ] && ...` — test yang bernilai false
-            #    menghentikan skrip, sedangkan kondisi `if` tidak.
+            #    membuat barisnya non-nol, sedangkan kondisi `if` tidak.
             # 2. `|| true` pada sourcing-nya — di server yang nvm-nya belum
             #    punya alias `default`, nvm.sh sendiri selesai dengan status 3
             #    secara senyap (di dalamnya nvm memakai --silent). Tanpa ini
