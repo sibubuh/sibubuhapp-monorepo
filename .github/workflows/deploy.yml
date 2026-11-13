@@ -16,11 +16,22 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
+          # Tanpa ini, action memakai exit code perintah TERAKHIR saja — build
+          # yang gagal tetap dilaporkan sukses asal `systemctl reload nginx`
+          # di baris akhir berhasil.
+          script_stop: true
+          # Default-nya 10m. pnpm install + build frontend + build Strapi di VPS
+          # (apalagi tanpa cache setelah ganti server) gampang melewatinya dan
+          # job terbunuh di tengah build.
+          command_timeout: 30m
           script: |
             export PATH=$PATH:$HOME/.local/share/pnpm
 
             export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+            # Ditulis sebagai `if`, bukan `[ -s ... ] && ...`. script_stop
+            # menjalankan skrip dengan `set -e`, dan di sana test yang bernilai
+            # false menghentikan skrip — sedangkan kondisi `if` tidak.
+            if [ -s "$NVM_DIR/nvm.sh" ]; then . "$NVM_DIR/nvm.sh"; fi
 
             nvm use 20.20.0
 
