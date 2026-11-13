@@ -33,7 +33,11 @@ jobs:
             # false menghentikan skrip — sedangkan kondisi `if` tidak.
             if [ -s "$NVM_DIR/nvm.sh" ]; then . "$NVM_DIR/nvm.sh"; fi
 
-            nvm use 20.20.0
+            # `install`, bukan `use`. Di server yang Node 20.20.0-nya belum
+            # ada, `nvm use` keluar dengan status 3 dan deploy mati sebelum
+            # satu baris pun jalan. `nvm install` memasang kalau belum ada,
+            # dan hanya mengaktifkan kalau sudah ada.
+            nvm install 20.20.0
 
             cd /var/www/sibubuhapp
 
@@ -51,7 +55,11 @@ jobs:
             NODE_OPTIONS="--max-old-space-size=2048" pnpm --filter ./apps/backend build
 
             echo "🚀 Restart backend & Frontend"
-            pm2 reload frontend && pm2 reload strapi-backend
+            # `pm2 reload <nama>` gagal kalau prosesnya belum pernah di-start —
+            # persis yang terjadi di server baru. `startOrReload` memakai
+            # ecosystem.config.js di root repo: start kalau belum ada,
+            # graceful reload kalau sudah jalan.
+            pm2 startOrReload ecosystem.config.js --update-env
 
             pm2 save
 
