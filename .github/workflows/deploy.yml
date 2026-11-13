@@ -82,25 +82,21 @@ jobs:
             # reload terkirim — bukan setelah aplikasinya benar-benar hidup.
             # Tanpa pemeriksaan ini, deploy dilaporkan hijau walau situsnya
             # 502 karena prosesnya crash-loop.
+            # PENTING: setiap perintah di bawah ini WAJIB muat dalam satu baris.
+            # script_stop bekerja dengan menyisipkan penjaga exit code
+            # (DRONE_SSH_PREV_COMMAND_EXIT_CODE=...) di ANTARA baris-baris
+            # skrip, jadi string yang membentang beberapa baris akan disisipi
+            # di tengah dan rusak.
+            #
+            # Mengecek port, bukan status pm2: ini menguji persis apa yang
+            # dilihat nginx, jadi 502 tidak mungkin lolos sebagai "hijau".
             echo "🩺 Health check"
-            sleep 5
-            for app in frontend strapi-backend; do
-              # grep '^\[' membuang baris peringatan pm2 yang ikut ke stdout
-              # dan merusak JSON-nya.
-              status=$(pm2 jlist 2>/dev/null | grep -m1 '^\[' | node -e "
-                let s=''
-                process.stdin.on('data', d => s += d).on('end', () => {
-                  const app = JSON.parse(s || '[]').find(p => p.name === process.argv[1])
-                  console.log(app ? app.pm2_env.status : 'missing')
-                })
-              " "$app")
-              echo "   $app → $status"
-              if [ "$status" != "online" ]; then
-                echo "❌ $app tidak online. 50 baris log terakhir:"
-                pm2 logs "$app" --lines 50 --nostream || true
-                exit 1
-              fi
-            done
+            for i in $(seq 1 30); do curl -fsS -o /dev/null "http://127.0.0.1:3000/" && break || sleep 2; done
+            curl -fsS -o /dev/null "http://127.0.0.1:3000/" || { echo "❌ frontend (port 3000) tidak merespons"; pm2 logs frontend --err --lines 50 --nostream || true; exit 1; }
+            echo "   ✓ frontend (3000) merespons"
+            for i in $(seq 1 45); do curl -fsS -o /dev/null "http://127.0.0.1:3080/admin" && break || sleep 2; done
+            curl -fsS -o /dev/null "http://127.0.0.1:3080/admin" || { echo "❌ strapi-backend (port 3080) tidak merespons"; pm2 logs strapi-backend --err --lines 50 --nostream || true; exit 1; }
+            echo "   ✓ strapi-backend (3080) merespons"
 
             echo "♻️ Reload nginx"
             sudo systemctl reload nginx
