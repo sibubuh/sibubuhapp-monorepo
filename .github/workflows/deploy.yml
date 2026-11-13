@@ -24,14 +24,7 @@ jobs:
           # (apalagi tanpa cache setelah ganti server) gampang melewatinya dan
           # job terbunuh di tengah build.
           command_timeout: 30m
-          # Sementara: cetak detail koneksi SSH dan perintah yang dijalankan.
-          # Dilepas lagi setelah deploy hijau.
-          debug: true
           script: |
-            # Probe paling awal. Kalau baris ini saja tidak muncul di log,
-            # berarti sesi SSH-nya yang bermasalah, bukan isi skripnya.
-            echo "✅ SSH OK — user=$(whoami) host=$(hostname) shell=$SHELL pwd=$(pwd)"
-
             export PATH=$PATH:$HOME/.local/share/pnpm
 
             export NVM_DIR="$HOME/.nvm"
