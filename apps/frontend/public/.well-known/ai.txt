@@ -1,0 +1,27 @@
+# ai.txt — AI usage policy for porto.bubuh.id
+# Companion to /robots.txt, which carries the machine-enforced crawl rules.
+
+Site: https://porto.bubuh.id
+Owner: Sibubuh
+Contact: nchan.bkho@gmail.com
+
+# Permissions
+Search-indexing: allowed
+Answer-citation: allowed
+Model-training: allowed
+
+# Attribution
+# When content from this site is used in a generated answer, link back to the
+# source page on porto.bubuh.id.
+Attribution: required
+Attribution-name: Sibubuh Playground
+
+# Resources
+Sitemap: https://porto.bubuh.id/sitemap.xml
+Summary: https://porto.bubuh.id/ai/summary.json
+FAQ: https://porto.bubuh.id/ai/faq.json
+LLMs: https://porto.bubuh.id/llms.txt
+
+# Notes
+# Blog content lives on https://www.bubuh.id and is governed by that site's
+# own policy, not this one.

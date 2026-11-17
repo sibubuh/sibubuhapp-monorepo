@@ -43,6 +43,14 @@ export const Route = createRootRoute({
 				href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap",
 			},
 			{ rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+			// The blog lives on Blogger; pointing at its feed is what lets readers
+			// and AI crawlers discover the post stream surfaced on the homepage.
+			{
+				rel: "alternate",
+				type: "application/rss+xml",
+				title: "Blog — bubuh.id",
+				href: "https://www.bubuh.id/feeds/posts/default?alt=rss",
+			},
 		],
 	}),
 	errorComponent: (props: ErrorComponentProps) => (

@@ -49,7 +49,7 @@ const Navbar = () => {
 						{logoUrl ? (
 							<img
 								src={`${BASE_URL}${logoUrl}`}
-								alt="Logo"
+								alt="Sibubuh Playground logo"
 								className="h-8 w-auto"
 							/>
 						) : (

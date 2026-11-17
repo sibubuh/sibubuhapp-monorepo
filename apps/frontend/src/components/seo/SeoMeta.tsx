@@ -1,6 +1,14 @@
 import { useEffect } from "react";
 import { SITE_NAME } from "../../../config/metadata";
 
+/**
+ * @deprecated Unused — safe to delete.
+ *
+ * On React 18 these tags render inside <body> instead of <head>, which means
+ * Google ignores any rel=canonical emitted this way. Routes now build their
+ * metadata with `buildSeoHead()` in the route's `head()` option, so TanStack
+ * emits it through <HeadContent /> inside <head>.
+ */
 interface SeoMetaProps {
 	title?: string;
 	description?: string;

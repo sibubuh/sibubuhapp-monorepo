@@ -2,7 +2,30 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { getProject } from "../../../services/api";
 import ProjectDetail from "../../components/projects/ProjectDetail";
-import { SeoMeta } from "../../components/seo";
+import {
+  JsonLd,
+  buildBreadcrumbSchema,
+  buildCreativeWorkSchema,
+  buildGraph,
+  buildSeoHead,
+} from "../../components/seo";
+
+/** Strapi rich text arrives as nested blocks; meta tags need flat prose. */
+function toPlainText(content: unknown): string {
+  if (!content) return "";
+  if (typeof content === "string") return content.replace(/<[^>]*>/g, "").trim();
+  if (Array.isArray(content)) return content.map(toPlainText).join(" ").trim();
+  if (typeof content === "object" && "children" in content)
+    return toPlainText((content as Record<string, unknown>).children);
+  if (typeof content === "object" && "text" in content)
+    return ((content as Record<string, unknown>).text as string) || "";
+  return "";
+}
+
+function truncate(text: string, max = 160): string {
+  if (text.length <= max) return text;
+  return `${text.slice(0, max - 1).trimEnd()}…`;
+}
 
 export const Route = createFileRoute("/projects/$slug")({
   // ✅ LOADER
@@ -24,6 +47,22 @@ export const Route = createFileRoute("/projects/$slug")({
       console.error("Error loading project:", error);
       return { project: null, slug };
     }
+  },
+
+  head: ({ loaderData, params }) => {
+    const project = (loaderData as { project?: any } | undefined)?.project;
+    const description = truncate(toPlainText(project?.description));
+
+    return buildSeoHead({
+      path: `/projects/${params.slug}`,
+      title: project ? `${project.title} - Projects` : "Project not found",
+      description: description || "Project details and gallery",
+      image: project?.cover?.image?.url ?? project?.cover?.[0]?.image?.url,
+      type: "article",
+      publishedTime: project?.createdAt,
+      modifiedTime: project?.updatedAt,
+      noIndex: !project,
+    });
   },
 
   component: ProjectPage,
@@ -85,9 +124,23 @@ function ProjectPage() {
   // ✅ PAGE
   return (
     <>
-      <SeoMeta
-        title={`${project.title} - Projects`}
-        description="Project details and gallery"
+      <JsonLd
+        data={buildGraph([
+          buildCreativeWorkSchema({
+            title: project.title,
+            slug: project.slug ?? slug,
+            description: truncate(toPlainText(project.description), 300),
+            category: project.category,
+            image: project.cover?.image?.url ?? project.cover?.[0]?.image?.url,
+            createdAt: project.createdAt,
+            updatedAt: project.updatedAt,
+          }),
+          buildBreadcrumbSchema([
+            { name: "Home", path: "/" },
+            { name: "Projects", path: "/projects" },
+            { name: project.title, path: `/projects/${project.slug ?? slug}` },
+          ]),
+        ])}
       />
 
       <div className="w-full">

@@ -77,12 +77,21 @@ function ProjectCard({
 	);
 }
 
-export default function PortfolioSlider() {
-	const [projects, setProjects] = useState<Project[]>([]);
-	const [loading, setLoading] = useState(true);
+/**
+ * `initialProjects` comes from the route loader so the project titles and
+ * descriptions ship in the server-rendered HTML — these are the richest
+ * citable text on the homepage, and a useEffect fetch hides them from crawlers.
+ */
+export default function PortfolioSlider({
+	initialProjects,
+}: { initialProjects?: Project[] } = {}) {
+	const [projects, setProjects] = useState<Project[]>(initialProjects ?? []);
+	const [loading, setLoading] = useState(!initialProjects);
 	const BASE_URL = import.meta.env.VITE_PUBLIC_STRAPI_CMS_BASE_URL;
 
 	useEffect(() => {
+		if (initialProjects) return;
+
 		const fetchProjects = async () => {
 			try {
 				const { data } = await getProjects({ locale: null, limit: 6 });
@@ -94,7 +103,7 @@ export default function PortfolioSlider() {
 			}
 		};
 		fetchProjects();
-	}, []);
+	}, [initialProjects]);
 
 	return (
 		<section className="relative py-24 md:py-32 bg-background">

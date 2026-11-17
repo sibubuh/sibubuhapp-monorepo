@@ -16,7 +16,9 @@ async function fetchFromRSS2JSON(limit: number): Promise<BubuhBlogFeed> {
 	console.log(`[BubuhAPI] Fetching from: ${RSS2JSON_BASE}`);
 
 	try {
-		const response = await fetch(url);
+		// This now runs during SSR for the homepage, so a third-party stall would
+		// hold the whole response open. Bail out and render without the feed.
+		const response = await fetch(url, { signal: AbortSignal.timeout(5000) });
 		const data = await response.json();
 
 		if (data.status !== "ok") {

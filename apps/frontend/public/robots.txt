@@ -1,0 +1,85 @@
+# robots.txt — porto.bubuh.id
+#
+# Policy: open to AI *search* crawlers (the ones that can cite this site in an
+# answer) and open to AI *training* crawlers. Flip a training bot to
+# "Disallow: /" if that policy changes — the vendors below document separate
+# agents for training and search, so blocking training does not remove the
+# site from AI search results.
+
+# ─── Classic search ───
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+# ─── AI search / citation ───
+# OpenAI — ChatGPT search citations
+User-agent: OAI-SearchBot
+Allow: /
+
+# OpenAI — on-demand fetch when a user shares a link
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic — Claude search citations
+User-agent: Claude-SearchBot
+Allow: /
+
+# Anthropic — on-demand fetch
+User-agent: Claude-User
+Allow: /
+
+# Perplexity — search index
+User-agent: PerplexityBot
+Allow: /
+
+# Perplexity — on-demand fetch
+User-agent: Perplexity-User
+Allow: /
+
+# ─── AI training ───
+# Google — Gemini/Vertex training and grounding. Does not affect Google Search
+# or AI Overviews, which follow Googlebot above.
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# ─── Social preview unfurling ───
+User-agent: facebookexternalhit
+Allow: /
+
+# ─── Everything else ───
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /login
+Disallow: /api/
+
+Sitemap: https://porto.bubuh.id/sitemap.xml
