@@ -21,27 +21,27 @@ A personal playground, not a corporate agency site: one place where the owner's 
 ## Operating Context
 
 - Content is authored in Strapi 5 CMS (`apps/backend`); the TanStack Start frontend (`apps/frontend`) renders pages from dynamic Strapi sections.
-- Blog posts are not stored in Strapi; they are pulled live from the Blogger blog at `bubuh.id` through RSS2JSON.
+- Blog posts now live in Strapi as the `story` collection type, imported from the Blogger blog at `bubuh.id` with the original slugs preserved (see `apps/backend/scripts/scrape-blogspot.mjs` and `import-stories.cjs`). The legacy RSS2JSON path still powers `RecentBlogsSection` until that section is switched over to `story`.
 - Local development: `pnpm dev` (frontend + backend), Docker Compose for backing services (`compose.yaml`).
 
 ## Capabilities and Constraints
 
-- Frontend: TanStack Start + TanStack Router, React 18, Tailwind 4, framer-motion/motion, lottie-react, lucide-react. SSR routes: home (`/`), generic CMS pages (`/$slug`), projects (`/projects`, `/projects/$slug`), plus `/dashboard` and `/login` utility routes.
-- Backend: Strapi 5 with collection types (page, post, project, client, home-slider, social-media, navbar, footer, share-button, web-intro, analytic) and ~27 section components for the page dynamic zone; i18n plugin enabled (localized content).
+- Frontend: TanStack Start + TanStack Router, React 18, Tailwind 4, framer-motion/motion, lottie-react, lucide-react. SSR routes: home (`/`), generic CMS pages (`/$slug`), projects (`/projects`, `/projects/$slug`), stories (`/stories`, `/stories/$slug`; the legacy Blogger URLs `/$year/$month/$slug.html` 301-redirect there), plus `/dashboard` and `/login` utility routes.
+- Backend: Strapi 5 with collection types (page, post, story, project, client, home-slider, social-media, navbar, footer, share-button, web-intro, analytic) and ~27 section components for the page dynamic zone; i18n plugin enabled (localized content).
 - Blog feed is client-side via RSS2JSON with a 5-minute cache; keeping the `VITE_RSS2JSON_API_KEY` client-side is a deliberate decision (source data is a public Blogger feed, not Strapi data).
 - Open decisions: the `/dashboard` and `/login` routes are minimal utility pages (health-check demo); no confirmed product plan for a richer dashboard.
 
 ## Brand Commitments
 
 - The name "Sibubuh" / "Sibubuh Playground" is binding.
-- The blog feed must come from bubuh.id (Blogger) — keep it as the story source.
+- The blog content originates from bubuh.id (Blogger) and stays the story source; it is now mirrored into Strapi rather than fetched live. The original bubuh.id URLs are preserved on each story (`blogspotUrl` / `blogspotPath`) and keep working as 301 redirects to `/stories/<slug>`.
 - Everything else stays "tetap sama" per the owner: preserve the incumbent identity while the presentation gets fresher and more interactive.
 
 ## Evidence on Hand
 
 - Existing implementation: full frontend + Strapi content types in this monorepo (see `apps/`).
 - Existing performance/security analysis with agreed priorities: `plan.md` (dependency upgrades, lazy loading, code splitting, sanitization, CSP).
-- Real client/partner content lives in Strapi (`client`, `home-slider`, `project` types); blog content is live on bubuh.id.
+- Real client/partner content lives in Strapi (`client`, `home-slider`, `project` types); blog content is imported into Strapi as `story`, sourced from bubuh.id.
 - Absences future work must not fabricate: no testimonials, pricing, press coverage, or client lists exist in the repo — only what Strapi content actually provides.
 
 ## Product Principles

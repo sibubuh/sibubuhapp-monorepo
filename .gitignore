@@ -135,3 +135,6 @@ TODO.md
 
 # Expo
 .expo
+
+# Blogspot import artefacts (images are large; stories.json is committed)
+apps/backend/database/seeds/media/

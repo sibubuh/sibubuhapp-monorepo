@@ -13,6 +13,7 @@ import {
 	Project,
 	ShareButton,
 	SocialMedia,
+	Story,
 	ImageType,
 } from "../types";
 
@@ -281,6 +282,110 @@ export async function getRelatedNews({
 		multipleData: true,
 		populate: ["thumbnail"],
 	});
+}
+
+/**
+ * Stories are the bubuh.id blog posts imported into Strapi. The collection is
+ * not localized, so these talk to the API directly instead of going through
+ * getDataWithLocalization.
+ */
+export async function getStories({
+	limit,
+	page,
+	label,
+}: {
+	limit: number;
+	page: number;
+	label?: string;
+}): Promise<DataPagination<Story> | null> {
+	const query = {
+		filters: label ? { labels: { $contains: label } } : undefined,
+		pagination: {
+			pageSize: limit,
+			page: page,
+			withCount: true,
+		},
+		sort: ["publishedDate:desc"],
+		populate: ["thumbnail"],
+	};
+
+	return await fetchWithAuth(
+		`/api/stories?${QueryString.stringify(query, { skipNulls: true })}`,
+	);
+}
+
+export async function getStoryDetail({
+	slug,
+}: {
+	slug: string;
+}): Promise<Story | null> {
+	const query = {
+		filters: {
+			slug: {
+				$eq: slug,
+			},
+		},
+		populate: ["thumbnail", "seo", "seo.metaImage"],
+	};
+
+	const result: DataPagination<Story> | null = await fetchWithAuth(
+		`/api/stories?${QueryString.stringify(query, { skipNulls: true })}`,
+	);
+
+	return result?.data?.[0] ?? null;
+}
+
+/**
+ * Looks a story up by its Blogger path (`/2025/12/my-post.html`), which is what
+ * the `/$year/$month/$slug` route carries. Falls back to the slug so a story
+ * created by hand in Strapi — with no Blogger path — still resolves.
+ */
+export async function getStoryByPath({
+	path,
+	slug,
+}: {
+	path: string;
+	slug: string;
+}): Promise<Story | null> {
+	const byPath: DataPagination<Story> | null = await fetchWithAuth(
+		`/api/stories?${QueryString.stringify(
+			{
+				filters: { blogspotPath: { $eq: path } },
+				populate: ["thumbnail", "seo", "seo.metaImage"],
+			},
+			{ skipNulls: true },
+		)}`,
+	);
+
+	if (byPath?.data?.[0]) return byPath.data[0];
+
+	return await getStoryDetail({ slug });
+}
+
+export async function getRelatedStories({
+	limit,
+	currentStory,
+}: {
+	limit: number;
+	currentStory?: Story;
+}): Promise<DataPagination<Story> | null> {
+	const query = {
+		filters: {
+			slug: {
+				$ne: currentStory?.slug,
+			},
+		},
+		pagination: {
+			pageSize: limit,
+			page: 1,
+		},
+		sort: ["publishedDate:desc"],
+		populate: ["thumbnail"],
+	};
+
+	return await fetchWithAuth(
+		`/api/stories?${QueryString.stringify(query, { skipNulls: true })}`,
+	);
 }
 
 /**

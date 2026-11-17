@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SITE_URL } from "../../config/metadata";
-import { getPageSlugs, getProjects } from "../../services/api";
+import { storyPath } from "../../libs/story";
+import { getPageSlugs, getProjects, getStories } from "../../services/api";
 
 type SitemapEntry = {
 	path: string;
@@ -47,17 +48,19 @@ export const Route = createFileRoute("/sitemap.xml")({
 	server: {
 		handlers: {
 			GET: async () => {
-				const [projectsResult, pageSlugs] = await Promise.all([
+				const [projectsResult, pageSlugs, storiesResult] = await Promise.all([
 					getProjects({ locale: null, limit: 200 }).catch(() => ({
 						data: [],
 						total: 0,
 					})),
 					getPageSlugs().catch(() => []),
+					getStories({ limit: 500, page: 1 }).catch(() => null),
 				]);
 
 				const entries: SitemapEntry[] = [
 					{ path: "/", changefreq: "weekly", priority: "1.0" },
 					{ path: "/projects", changefreq: "weekly", priority: "0.9" },
+					{ path: "/stories", changefreq: "weekly", priority: "0.9" },
 					...pageSlugs.map((page) => ({
 						path: `/${page.slug}`,
 						lastmod: page.updatedAt,
@@ -69,6 +72,12 @@ export const Route = createFileRoute("/sitemap.xml")({
 						lastmod: project.updatedAt || project.createdAt,
 						changefreq: "monthly",
 						priority: "0.8",
+					})),
+					...(storiesResult?.data ?? []).map((story) => ({
+						path: storyPath(story),
+						lastmod: story.updatedDate || story.publishedDate,
+						changefreq: "monthly",
+						priority: "0.7",
 					})),
 				];
 

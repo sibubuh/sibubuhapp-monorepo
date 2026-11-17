@@ -120,6 +120,44 @@ export function buildCreativeWorkSchema(project: {
 	};
 }
 
+/**
+ * A story imported from the bubuh.id blog. `url` is passed in rather than
+ * derived, because story URLs mirror Blogger's `/YYYY/MM/slug.html` shape.
+ */
+export function buildBlogPostingSchema(story: {
+	title: string;
+	path: string;
+	description?: string;
+	image?: string;
+	keywords?: string[];
+	publishedDate?: string;
+	updatedDate?: string;
+	wordCount?: number;
+}) {
+	const url = absoluteUrl(story.path);
+	return {
+		"@type": "BlogPosting",
+		"@id": `${url}#story`,
+		url,
+		mainEntityOfPage: { "@type": "WebPage", "@id": url },
+		headline: story.title,
+		...(story.description ? { description: story.description } : {}),
+		...(story.image ? { image: story.image } : {}),
+		...(story.keywords?.length ? { keywords: story.keywords.join(", ") } : {}),
+		...(story.publishedDate ? { datePublished: story.publishedDate } : {}),
+		...(story.updatedDate
+			? { dateModified: story.updatedDate }
+			: story.publishedDate
+				? { dateModified: story.publishedDate }
+				: {}),
+		...(story.wordCount ? { wordCount: story.wordCount } : {}),
+		inLanguage: "id",
+		author: { "@id": PERSON_ID },
+		publisher: { "@id": PERSON_ID },
+		isPartOf: { "@id": WEBSITE_ID },
+	};
+}
+
 export function buildItemListSchema(
 	items: Array<{ name: string; path: string }>,
 ) {
