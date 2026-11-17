@@ -4,15 +4,15 @@ import {
 	getHomeSlider,
 	getProjects,
 	getSocialMedia,
+	getStories,
 	getWebIntro,
 } from "../../services/api";
-import { getRecentBubuhBlogs } from "../services/bubuhApi";
 import HeroSlider from "../../ui/HeroSlider";
 import WebIntro from "../components/ui/WebIntro";
 import PortfolioSlider from "../components/ui/PortfolioSlider";
 import SocialMediaSection from "../components/sections/SocialMediaSection";
 import ContactCTA from "../components/ui/ContactCTA";
-import RecentBlogsSection from "../components/sections/RecentBlogsSection";
+import RecentStoriesSection from "../components/sections/RecentStoriesSection";
 import {
 	JsonLd,
 	buildGraph,
@@ -23,7 +23,7 @@ import {
 } from "../components/seo";
 import ClientsParallax from "#/components/ui/ClientSection";
 
-const BLOG_LIMIT = 6;
+const STORY_LIMIT = 6;
 const PROJECT_LIMIT = 6;
 
 function extractStrapiText(content: unknown): string {
@@ -53,7 +53,7 @@ export const Route = createFileRoute("/")({
 	 * own section instead of blanking the page.
 	 */
 	loader: async () => {
-		const [homeSlider, webIntro, projects, client, socialMedia, blogFeed] =
+		const [homeSlider, webIntro, projects, client, socialMedia, stories] =
 			await Promise.all([
 				getHomeSlider({ locale: null }).catch(() => null),
 				getWebIntro({ locale: null }).catch(() => null),
@@ -63,7 +63,7 @@ export const Route = createFileRoute("/")({
 				})),
 				getClient({ locale: null }).catch(() => null),
 				getSocialMedia({ locale: null }).catch(() => null),
-				getRecentBubuhBlogs(BLOG_LIMIT).catch(() => null),
+				getStories({ limit: STORY_LIMIT, page: 1 }).catch(() => null),
 			]);
 
 		return {
@@ -72,7 +72,7 @@ export const Route = createFileRoute("/")({
 			projects: projects?.data ?? [],
 			client,
 			socialMedia,
-			blogPosts: blogFeed?.posts ?? null,
+			stories: stories?.data ?? null,
 		};
 	},
 
@@ -90,7 +90,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-	const { homeSlider, webIntro, projects, client, socialMedia, blogPosts } =
+	const { homeSlider, webIntro, projects, client, socialMedia, stories } =
 		Route.useLoaderData();
 
 	const slides =
@@ -133,12 +133,11 @@ function Index() {
 			/>
 			<HeroSlider slides={slides} />
 			<WebIntro initialData={webIntro} />
-			<RecentBlogsSection
+			<RecentStoriesSection
 				title="My Story"
 				subtitle="Story about me, my work, and my journey in the digital world."
-				limit={BLOG_LIMIT}
 				showViewAll={true}
-				initialPosts={blogPosts}
+				stories={stories}
 			/>
 			<PortfolioSlider initialProjects={projects} />
 			<ClientsParallax initialClient={client} />

@@ -28,13 +28,13 @@ A personal playground, not a corporate agency site: one place where the owner's 
 
 - Frontend: TanStack Start + TanStack Router, React 18, Tailwind 4, framer-motion/motion, lottie-react, lucide-react. SSR routes: home (`/`), generic CMS pages (`/$slug`), projects (`/projects`, `/projects/$slug`), stories (`/stories`, `/stories/$slug`; the legacy Blogger URLs `/$year/$month/$slug.html` 301-redirect there), plus `/dashboard` and `/login` utility routes.
 - Backend: Strapi 5 with collection types (page, post, story, project, client, home-slider, social-media, navbar, footer, share-button, web-intro, analytic) and ~27 section components for the page dynamic zone; i18n plugin enabled (localized content).
-- Blog feed is client-side via RSS2JSON with a 5-minute cache; keeping the `VITE_RSS2JSON_API_KEY` client-side is a deliberate decision (source data is a public Blogger feed, not Strapi data).
+- Stories are server-rendered from Strapi (`/api/stories`). The old RSS2JSON client-side path (`src/services/bubuhApi.ts`, `RecentBlogsSection`, `BubuhBlogCard`) is no longer wired to any route; `VITE_RSS2JSON_API_KEY` is unused.
 - Open decisions: the `/dashboard` and `/login` routes are minimal utility pages (health-check demo); no confirmed product plan for a richer dashboard.
 
 ## Brand Commitments
 
 - The name "Sibubuh" / "Sibubuh Playground" is binding.
-- The blog content originates from bubuh.id (Blogger) and stays the story source; it is now mirrored into Strapi rather than fetched live. The original bubuh.id URLs are preserved on each story (`blogspotUrl` / `blogspotPath`) and keep working as 301 redirects to `/stories/<slug>`.
+- The blog content originates from bubuh.id (Blogger) and stays the story source; it is now mirrored into Strapi rather than fetched live, and the homepage "My Story" section reads from Strapi too. The original bubuh.id URLs are preserved on each story (`blogspotUrl` / `blogspotPath`) and keep working as 301 redirects to `/stories/<slug>`.
 - Everything else stays "tetap sama" per the owner: preserve the incumbent identity while the presentation gets fresher and more interactive.
 
 ## Evidence on Hand
