@@ -29,6 +29,7 @@ export * from "./share-button";
 export * from "./shared";
 export * from "./shareholder";
 export * from "./sitemap";
+export * from "./story";
 export * from "./social-media";
 export * from "./subsidiaries";
 export * from "./support-professional";

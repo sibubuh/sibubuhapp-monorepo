@@ -1,0 +1,82 @@
+{
+  "kind": "collectionType",
+  "collectionName": "stories",
+  "info": {
+    "singularName": "story",
+    "pluralName": "stories",
+    "displayName": "Story",
+    "description": "Blog stories imported from the bubuh.id Blogger blog"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 255
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true,
+      "maxLength": 255
+    },
+    "excerpt": {
+      "type": "text",
+      "maxLength": 500
+    },
+    "content": {
+      "type": "richtext",
+      "required": true
+    },
+    "contentText": {
+      "type": "text"
+    },
+    "thumbnail": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "labels": {
+      "type": "json"
+    },
+    "blogspotId": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "maxLength": 255
+    },
+    "blogspotUrl": {
+      "type": "string",
+      "maxLength": 500
+    },
+    "blogspotPath": {
+      "type": "string",
+      "maxLength": 500
+    },
+    "publishedDate": {
+      "type": "datetime",
+      "required": true
+    },
+    "updatedDate": {
+      "type": "datetime"
+    },
+    "commentCount": {
+      "type": "integer",
+      "default": 0
+    },
+    "author": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}
