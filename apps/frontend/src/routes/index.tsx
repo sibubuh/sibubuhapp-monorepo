@@ -107,6 +107,15 @@ function Index() {
 		.map((item) => item.link)
 		.filter((link): link is string => Boolean(link?.startsWith("http")));
 
+	// The homepage has no date of its own, so the newest project stands in as
+	// its freshness signal — Google's G-DATES check wants one and the value is
+	// true: that is genuinely when this page's content last changed.
+	const dateModified = projects
+		.map((project) => project.updatedAt || project.createdAt)
+		.filter(Boolean)
+		.sort()
+		.at(-1);
+
 	return (
 		<>
 			<JsonLd
@@ -118,6 +127,7 @@ function Index() {
 						name: "Sibubuh Playground",
 						description:
 							"I was built to showcase my work and share my thoughts on various topics.",
+						dateModified,
 					}),
 				])}
 			/>

@@ -24,6 +24,20 @@ export function buildPersonSchema(sameAs: string[] = []) {
 		url: SITE_URL,
 		email: SITE_EMAIL,
 		description: SITE_DESCRIPTION,
+		// A reachable contact point is one of the entity-validation signals AI
+		// engines look for before treating a site as a real, attributable source.
+		contactPoint: {
+			"@type": "ContactPoint",
+			contactType: "Business inquiries",
+			email: SITE_EMAIL,
+			availableLanguage: ["Indonesian", "English"],
+		},
+		address: {
+			"@type": "PostalAddress",
+			addressLocality: "Sukabumi",
+			addressRegion: "West Java",
+			addressCountry: "ID",
+		},
 		// sameAs is what lets the Knowledge Graph tie this site to the same
 		// person on other platforms, so only verified profile URLs belong here.
 		...(sameAs.length > 0 ? { sameAs } : {}),
