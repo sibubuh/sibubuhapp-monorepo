@@ -259,10 +259,20 @@ html.theme-transition *::after {
   font-size: 1.125rem;
 }
 
+/* Blogger links carry inline `color:#000`, invisible in dark mode — `!important`
+ * is the only way to beat an inline style without stripping it in the sanitiser. */
+.story-body a,
+.story-body a * {
+  color: var(--color-primary) !important;
+}
+
 .story-body a {
-  color: var(--color-ink, currentColor);
   text-decoration: underline;
   text-underline-offset: 2px;
+}
+
+.story-body a:hover {
+  opacity: 0.8;
 }
 
 .story-body img {
