@@ -13,6 +13,8 @@ interface RecentBlogsSectionProps {
 	subtitle?: string;
 	limit?: number;
 	showViewAll?: boolean;
+	/** Preloaded by the route loader so post titles and summaries are in the SSR HTML. */
+	initialPosts?: BubuhBlogPost[] | null;
 }
 
 export default function RecentBlogsSection({
@@ -20,11 +22,14 @@ export default function RecentBlogsSection({
 	subtitle = "Artikel terbaru dari blog pribadi seputar fotografi, pariwisata, travel, dan gaya hidup di Sukabumi",
 	limit = 6,
 	showViewAll = true,
+	initialPosts = null,
 }: RecentBlogsSectionProps) {
-	const [posts, setPosts] = useState<BubuhBlogPost[] | null>(null);
+	const [posts, setPosts] = useState<BubuhBlogPost[] | null>(initialPosts);
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
+		if (initialPosts) return;
+
 		async function fetchBlogs() {
 			setError(null);
 
@@ -37,7 +42,7 @@ export default function RecentBlogsSection({
 		}
 
 		fetchBlogs();
-	}, [limit]);
+	}, [limit, initialPosts]);
 
 	return (
 		<section className="bg-muted px-6 py-20 md:py-28">

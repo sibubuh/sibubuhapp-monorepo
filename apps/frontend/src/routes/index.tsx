@@ -1,14 +1,30 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { getHomeSlider } from "../../services/api";
+import {
+	getClient,
+	getHomeSlider,
+	getProjects,
+	getSocialMedia,
+	getWebIntro,
+} from "../../services/api";
+import { getRecentBubuhBlogs } from "../services/bubuhApi";
 import HeroSlider from "../../ui/HeroSlider";
 import WebIntro from "../components/ui/WebIntro";
 import PortfolioSlider from "../components/ui/PortfolioSlider";
 import SocialMediaSection from "../components/sections/SocialMediaSection";
 import ContactCTA from "../components/ui/ContactCTA";
 import RecentBlogsSection from "../components/sections/RecentBlogsSection";
-import { SeoMeta } from "../components/seo";
+import {
+	JsonLd,
+	buildGraph,
+	buildPersonSchema,
+	buildSeoHead,
+	buildWebPageSchema,
+	buildWebSiteSchema,
+} from "../components/seo";
 import ClientsParallax from "#/components/ui/ClientSection";
 
+const BLOG_LIMIT = 6;
+const PROJECT_LIMIT = 6;
 
 function extractStrapiText(content: unknown): string {
 	if (!content) return "";
@@ -27,20 +43,55 @@ function extractStrapiText(content: unknown): string {
 }
 
 export const Route = createFileRoute("/")({
+	/**
+	 * Everything the homepage shows is fetched here rather than in each
+	 * section's useEffect, so it lands in the server-rendered HTML. AI crawlers
+	 * and Googlebot's first pass read that HTML; data arriving after hydration
+	 * is invisible to them.
+	 *
+	 * Each source settles independently — one unreachable endpoint degrades its
+	 * own section instead of blanking the page.
+	 */
 	loader: async () => {
-		try {
-			const homeSlider = await getHomeSlider({ locale: null });
-			return { homeSlider };
-		} catch {
-			// CMS unreachable — render with HeroSlider fallback instead of hard-failing the page.
-			return { homeSlider: null };
-		}
+		const [homeSlider, webIntro, projects, client, socialMedia, blogFeed] =
+			await Promise.all([
+				getHomeSlider({ locale: null }).catch(() => null),
+				getWebIntro({ locale: null }).catch(() => null),
+				getProjects({ locale: null, limit: PROJECT_LIMIT }).catch(() => ({
+					data: [],
+					total: 0,
+				})),
+				getClient({ locale: null }).catch(() => null),
+				getSocialMedia({ locale: null }).catch(() => null),
+				getRecentBubuhBlogs(BLOG_LIMIT).catch(() => null),
+			]);
+
+		return {
+			homeSlider,
+			webIntro,
+			projects: projects?.data ?? [],
+			client,
+			socialMedia,
+			blogPosts: blogFeed?.posts ?? null,
+		};
 	},
+
+	head: () =>
+		buildSeoHead({
+			path: "/",
+			title: "Sibubuh Playground - Find Everything is about me here",
+			description:
+				"I was built to showcase my work and share my thoughts on various topics.",
+			keywords:
+				"Sibubuh, Playground, Portfolio, Blog, Contact, KOL, Influencer, Digital Agency, Web Development, Mobile Apps, UI/UX Design",
+		}),
+
 	component: Index,
 });
 
 function Index() {
-	const { homeSlider } = Route.useLoaderData();
+	const { homeSlider, webIntro, projects, client, socialMedia, blogPosts } =
+		Route.useLoaderData();
 
 	const slides =
 		homeSlider?.slider?.map((s) => ({
@@ -50,24 +101,38 @@ function Index() {
 			img: s.image?.url || "",
 		})) || [];
 
+	// Verified profile URLs from the CMS become sameAs links, which is what
+	// ties this site to the same person elsewhere in the Knowledge Graph.
+	const sameAs = (socialMedia?.social ?? [])
+		.map((item) => item.link)
+		.filter((link): link is string => Boolean(link?.startsWith("http")));
+
 	return (
 		<>
-			<SeoMeta
-				title="Sibubuh Playground - Find Everything is about me here"
-				description="I was built to showcase my work and share my thoughts on various topics."
-				keywords="Sibubuh, Playground, Portfolio, Blog, Contact, KOL, Influencer, Digital Agency, Web Development, Mobile Apps, UI/UX Design"
+			<JsonLd
+				data={buildGraph([
+					buildWebSiteSchema(),
+					buildPersonSchema(sameAs),
+					buildWebPageSchema({
+						path: "/",
+						name: "Sibubuh Playground",
+						description:
+							"I was built to showcase my work and share my thoughts on various topics.",
+					}),
+				])}
 			/>
 			<HeroSlider slides={slides} />
-			<WebIntro />
+			<WebIntro initialData={webIntro} />
 			<RecentBlogsSection
 				title="My Story"
 				subtitle="Story about me, my work, and my journey in the digital world."
-				limit={6}
+				limit={BLOG_LIMIT}
 				showViewAll={true}
+				initialPosts={blogPosts}
 			/>
-			<PortfolioSlider />
-      <ClientsParallax />
-			<SocialMediaSection />
+			<PortfolioSlider initialProjects={projects} />
+			<ClientsParallax initialClient={client} />
+			<SocialMediaSection initialData={socialMedia} />
 
 			<ContactCTA />
 		</>

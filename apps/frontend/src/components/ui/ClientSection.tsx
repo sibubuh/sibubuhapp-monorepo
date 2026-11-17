@@ -8,7 +8,7 @@ import { useRef, useState, useEffect, useMemo } from "react";
 import { getClient } from "../../../services/api";
 import StrapiBlocks from "../sections/StrapiBlocks";
 
-type ClientItem = {
+export type ClientItem = {
   id: number;
   text: string;
   image: {
@@ -20,6 +20,12 @@ type ClientItem = {
     size: number;
   };
 };
+
+export type ClientData = {
+  title?: string;
+  description?: unknown;
+  client_list?: ClientItem[];
+} | null;
 
 type OrbitConfig = {
   rx: number;
@@ -119,7 +125,13 @@ function OrbitingLogo({
 // ------------------------------------------------------------------
 // Main section
 // ------------------------------------------------------------------
-export default function ClientsParallax() {
+/**
+ * `initialClient` comes from the route loader so the section heading and copy
+ * are server-rendered; without it the whole block is empty text to a crawler.
+ */
+export default function ClientsParallax({
+  initialClient = null,
+}: { initialClient?: ClientData } = {}) {
   const ref = useRef(null);
   const [mounted, setMounted] = useState(false);
 
@@ -127,11 +139,17 @@ export default function ClientsParallax() {
     setMounted(true);
   }, []);
 
-  const [clientData, setClientData] = useState<ClientItem[]>([]);
-  const [clientTitle, setClientTitle] = useState("");
-  const [clientDescription, setClientDescription] = useState<unknown>(null);
+  const [clientData, setClientData] = useState<ClientItem[]>(
+    initialClient?.client_list ?? []
+  );
+  const [clientTitle, setClientTitle] = useState(initialClient?.title || "");
+  const [clientDescription, setClientDescription] = useState<unknown>(
+    initialClient?.description ?? null
+  );
 
   useEffect(() => {
+    if (initialClient) return;
+
     const fetchData = async () => {
       const result = await getClient({ locale: null });
       if (result?.client_list) {
@@ -141,7 +159,7 @@ export default function ClientsParallax() {
       }
     };
     fetchData();
-  }, []);
+  }, [initialClient]);
 
   const { scrollYProgress } = useScroll({
     target: ref,

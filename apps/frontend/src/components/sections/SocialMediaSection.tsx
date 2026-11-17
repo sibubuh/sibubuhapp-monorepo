@@ -40,16 +40,25 @@ const skeletonItem = {
 };
 
 /* ─── Main Component ─── */
-const SocialMediaSection = () => {
+/**
+ * `initialData` comes from the route loader. Besides server-rendering the
+ * section, those profile links feed the Person schema's sameAs array on the
+ * homepage, so they need to be fetched server-side anyway.
+ */
+const SocialMediaSection = ({
+  initialData = null,
+}: { initialData?: SocialMedia | null } = {}) => {
   const [active, setActive] = useState<SocialMediaItem | null>(null);
-  const [socialData, setSocialData] = useState<SocialMedia | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [socialData, setSocialData] = useState<SocialMedia | null>(initialData);
+  const [loading, setLoading] = useState(!initialData);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const BASE_URL = import.meta.env.VITE_PUBLIC_STRAPI_CMS_BASE_URL;
 
   // 📦 Fetch data
   useEffect(() => {
+    if (initialData) return;
+
     const fetchData = async () => {
       try {
         const data = await getSocialMedia({ locale: null });
@@ -61,7 +70,7 @@ const SocialMediaSection = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [initialData]);
 
   // ⌨️ ESC to close
   useEffect(() => {

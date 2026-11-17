@@ -1,0 +1,30 @@
+{
+  "url": "https://porto.bubuh.id",
+  "updated": "2026-11-17",
+  "faq": [
+    {
+      "question": "What is Sibubuh Playground?",
+      "answer": "Sibubuh Playground is the personal portfolio and blog site of Sibubuh, an Indonesian web developer and content creator based in Sukabumi, West Java. It brings together project work, client collaborations, social media presence and blog writing in one place."
+    },
+    {
+      "question": "Who runs Sibubuh Playground?",
+      "answer": "It is run by a single person, Sibubuh. The site is a personal playground rather than a corporate agency site."
+    },
+    {
+      "question": "What kind of work is in the portfolio?",
+      "answer": "Projects fall into six categories: Branding, Key Opinion Leader (KOL), Web Development, Social Media Manager, Public Speaking and Educator. Each project page lists its category, year, cover image and description."
+    },
+    {
+      "question": "Where can I read the blog?",
+      "answer": "Blog posts are published at https://www.bubuh.id and cover photography, tourism, travel and lifestyle in Sukabumi. The most recent posts also appear on the Sibubuh Playground homepage."
+    },
+    {
+      "question": "How can I get in touch?",
+      "answer": "By email at nchan.bkho@gmail.com. The contact link is available in the site header and in the contact section at the bottom of the homepage."
+    },
+    {
+      "question": "Where is Sibubuh based?",
+      "answer": "Sukabumi, West Java, Indonesia."
+    }
+  ]
+}

@@ -2,7 +2,13 @@ import { createFileRoute } from "@tanstack/react-router";
 import { getPage } from "../../services/api";
 import { DEFAULT_LANGUAGE_CODE } from "../../config/metadata";
 import SectionRenderer from "../components/sections/SectionRenderer";
-import { SeoMeta } from "../components/seo";
+import {
+	JsonLd,
+	buildBreadcrumbSchema,
+	buildGraph,
+	buildSeoHead,
+	buildWebPageSchema,
+} from "../components/seo";
 
 export const Route = createFileRoute("/$slug")({
   //@ts-ignore
@@ -15,6 +21,21 @@ export const Route = createFileRoute("/$slug")({
 		//return { page };
 //	console.log(`Loaded page for slug: ${slug}`, page);
 	return { page };
+	},
+
+	head: ({ loaderData, params }) => {
+		const page = (loaderData as { page?: any } | undefined)?.page;
+
+		return buildSeoHead({
+			path: `/${params.slug}`,
+			title: page?.seo?.metaTitle || page?.title,
+			description: page?.seo?.metaDescription,
+			keywords: page?.seo?.keywords,
+			image: page?.seo?.metaImage?.url,
+			modifiedTime: page?.updatedAt,
+			// A missing page renders the 404 body below; keep it out of the index.
+			noIndex: !page,
+		});
 	},
 
 	component: PageRoute,
@@ -46,11 +67,19 @@ function PageRoute() {
 	return (
 
 		<>
-			<SeoMeta
-				title={page.seo?.metaTitle || page.title}
-				description={page.seo?.metaDescription}
-				keywords={page.seo?.keywords}
-				image={page.seo?.metaImage?.url}
+			<JsonLd
+				data={buildGraph([
+					buildWebPageSchema({
+						path: `/${page.slug}`,
+						name: page.seo?.metaTitle || page.title,
+						description: page.seo?.metaDescription,
+						dateModified: page.updatedAt,
+					}),
+					buildBreadcrumbSchema([
+						{ name: "Home", path: "/" },
+						{ name: page.title, path: `/${page.slug}` },
+					]),
+				])}
 			/>
 			<main>
 

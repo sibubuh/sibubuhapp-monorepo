@@ -1,0 +1,36 @@
+# Sibubuh Playground
+
+> Personal portfolio and blog of Sibubuh, an Indonesian web developer and content creator based in Sukabumi, West Java. The site collects digital work across web development, mobile apps, UI/UX design and KOL/influencer collaborations, alongside stories from the bubuh.id blog.
+
+Sibubuh Playground is a personal site, not an agency. Project work, client logos, social presence and blog writing live in one place. Portfolio content is managed in Strapi; blog posts are published on Blogger at bubuh.id and pulled into the site through the Blogger feed.
+
+## Main pages
+
+- [Home](https://porto.bubuh.id/): Introduction, featured projects, recent blog posts, clients and social profiles.
+- [Projects](https://porto.bubuh.id/projects): Full portfolio index. Each project lists its category, year, cover image and description.
+
+## Project categories
+
+Projects are grouped under these categories:
+
+- Branding
+- Key Opinion Leader (KOL)
+- Web Development
+- Social Media Manager
+- Public Speaking
+- Educator
+
+## Blog
+
+- [bubuh.id](https://www.bubuh.id): The owner's blog, covering photography, tourism, travel and lifestyle in Sukabumi. Recent posts are surfaced on the Sibubuh Playground homepage; the full archive lives on bubuh.id.
+
+## Contact
+
+- Email: nchan.bkho@gmail.com
+
+## Machine-readable resources
+
+- [Sitemap](https://porto.bubuh.id/sitemap.xml): All indexable URLs.
+- [Site summary (JSON)](https://porto.bubuh.id/ai/summary.json): Structured description of the site.
+- [FAQ (JSON)](https://porto.bubuh.id/ai/faq.json): Common questions about the site and its owner.
+- [AI crawler policy](https://porto.bubuh.id/.well-known/ai.txt): Usage terms for AI agents.

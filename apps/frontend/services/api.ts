@@ -498,6 +498,34 @@ export async function getWebIntro({
 	});
 }
 
+/**
+ * Slug + last-modified pairs for every CMS page, used to build the sitemap.
+ * Deliberately skips `populate` — the sitemap needs no section data, and
+ * pulling the dynamic zone for every page would make the request huge.
+ */
+export async function getPageSlugs(): Promise<
+	Array<{ slug: string; updatedAt?: string }>
+> {
+	const result = (await getDataWithLocalization({
+		endpoint: "/api/pages",
+		locale: null,
+		filters: {},
+		populate: undefined,
+		multipleData: true,
+		pagination: { pageSize: 200, page: 1 },
+		ignoreLocalization: true,
+	})) as Array<Record<string, any>> | null;
+
+	if (!Array.isArray(result)) return [];
+
+	return result
+		.map((item) => {
+			const attrs = item.attributes || item;
+			return { slug: attrs.slug as string, updatedAt: attrs.updatedAt };
+		})
+		.filter((entry) => Boolean(entry.slug));
+}
+
 export async function getRelatedCsr({
 	locale,
 	limit,

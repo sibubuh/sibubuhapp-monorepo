@@ -18,19 +18,27 @@ function extractPlainText(content: unknown): string {
 	return "";
 }
 
-const WebIntro = () => {
-	const [data, setData] = useState<{
-		title: unknown;
-		description: unknown;
-	} | null>(null);
+export type WebIntroData = { title: unknown; description: unknown } | null;
+
+/**
+ * `initialData` comes from the route loader so the copy is server-rendered.
+ * The fetch below stays as a fallback for callers that render this section
+ * without preloading it.
+ */
+const WebIntro = ({
+	initialData = null,
+}: { initialData?: WebIntroData } = {}) => {
+	const [data, setData] = useState<WebIntroData>(initialData);
 
 	useEffect(() => {
+		if (initialData) return;
+
 		const fetchData = async () => {
 			const result = await getWebIntro({ locale: null });
 			setData(result);
 		};
 		fetchData();
-	}, []);
+	}, [initialData]);
 
 	if (!data) return null;
 
