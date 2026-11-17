@@ -31,9 +31,38 @@ export default function StoryDetail({ story }: { story: Story }) {
 
 	return (
 		<article className="bg-background">
-			<header className="px-6 pt-24 pb-10 md:pt-32">
-				<div className="mx-auto max-w-3xl">
-					<div className="mb-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
+			<header
+				className={
+					thumbnail
+						? "relative isolate flex min-h-[70vh] items-end overflow-hidden px-6 pt-32 pb-12 md:min-h-[80vh] md:pb-20"
+						: "px-6 pt-24 pb-10 md:pt-32"
+				}
+			>
+				{thumbnail && (
+					<>
+						<img
+							src={thumbnail}
+							alt=""
+							aria-hidden="true"
+							className="absolute inset-0 -z-20 h-full w-full object-cover"
+						/>
+						{/* Dua lapis: gelap merata + gradasi ke bawah, supaya teks putih tetap
+						    kontras pada cover terang maupun gelap. */}
+						<div className="absolute inset-0 -z-10 bg-black/40" />
+						<div className="absolute inset-0 -z-10 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+					</>
+				)}
+
+				<div
+					className={
+						thumbnail
+							? "relative mx-auto w-full max-w-3xl text-white"
+							: "mx-auto max-w-3xl"
+					}
+				>
+					<div
+						className={`mb-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm ${thumbnail ? "text-white/80" : "text-muted-foreground"}`}
+					>
 						<span className="inline-flex items-center gap-1.5">
 							<Calendar className="h-3.5 w-3.5" />
 							{formatDate(story.publishedDate)}
@@ -51,13 +80,15 @@ export default function StoryDetail({ story }: { story: Story }) {
 						initial={{ opacity: 0, y: 16 }}
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.5 }}
-						className="font-serif text-3xl font-medium leading-tight text-foreground md:text-5xl"
+						className={`font-serif text-3xl font-medium leading-tight md:text-5xl ${thumbnail ? "text-white [text-shadow:0_2px_12px_rgb(0_0_0/0.45)]" : "text-foreground"}`}
 					>
 						{story.title}
 					</motion.h1>
 
 					{story.excerpt && (
-						<p className="mt-5 text-lg leading-relaxed text-muted-foreground">
+						<p
+							className={`mt-5 text-lg leading-relaxed ${thumbnail ? "text-white/85" : "text-muted-foreground"}`}
+						>
 							{story.excerpt}
 						</p>
 					)}
@@ -67,7 +98,7 @@ export default function StoryDetail({ story }: { story: Story }) {
 							{story.labels.map((label) => (
 								<span
 									key={label}
-									className="inline-flex items-center gap-1.5 rounded-full border border-border px-2.5 py-0.5 text-xs text-muted-foreground"
+									className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs ${thumbnail ? "border-white/30 bg-white/10 text-white backdrop-blur-sm" : "border-border text-muted-foreground"}`}
 								>
 									<Tag className="h-3 w-3" />
 									{label}
@@ -77,18 +108,6 @@ export default function StoryDetail({ story }: { story: Story }) {
 					)}
 				</div>
 			</header>
-
-			{thumbnail && (
-				<div className="px-6">
-					<div className="mx-auto max-w-4xl overflow-hidden rounded-xl shadow-card">
-						<img
-							src={thumbnail}
-							alt={story.title}
-							className="h-full w-full object-cover"
-						/>
-					</div>
-				</div>
-			)}
 
 			<div className="px-6 py-12 md:py-16">
 				{/* Blogger markup carries its own inline styles; `story-body` only
