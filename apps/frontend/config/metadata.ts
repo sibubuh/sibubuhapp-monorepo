@@ -1,4 +1,9 @@
-export const SITE_NAME = 'A Sibubuh Playground Portfolio'
+/**
+ * One brand string, used in <title>, og:site_name and the WebSite schema.
+ * AI engines cross-check these against each other; the previous value
+ * ("A Sibubuh Playground Portfolio") matched neither the H1 nor the schema.
+ */
+export const SITE_NAME = 'Sibubuh Playground'
 
 /**
  * Absolute origin used for canonical URLs, Open Graph and JSON-LD.

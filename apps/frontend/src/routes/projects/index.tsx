@@ -20,7 +20,7 @@ export const Route = createFileRoute("/projects/")({
 	head: () =>
 		buildSeoHead({
 			path: "/projects",
-			title: "Projects - Sibubuh",
+			title: "Projects",
 			description:
 				"Explore my portfolio of projects including branding, web development, KOL collaborations, and more.",
 			keywords:

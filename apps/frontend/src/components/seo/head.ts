@@ -62,7 +62,13 @@ export function buildSeoHead(input: SeoHeadInput) {
 		noIndex = false,
 	} = input;
 
-	const fullTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
+	// Skip the suffix when the title already carries the brand, otherwise the
+	// homepage ends up as "Sibubuh Playground ... | Sibubuh Playground".
+	const fullTitle = !title
+		? SITE_NAME
+		: title.includes(SITE_NAME)
+			? title
+			: `${title} | ${SITE_NAME}`;
 	const canonical = absoluteUrl(path);
 	const ogImage = resolveImage(image);
 
