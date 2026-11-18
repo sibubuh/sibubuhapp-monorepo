@@ -3,7 +3,7 @@ import {
   useScroll,
   useTransform,
   useMotionTemplate,
-} from "framer-motion";
+} from "motion/react";
 import { useRef, useState, useEffect, useMemo } from "react";
 import { getClient } from "../../../services/api";
 import { strapiImage, type ResponsiveImage } from "../../../libs/strapi-image";

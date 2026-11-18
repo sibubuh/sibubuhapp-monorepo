@@ -91,8 +91,6 @@ export const Route = createFileRoute("/")({
 		// The hero image is the LCP element and lives on another origin, so the
 		// browser only discovers it after the HTML is parsed. Preconnect opens the
 		// connection early; the preload starts the download before React runs.
-		// crossOrigin must match the <img> in HeroSlider, otherwise the preload
-		// lands in a different cache slot and the image is fetched twice.
 		const heroImage = strapiImage(loaderData?.homeSlider?.slider?.[0]?.image);
 
 		return {
@@ -109,7 +107,6 @@ export const Route = createFileRoute("/")({
 								imagesrcset: heroImage.srcSet,
 								imagesizes: HERO_SIZES,
 								fetchpriority: "high",
-								crossOrigin: "anonymous" as const,
 							},
 						]
 					: []),

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { ArrowLeft, Tag, Calendar } from "lucide-react";
 import type { Project } from "../../../types/project";
 import StrapiBlocks from "../sections/StrapiBlocks";

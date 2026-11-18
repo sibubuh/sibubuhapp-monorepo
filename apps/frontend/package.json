@@ -31,7 +31,6 @@
 		"@tanstack/react-router-devtools": "1.167.2",
 		"@tanstack/react-start": "1.169.1",
 		"consola": "^3.4.2",
-		"framer-motion": "^12.38.0",
 		"googleapis": "^171.4.0",
 		"isomorphic-dompurify": "^4.7.0",
 		"lottie-react": "^2.4.1",

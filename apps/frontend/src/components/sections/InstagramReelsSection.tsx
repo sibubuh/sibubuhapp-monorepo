@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { ImageType } from "../types/image";
 
 const BASE_URL = import.meta.env.VITE_PUBLIC_STRAPI_CMS_BASE_URL;

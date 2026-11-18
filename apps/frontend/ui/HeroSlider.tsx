@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { retryImageWithoutCors, VHSHero } from "../src/components/ui/VHSHero";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { CssVhs } from "../src/components/ui/VHSHero";
 import { resolveStrapiUrl } from "../libs/strapi-image";
 
 interface HeroSlide {
@@ -119,10 +119,13 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
 					)}
 				</div>
 
-				{/* Image panel — hanya panel gambar yang dibungkus VHS supaya kolom
-				    teks dan tombol navigasi slider tetap DOM murni & interaktif. */}
+				{/* Image panel — hanya panel gambar yang kena efek VHS supaya kolom
+				    teks dan tombol navigasi slider tetap DOM murni & interaktif.
+				    Versi CSS, bukan <VHSHero>: shader WebGL-nya ada di critical
+				    path homepage dan menyumbang mayoritas TBT, sementara efek yang
+				    terlihat nyaris sama. */}
 				<div className="lg:col-span-6">
-					<VHSHero className="relative aspect-[4/3] overflow-hidden rounded-xl bg-muted shadow-card sm:aspect-[16/10] lg:aspect-[4/5]">
+					<CssVhs className="relative aspect-[4/3] overflow-hidden rounded-xl bg-muted shadow-card sm:aspect-[16/10] lg:aspect-[4/5]">
 						<div className="relative h-full w-full">
 							{/* initial={false} skips the enter animation on the very first
 							    mount. Without it the LCP image is server-rendered with
@@ -140,8 +143,6 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
 									height={active.height}
 									{...FETCH_PRIORITY_HIGH}
 									decoding="async"
-									crossOrigin="anonymous"
-									onError={retryImageWithoutCors}
 									initial={{ opacity: 0 }}
 									animate={{ opacity: 1 }}
 									exit={{ opacity: 0 }}
@@ -150,7 +151,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
 								/>
 							</AnimatePresence>
 						</div>
-					</VHSHero>
+					</CssVhs>
 				</div>
 			</div>
 		</section>
