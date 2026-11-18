@@ -1,6 +1,6 @@
 {
   "name": "Sibubuh Playground",
-  "url": "https://porto.bubuh.id",
+  "url": "https://bubuh.id",
   "description": "Personal portfolio and blog of Sibubuh, an Indonesian web developer and content creator based in Sukabumi, West Java. Covers web development, mobile apps, UI/UX design and KOL/influencer collaborations.",
   "type": "personal-portfolio",
   "language": "en",
@@ -21,20 +21,18 @@
     "Education"
   ],
   "keyPages": [
-    { "title": "Home", "url": "https://porto.bubuh.id/" },
-    { "title": "Projects", "url": "https://porto.bubuh.id/projects" }
-  ],
-  "relatedSites": [
+    { "title": "Home", "url": "https://bubuh.id/" },
+    { "title": "Projects", "url": "https://bubuh.id/projects" },
     {
-      "title": "bubuh.id",
-      "url": "https://www.bubuh.id",
+      "title": "Stories",
+      "url": "https://bubuh.id/stories",
       "description": "The owner's blog on photography, tourism, travel and lifestyle in Sukabumi."
     }
   ],
   "resources": {
-    "sitemap": "https://porto.bubuh.id/sitemap.xml",
-    "llmsTxt": "https://porto.bubuh.id/llms.txt",
-    "faq": "https://porto.bubuh.id/ai/faq.json",
-    "aiPolicy": "https://porto.bubuh.id/.well-known/ai.txt"
+    "sitemap": "https://bubuh.id/sitemap.xml",
+    "llmsTxt": "https://bubuh.id/llms.txt",
+    "faq": "https://bubuh.id/ai/faq.json",
+    "aiPolicy": "https://bubuh.id/.well-known/ai.txt"
   }
 }

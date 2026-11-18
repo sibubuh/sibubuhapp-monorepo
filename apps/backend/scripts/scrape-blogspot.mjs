@@ -18,7 +18,9 @@ import { mkdir, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const BLOG_URL = "https://www.bubuh.id";
+// www.bubuh.id now serves the frontend, so Blogger is reached by blog id.
+const FEED_BASE =
+	"https://www.blogger.com/feeds/7588128007666021062/posts/default";
 const FEED_PAGE_SIZE = 150;
 const CONCURRENCY = 4;
 const REQUEST_DELAY_MS = 250;
@@ -89,7 +91,7 @@ async function fetchFeedEntries() {
 	let total = Number.POSITIVE_INFINITY;
 
 	while (startIndex <= total) {
-		const url = `${BLOG_URL}/feeds/posts/default?alt=json&max-results=${FEED_PAGE_SIZE}&start-index=${startIndex}`;
+		const url = `${FEED_BASE}?alt=json&max-results=${FEED_PAGE_SIZE}&start-index=${startIndex}`;
 		const feed = JSON.parse(await fetchWithRetry(url)).feed;
 
 		total = Number(feed["openSearch$totalResults"].$t);
