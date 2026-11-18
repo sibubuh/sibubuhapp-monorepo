@@ -7,7 +7,7 @@ import {
 	getStories,
 	getWebIntro,
 } from "../../services/api";
-import HeroSlider from "../../ui/HeroSlider";
+import HeroSlider, { resolveSrc } from "../../ui/HeroSlider";
 import WebIntro from "../components/ui/WebIntro";
 import PortfolioSlider from "../components/ui/PortfolioSlider";
 import SocialMediaSection from "../components/sections/SocialMediaSection";
@@ -22,6 +22,7 @@ import {
 	buildWebSiteSchema,
 } from "../components/seo";
 import ClientsParallax from "#/components/ui/ClientSection";
+import { STRAPI_CMS_BASE_URL } from "../../config/strapi";
 
 const STORY_LIMIT = 6;
 const PROJECT_LIMIT = 6;
@@ -76,15 +77,42 @@ export const Route = createFileRoute("/")({
 		};
 	},
 
-	head: () =>
-		buildSeoHead({
+	head: ({ loaderData }) => {
+		const seo = buildSeoHead({
 			path: "/",
 			title: "Sibubuh Playground - Find Everything is about me here",
 			description:
 				"I was built to showcase my work and share my thoughts on various topics.",
 			keywords:
 				"Sibubuh, Playground, Portfolio, Blog, Contact, KOL, Influencer, Digital Agency, Web Development, Mobile Apps, UI/UX Design",
-		}),
+		});
+
+		// The hero image is the LCP element and lives on another origin, so the
+		// browser only discovers it after the HTML is parsed. Preconnect opens the
+		// connection early; the preload starts the download before React runs.
+		// crossOrigin must match the <img> in HeroSlider, otherwise the preload
+		// lands in a different cache slot and the image is fetched twice.
+		const heroImage = loaderData?.homeSlider?.slider?.[0]?.image;
+
+		return {
+			...seo,
+			links: [
+				...seo.links,
+				{ rel: "preconnect", href: STRAPI_CMS_BASE_URL },
+				...(heroImage?.url
+					? [
+							{
+								rel: "preload",
+								as: "image",
+								href: resolveSrc(heroImage.url),
+								fetchpriority: "high",
+								crossOrigin: "anonymous" as const,
+							},
+						]
+					: []),
+			],
+		};
+	},
 
 	component: Index,
 });
@@ -99,6 +127,8 @@ function Index() {
 			title: s.title,
 			sub: extractStrapiText(s.content),
 			img: s.image?.url || "",
+			width: s.image?.width,
+			height: s.image?.height,
 		})) || [];
 
 	// Verified profile URLs from the CMS become sameAs links, which is what

@@ -4,16 +4,20 @@ import { retryImageWithoutCors, VHSHero } from "../src/components/ui/VHSHero";
 
 const BASE_URL = import.meta.env.VITE_PUBLIC_STRAPI_CMS_BASE_URL;
 
-interface HeroSliderProps {
-	slides?: Array<{
-		id: number;
-		title: string;
-		sub: string;
-		img: string;
-	}>;
+interface HeroSlide {
+	id: number;
+	title: string;
+	sub: string;
+	img: string;
+	width?: number;
+	height?: number;
 }
 
-const defaultSlides = [
+interface HeroSliderProps {
+	slides?: HeroSlide[];
+}
+
+const defaultSlides: HeroSlide[] = [
 	{
 		id: 1,
 		title: "Sibubuh Agency",
@@ -28,8 +32,15 @@ const defaultSlides = [
 	},
 ];
 
+/**
+ * React 18 does not know `fetchPriority` and warns when it sees the camelCase
+ * spelling, so pass the attribute through lowercase. Drop this once the app
+ * moves to React 19, which supports the prop directly.
+ */
+const FETCH_PRIORITY_HIGH = { fetchpriority: "high" } as Record<string, string>;
+
 /** CMS images are relative paths; the fallback slides are absolute URLs. */
-const resolveSrc = (img: string) =>
+export const resolveSrc = (img: string) =>
 	/^(https?:)?\/\//.test(img) ? img : `${BASE_URL}${img}`;
 
 export default function HeroSlider({ slides }: HeroSliderProps) {
@@ -109,11 +120,20 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
 				<div className="lg:col-span-6">
 					<VHSHero className="relative aspect-[4/3] overflow-hidden rounded-xl bg-muted shadow-card sm:aspect-[16/10] lg:aspect-[4/5]">
 						<div className="relative h-full w-full">
-							<AnimatePresence>
+							{/* initial={false} skips the enter animation on the very first
+							    mount. Without it the LCP image is server-rendered with
+							    opacity:0 and only becomes visible after hydration, which
+							    cost 2.6s of LCP render delay. Slide transitions after that
+							    still fade. */}
+							<AnimatePresence initial={false}>
 								<motion.img
 									key={active.id}
 									src={resolveSrc(active.img)}
 									alt=""
+									width={active.width}
+									height={active.height}
+									{...FETCH_PRIORITY_HIGH}
+									decoding="async"
 									crossOrigin="anonymous"
 									onError={retryImageWithoutCors}
 									initial={{ opacity: 0 }}
