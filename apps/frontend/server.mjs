@@ -118,6 +118,11 @@ createServer(async (req, res) => {
       const isHashedAsset =
         url.pathname.startsWith('/assets/') || url.pathname.startsWith('/_build/');
 
+      // The self-hosted woff2 files have no content hash, so they cannot be
+      // immutable — but an hour is far too short for a font every page
+      // preloads. A month, re-fetched only when a release changes the family.
+      const isFont = url.pathname.startsWith('/fonts/');
+
       const extension = extname(filePath);
       const gzip = COMPRESSIBLE.has(extension) && acceptsGzip(req);
 
@@ -128,7 +133,9 @@ createServer(async (req, res) => {
         'Content-Type': MIME_TYPES[extension] || 'application/octet-stream',
         'Cache-Control': isHashedAsset
           ? 'public, max-age=31536000, immutable'
-          : 'public, max-age=3600',
+          : isFont
+            ? 'public, max-age=2592000'
+            : 'public, max-age=3600',
         Vary: 'Accept-Encoding',
         ...(gzip ? { 'Content-Encoding': 'gzip' } : {}),
       });

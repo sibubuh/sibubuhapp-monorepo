@@ -15,6 +15,7 @@ import { NotFound } from "#/components/errors/NotFound";
 import appCss from "../styles/global.css?url";
 import Navbar from "../components/ui/Navbar";
 import Footer from "../components/ui/Footer";
+import ThirdPartyScripts from "../components/ui/ThirdPartyScripts";
 import { getAnalyticsConfig } from "../../services/api";
 
 export const Route = createRootRoute({
@@ -36,13 +37,24 @@ export const Route = createRootRoute({
 		],
 		links: [
 			{ rel: "stylesheet", href: appCss },
+			// Both families are self-hosted (see @font-face in styles/global.css).
+			// The two latin files are the ones every page uses, and a font is only
+			// discovered once the stylesheet has parsed — preloading them removes
+			// that second round trip. crossOrigin is required even same-origin:
+			// fonts are always fetched in CORS mode.
 			{
-				rel: "stylesheet",
-				href: "https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap",
+				rel: "preload",
+				as: "font",
+				type: "font/woff2",
+				href: "/fonts/inter-latin.woff2",
+				crossOrigin: "anonymous" as const,
 			},
 			{
-				rel: "stylesheet",
-				href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap",
+				rel: "preload",
+				as: "font",
+				type: "font/woff2",
+				href: "/fonts/lora-latin.woff2",
+				crossOrigin: "anonymous" as const,
 			},
 			{ rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
 			// The blog lives on Blogger; pointing at its feed is what lets readers
@@ -53,31 +65,28 @@ export const Route = createRootRoute({
 				title: "Blog — bubuh.id",
 				href: "https://www.blogger.com/feeds/7588128007666021062/posts/default?alt=rss",
 			},
-		],
-		// GA4 and AdSense Auto Ads. Each is skipped entirely when the CMS has no
-		// id, so a missing or cleared value never ships a broken tag.
-		scripts: [
 			...(loaderData?.gaId
 				? [
 						{
-							src: `https://www.googletagmanager.com/gtag/js?id=${loaderData.gaId}`,
-							async: true,
-						},
-						{
-							children: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${loaderData.gaId}');`,
+							rel: "preconnect",
+							href: "https://www.googletagmanager.com",
 						},
 					]
 				: []),
 			...(loaderData?.adsensePubId
 				? [
 						{
-							src: `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${loaderData.adsensePubId}`,
-							async: true,
+							rel: "preconnect",
+							href: "https://pagead2.googlesyndication.com",
 							crossOrigin: "anonymous" as const,
 						},
 					]
 				: []),
 		],
+		// GA4 and AdSense are injected after first paint by <ThirdPartyScripts>
+		// below, so nothing here competes with the LCP. Preconnect still belongs
+		// in the head: it opens the connections while the page is rendering, so
+		// the deferred scripts do not pay for DNS and TLS when they finally run.
 	}),
 	errorComponent: (props: ErrorComponentProps) => (
 		<RootDocument>
@@ -93,9 +102,15 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
+	const analytics = Route.useLoaderData();
+
 	return (
 		<RootDocument>
 			<Outlet />
+			<ThirdPartyScripts
+				gaId={analytics?.gaId}
+				adsensePubId={analytics?.adsensePubId}
+			/>
 		</RootDocument>
 	);
 }
