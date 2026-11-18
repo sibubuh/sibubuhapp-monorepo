@@ -35,6 +35,9 @@ export async function getPage({
 			},
 		},
 		multipleData: false,
+		// Named explicitly to keep `searchText` — the whole page flattened into
+		// one string for the search index — out of every page response.
+		fields: ["title", "slug", "createdAt", "updatedAt", "publishedAt", "locale"],
 		populate: [
 			"localizations",
 			"seo",
@@ -422,6 +425,7 @@ export async function getDataWithLocalization({
 	includeMeta = false,
 	pagination,
 	sorts,
+	fields,
 	ignoreLocalization = false,
 }: {
 	endpoint: string;
@@ -433,12 +437,18 @@ export async function getDataWithLocalization({
 	includeMeta?: boolean;
 	pagination?: PaginationParams;
 	sorts?: string[];
+	/** Limits the scalar fields returned. Leave unset to get them all. */
+	fields?: string[];
 	ignoreLocalization?: boolean;
 }) {
 	const query: Record<string, unknown> = {
 		filters: filters,
 		populate: populate,
 	};
+
+	if (fields) {
+		query.fields = fields;
+	}
 
 	// Only add locale if not ignoring localization
 	if (!ignoreLocalization) {
@@ -700,6 +710,17 @@ export async function getHomeSlider({
 	});
 }
 
+/** Everything a project screen needs, minus the `searchText` index column. */
+const PROJECT_FIELDS = [
+	"title",
+	"slug",
+	"description",
+	"category",
+	"years",
+	"createdAt",
+	"updatedAt",
+];
+
 export async function getProjects({
 	locale,
 	limit = 12,
@@ -723,6 +744,7 @@ export async function getProjects({
 			withCount: true,
 		},
 		sorts: ["createdAt:desc"],
+		fields: PROJECT_FIELDS,
 		populate: ["cover", "cover.image", "gallery"],
 		multipleData: true,
 		includeMeta: true,
@@ -772,6 +794,7 @@ export async function getProject({
 			endpoint: "/api/projects",
 			locale,
 			filters: { slug: { $eq: slug } },
+			fields: PROJECT_FIELDS,
 
 			// ✅ STRAPI V5 SAFE POPULATE
 			populate: {
@@ -1104,5 +1127,120 @@ export async function getClient({
 		title: attrs.title || "",
 		description: attrs.description,
 		client_list: clientListItems,
+	};
+}
+
+/* ----------------------------------------------------------------- search */
+
+export type SearchPage = { id: number; title: string; slug: string };
+
+export type SearchResults = {
+	stories: Story[];
+	projects: Project[];
+	pages: SearchPage[];
+	total: number;
+};
+
+/**
+ * Searches stories, projects and pages in one go.
+ *
+ * Goes straight to `fetchWithAuth` rather than through
+ * `getDataWithLocalization`, which stringifies with `encode: false` — unsafe
+ * for a query a visitor typed.
+ *
+ * `page` and `project` are matched on `searchText`, a flattened copy of their
+ * body kept in sync by a document-service middleware in the backend. Their
+ * real body is a dynamic zone / `blocks` field, which Strapi cannot filter.
+ */
+export async function searchContent({
+	q,
+	limit = 10,
+}: {
+	q: string;
+	limit?: number;
+}): Promise<SearchResults> {
+	const pagination = { pageSize: limit, page: 1, withCount: true };
+
+	const [stories, projects, pages] = await Promise.all([
+		fetchWithAuth(
+			`/api/stories?${QueryString.stringify(
+				{
+					filters: {
+						$or: [
+							{ title: { $containsi: q } },
+							{ excerpt: { $containsi: q } },
+							{ contentText: { $containsi: q } },
+						],
+					},
+					fields: ["title", "slug", "excerpt", "publishedDate", "labels"],
+					populate: ["thumbnail"],
+					sort: ["publishedDate:desc"],
+					pagination,
+				},
+				{ skipNulls: true },
+			)}`,
+		),
+		fetchWithAuth(
+			`/api/projects?${QueryString.stringify(
+				{
+					filters: {
+						$or: [
+							{ title: { $containsi: q } },
+							{ category: { $containsi: q } },
+							{ searchText: { $containsi: q } },
+						],
+					},
+					fields: ["title", "slug", "category", "years"],
+					populate: ["cover", "cover.image"],
+					sort: ["createdAt:desc"],
+					pagination,
+				},
+				{ skipNulls: true },
+			)}`,
+		),
+		fetchWithAuth(
+			`/api/pages?${QueryString.stringify(
+				{
+					filters: {
+						$or: [
+							{ title: { $containsi: q } },
+							{ searchText: { $containsi: q } },
+						],
+					},
+					fields: ["title", "slug"],
+					// Without a locale every translation of a page would show up.
+					locale: DEFAULT_LANGUAGE_CODE,
+					sort: ["title:asc"],
+					pagination,
+				},
+				{ skipNulls: true },
+			)}`,
+		),
+	]);
+
+	const storyList: Story[] = stories?.data ?? [];
+	const projectList: Project[] = (projects?.data ?? []).map((item: any) => ({
+		id: item.id,
+		title: item.title || "",
+		slug: item.slug || "",
+		description: item.description,
+		category: item.category || "Branding",
+		cover: transformCover(item.cover) as any,
+		years: item.years || "",
+		gallery: [],
+		createdAt: item.createdAt || "",
+		updatedAt: item.updatedAt || "",
+	}));
+	const pageList: SearchPage[] = (pages?.data ?? []).map((item: any) => ({
+		id: item.id,
+		title: item.title || "",
+		slug: item.slug || "",
+	}));
+
+	return {
+		stories: storyList,
+		projects: projectList,
+		pages: pageList,
+		total: storyList.length + projectList.length + pageList.length,
 	};
 }

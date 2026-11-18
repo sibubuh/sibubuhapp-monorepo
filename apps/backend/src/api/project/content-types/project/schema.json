@@ -60,6 +60,9 @@
         "videos",
         "audios"
       ]
+    },
+    "searchText": {
+      "type": "text"
     }
   }
 }

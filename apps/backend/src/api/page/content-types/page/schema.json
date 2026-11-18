@@ -80,6 +80,14 @@
       },
       "component": "shared.seo",
       "repeatable": false
+    },
+    "searchText": {
+      "type": "text",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     }
   }
 }
