@@ -49,7 +49,7 @@ export const Route = createRootRoute({
 				rel: "alternate",
 				type: "application/rss+xml",
 				title: "Blog — bubuh.id",
-				href: "https://www.bubuh.id/feeds/posts/default?alt=rss",
+				href: "https://www.blogger.com/feeds/7588128007666021062/posts/default?alt=rss",
 			},
 		],
 	}),

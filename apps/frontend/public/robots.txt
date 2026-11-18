@@ -1,4 +1,4 @@
-# robots.txt — porto.bubuh.id
+# robots.txt — bubuh.id
 #
 # Policy: open to AI *search* crawlers (the ones that can cite this site in an
 # answer) and open to AI *training* crawlers. Flip a training bot to
@@ -82,4 +82,4 @@ Disallow: /dashboard
 Disallow: /login
 Disallow: /api/
 
-Sitemap: https://porto.bubuh.id/sitemap.xml
+Sitemap: https://bubuh.id/sitemap.xml

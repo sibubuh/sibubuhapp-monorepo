@@ -1,6 +1,9 @@
 import type { BubuhBlogFeed, BubuhBlogPost } from "../types/bubuh";
 
-const BUBUH_API_BASE = "https://www.bubuh.id/feeds/posts/default";
+// Feed is addressed by Blogger blog id, not by www.bubuh.id: that hostname now
+// serves this app, so the custom-domain feed URL no longer reaches Blogger.
+const BUBUH_API_BASE =
+	"https://www.blogger.com/feeds/7588128007666021062/posts/default";
 const RSS2JSON_BASE = "https://api.rss2json.com/v1/api.json";
 const RSS2JSON_API_KEY = import.meta.env.VITE_RSS2JSON_API_KEY;
 

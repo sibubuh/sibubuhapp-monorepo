@@ -11,7 +11,7 @@ export const SITE_NAME = 'Sibubuh Playground'
  * discard the canonical and makes og:image unfetchable by scrapers.
  */
 export const SITE_URL = (
-	import.meta.env.VITE_PUBLIC_SITE_URL || 'https://porto.bubuh.id'
+	import.meta.env.VITE_PUBLIC_SITE_URL || 'https://bubuh.id'
 ).replace(/\/+$/, '')
 
 export const SITE_DESCRIPTION =

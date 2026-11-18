@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { ExternalLink, AlertCircle } from "lucide-react";
+import { ArrowRight, AlertCircle } from "lucide-react";
 import BubuhBlogCard from "../ui/BubuhBlogCard";
 import BubuhBlogCardSkeleton from "../ui/BubuhBlogCardSkeleton";
 import { getRecentBubuhBlogs } from "../../services/bubuhApi";
@@ -59,13 +59,11 @@ export default function RecentBlogsSection({
 
 					{showViewAll && (
 						<a
-							href="https://www.bubuh.id"
-							target="_blank"
-							rel="noopener noreferrer"
+							href="/stories"
 							className="inline-flex shrink-0 items-center gap-2 font-sans text-sm font-medium text-foreground underline decoration-border underline-offset-4 transition-colors hover:text-primary hover:decoration-current"
 						>
-							Lihat Semua di Bubuh.id
-							<ExternalLink className="h-4 w-4" />
+							Lihat Semua Stories
+							<ArrowRight className="h-4 w-4" />
 						</a>
 					)}
 				</div>
