@@ -3,6 +3,7 @@ import { stat } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { join, normalize, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createGzip } from 'node:zlib';
 import server from './dist/server/server.js';
 
 const port = process.env.PORT || 3000;
@@ -58,6 +59,29 @@ const MIME_TYPES = {
 };
 
 /**
+ * Text assets are worth compressing; images, fonts and video already are.
+ * The app bundle alone is ~450KB raw and ~120KB gzipped, and Lighthouse put
+ * uses-text-compression at 381KiB across the page.
+ */
+const COMPRESSIBLE = new Set([
+  '.css',
+  '.js',
+  '.json',
+  '.map',
+  '.mjs',
+  '.svg',
+  '.txt',
+  '.webmanifest',
+  '.xml',
+]);
+
+function acceptsGzip(req) {
+  // Matches "gzip" but not "x-gzip;q=0" style refusals.
+  const header = req.headers['accept-encoding'] || '';
+  return /(^|,)\s*gzip\s*(;|,|$)/.test(header);
+}
+
+/**
  * Resolves a URL path to a file inside dist/client, or null when there is no
  * such file. Returns null for anything that escapes the directory, so a
  * request like /../../.env cannot read outside the build output.
@@ -94,11 +118,19 @@ createServer(async (req, res) => {
       const isHashedAsset =
         url.pathname.startsWith('/assets/') || url.pathname.startsWith('/_build/');
 
+      const extension = extname(filePath);
+      const gzip = COMPRESSIBLE.has(extension) && acceptsGzip(req);
+
+      // No Content-Length is sent either way, so gzipping needs no extra care
+      // about a stale length. Vary is set unconditionally: the same URL can
+      // answer compressed or not depending on the request.
       res.writeHead(200, {
-        'Content-Type': MIME_TYPES[extname(filePath)] || 'application/octet-stream',
+        'Content-Type': MIME_TYPES[extension] || 'application/octet-stream',
         'Cache-Control': isHashedAsset
           ? 'public, max-age=31536000, immutable'
           : 'public, max-age=3600',
+        Vary: 'Accept-Encoding',
+        ...(gzip ? { 'Content-Encoding': 'gzip' } : {}),
       });
 
       if (req.method === 'HEAD') {
@@ -106,7 +138,12 @@ createServer(async (req, res) => {
         return;
       }
 
-      createReadStream(filePath).pipe(res);
+      const file = createReadStream(filePath);
+      if (gzip) {
+        file.pipe(createGzip()).pipe(res);
+      } else {
+        file.pipe(res);
+      }
       return;
     }
   }
