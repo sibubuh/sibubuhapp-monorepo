@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "@tanstack/react-router";
+import { Search } from "lucide-react";
 import type { Navbar as NavbarType } from "types/navbar";
 import { getHeader } from "services/api";
 import { useTheme } from "../../hooks/useTheme";
@@ -121,6 +122,13 @@ const Navbar = () => {
 
 					{/* CTA + THEME TOGGLE */}
 					<div className="hidden md:flex items-center gap-3">
+						<Link
+							to="/search"
+							aria-label="Cari"
+							className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+						>
+							<Search className="h-5 w-5" />
+						</Link>
 						<motion.a
 							href="mailto:nchan.bkho@gmail.com"
 							whileHover={{ scale: 1.03 }}
@@ -132,8 +140,11 @@ const Navbar = () => {
 						<ThemeToggle />
 					</div>
 
-					{/* MOBILE: HAMBURGER + THEME TOGGLE */}
+					{/* MOBILE: SEARCH + HAMBURGER + THEME TOGGLE */}
 					<div className="flex items-center gap-2 md:hidden">
+						<Link to="/search" aria-label="Cari" className="p-2 text-foreground">
+							<Search className="h-5 w-5" />
+						</Link>
 						<button
 							type="button"
 							onClick={() => setOpen(!open)}
