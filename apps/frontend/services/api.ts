@@ -600,30 +600,46 @@ export async function getCsrDetail({
 	return result;
 }
 
+export type AnalyticsConfig = {
+	gaId: string | null;
+	adsensePubId: string | null;
+};
+
+const EMPTY_ANALYTICS_CONFIG: AnalyticsConfig = {
+	gaId: null,
+	adsensePubId: null,
+};
+
 /**
- * GA4 measurement id, kept in the Strapi "Analytic" single type so it can be
- * changed without a redeploy. Cached because the root route reads it on every
- * SSR render, and the value changes about once a year.
+ * GA4 measurement id and AdSense publisher id, kept in the Strapi "Analytic"
+ * single type so they can be changed without a redeploy. Cached because the
+ * root route reads them on every SSR render, and the values change about once
+ * a year.
  */
-let analyticsIdCache: { id: string | null; at: number } = { id: null, at: 0 };
+let analyticsCache: { config: AnalyticsConfig; at: number } = {
+	config: EMPTY_ANALYTICS_CONFIG,
+	at: 0,
+};
 const ANALYTICS_TTL = 5 * 60 * 1000;
 
-export async function getAnalyticsId(): Promise<string | null> {
-	if (analyticsIdCache.at && Date.now() - analyticsIdCache.at < ANALYTICS_TTL) {
-		return analyticsIdCache.id;
+export async function getAnalyticsConfig(): Promise<AnalyticsConfig> {
+	if (analyticsCache.at && Date.now() - analyticsCache.at < ANALYTICS_TTL) {
+		return analyticsCache.config;
 	}
 
 	// This runs in the root loader, so a CMS hiccup must degrade to "no
 	// analytics" rather than take the whole site down.
 	try {
 		const result = await fetchWithAuth("/api/analytic");
-		const id: string | null =
-			result?.data?.google_analytic_tracking_id?.trim() || null;
+		const config: AnalyticsConfig = {
+			gaId: result?.data?.google_analytic_tracking_id?.trim() || null,
+			adsensePubId: result?.data?.adsense_publisher_id?.trim() || null,
+		};
 
-		analyticsIdCache = { id, at: Date.now() };
-		return id;
+		analyticsCache = { config, at: Date.now() };
+		return config;
 	} catch {
-		return analyticsIdCache.id;
+		return analyticsCache.config;
 	}
 }
 

@@ -1,0 +1,578 @@
+{
+  "locale": "en",
+  "pages": [
+    {
+      "slug": "privacy-policy",
+      "title": "Privacy Policy",
+      "appendOnly": false,
+      "seo": {
+        "metaTitle": "Privacy Policy — bubuh.id",
+        "metaDescription": "Learn how bubuh.id collects, uses and protects your information, including cookies, Google Analytics and Google AdSense advertising.",
+        "keywords": "privacy policy,cookies,google adsense,google analytics,bubuh.id"
+      },
+      "sections": [
+        {
+          "__component": "sections.text-headline",
+          "title": "Privacy Policy",
+          "divider": true
+        },
+        {
+          "__component": "sections.rich-text-section",
+          "content": [
+            {
+              "type": "paragraph",
+              "children": [
+                { "type": "text", "text": "Last updated: 18 November 2026", "italic": true }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "This Privacy Policy explains how Sibubuh Playground (referred to as we, us or our) collects, uses and protects information when you visit "
+                },
+                {
+                  "type": "link",
+                  "url": "https://bubuh.id",
+                  "children": [{ "type": "text", "text": "https://bubuh.id" }]
+                },
+                {
+                  "type": "text",
+                  "text": " (the Site). By continuing to use the Site, you agree to the practices described below. If you do not agree with this policy, please stop using the Site."
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "level": 2,
+              "children": [{ "type": "text", "text": "Who We Are" }]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "bubuh.id is a personal publication written and operated by Sibubuh, based in Sukabumi, West Java, Indonesia. The Site publishes original stories, photography and project notes. We are the data controller for the personal information described in this policy, and we can be reached at any time at nchan.bkho@gmail.com."
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "level": 2,
+              "children": [{ "type": "text", "text": "Information We Collect" }]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                { "type": "text", "text": "We collect only what we need to run and improve the Site:" }
+              ]
+            },
+            {
+              "type": "list",
+              "format": "unordered",
+              "children": [
+                {
+                  "type": "list-item",
+                  "children": [
+                    { "type": "text", "text": "Information you give us voluntarily.", "bold": true },
+                    {
+                      "type": "text",
+                      "text": " If you email us or send a message through a contact link, we receive your name, email address and whatever you choose to write. We use it only to reply to you."
+                    }
+                  ]
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    { "type": "text", "text": "Information collected automatically.", "bold": true },
+                    {
+                      "type": "text",
+                      "text": " Like most websites, our servers and analytics tools record your IP address, browser type and version, device type, operating system, referring page, the pages you view, and the date and time of each visit."
+                    }
+                  ]
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    { "type": "text", "text": "Cookies and similar technologies.", "bold": true },
+                    {
+                      "type": "text",
+                      "text": " Small files stored on your device by us and by third parties such as Google. See the Cookies section below."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "We do not ask for, and do not knowingly collect, sensitive personal data such as government identification numbers, payment card details, health information or precise location."
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "level": 2,
+              "children": [{ "type": "text", "text": "Log Files" }]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "bubuh.id follows the standard procedure of using log files. The information in these files is not linked to anything personally identifiable. It is used to analyse trends, administer the Site, track how visitors move through it, and gather broad demographic information."
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "level": 2,
+              "children": [{ "type": "text", "text": "Cookies" }]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Cookies are used to remember your preferences, to measure how the Site is used, and to deliver advertising. You can control or delete cookies at any time through your browser settings. Blocking cookies will not stop you from reading the Site, but some features and preferences may no longer be remembered."
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "level": 2,
+              "children": [{ "type": "text", "text": "Google Analytics" }]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "We use Google Analytics to understand which pages are read and how visitors find us. Google Analytics sets cookies and processes data such as your IP address and browsing behaviour on our behalf. You can read how Google handles this data in the "
+                },
+                {
+                  "type": "link",
+                  "url": "https://policies.google.com/privacy",
+                  "children": [{ "type": "text", "text": "Google Privacy Policy" }]
+                },
+                { "type": "text", "text": ", and you can opt out entirely using the " },
+                {
+                  "type": "link",
+                  "url": "https://tools.google.com/dlpage/gaoptout",
+                  "children": [{ "type": "text", "text": "Google Analytics Opt-out Browser Add-on" }]
+                },
+                { "type": "text", "text": "." }
+              ]
+            },
+            {
+              "type": "heading",
+              "level": 2,
+              "children": [
+                { "type": "text", "text": "Google AdSense and Third-Party Advertising" }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "This Site is supported by display advertising. Google, as a third-party vendor, uses cookies to serve ads on bubuh.id. Please note the following:"
+                }
+              ]
+            },
+            {
+              "type": "list",
+              "format": "unordered",
+              "children": [
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "Third-party vendors, including Google, use cookies to serve ads based on your prior visits to this Site or to other websites."
+                    }
+                  ]
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "Google uses advertising cookies, including the DART cookie, to enable it and its partners to serve ads to you based on your visit to this Site and other sites on the Internet."
+                    }
+                  ]
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "Third-party ad networks may also use cookies, web beacons or similar technologies in the advertisements and links that appear on bubuh.id. They receive your IP address when this happens. We do not have access to or control over those technologies."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                { "type": "text", "text": "You can opt out of personalised advertising by Google at " },
+                {
+                  "type": "link",
+                  "url": "https://adssettings.google.com",
+                  "children": [{ "type": "text", "text": "Google Ads Settings" }]
+                },
+                { "type": "text", "text": ", read more in Google's " },
+                {
+                  "type": "link",
+                  "url": "https://policies.google.com/technologies/ads",
+                  "children": [{ "type": "text", "text": "Advertising Policies" }]
+                },
+                { "type": "text", "text": ", and opt out of many other vendors at " },
+                {
+                  "type": "link",
+                  "url": "https://www.aboutads.info/choices/",
+                  "children": [{ "type": "text", "text": "aboutads.info/choices" }]
+                },
+                { "type": "text", "text": " or " },
+                {
+                  "type": "link",
+                  "url": "https://optout.networkadvertising.org/",
+                  "children": [{ "type": "text", "text": "optout.networkadvertising.org" }]
+                },
+                { "type": "text", "text": "." }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "The privacy practices of our advertising partners are governed by their own privacy policies, not by this one. We encourage you to review them."
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "level": 2,
+              "children": [{ "type": "text", "text": "Your Rights and Choices" }]
+            },
+            {
+              "type": "list",
+              "format": "unordered",
+              "children": [
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "Request a copy of the personal information we hold about you, or ask us to correct or delete it."
+                    }
+                  ]
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    { "type": "text", "text": "Withdraw your consent to analytics or personalised advertising at any time." }
+                  ]
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    { "type": "text", "text": "Disable or delete cookies through your browser settings." }
+                  ]
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "Ask us to remove a photograph, a quote or any other content that concerns you."
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "To exercise any of these rights, email nchan.bkho@gmail.com. We will respond within 30 days."
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "level": 2,
+              "children": [
+                { "type": "text", "text": "Visitors from the EEA, the UK and Switzerland" }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "If you are located in the European Economic Area, the United Kingdom or Switzerland, the GDPR gives you the right to access, rectify, erase, restrict or port your personal data, and to object to its processing. Where we rely on consent, for example for analytics and personalised advertising, you may withdraw it at any time without affecting processing carried out before the withdrawal. You also have the right to lodge a complaint with your local data protection authority."
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "level": 2,
+              "children": [{ "type": "text", "text": "California Residents" }]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Under the CCPA, California residents have the right to know what categories of personal information we collect and why, to request deletion of that information, and to opt out of its sale. We do not sell personal information. To make a request, email nchan.bkho@gmail.com."
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "level": 2,
+              "children": [{ "type": "text", "text": "Children's Privacy" }]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "bubuh.id is not directed at children under 13, and we do not knowingly collect personal information from them. If you believe a child has provided us with personal information, contact us and we will delete it promptly."
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "level": 2,
+              "children": [{ "type": "text", "text": "Data Retention and Security" }]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "We keep email correspondence for as long as needed to answer you and to maintain a record of the conversation. Analytics data is retained according to the retention period configured in Google Analytics. The Site is served over HTTPS, and access to our content management system is restricted to the site owner. No method of transmission over the Internet is completely secure, so we cannot guarantee absolute security."
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "level": 2,
+              "children": [{ "type": "text", "text": "Links to Other Websites" }]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Our articles link to other websites, including social media profiles and the websites of people and businesses we write about. We are not responsible for their content or privacy practices. Please read the privacy policy of any site you visit from here."
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "level": 2,
+              "children": [{ "type": "text", "text": "Changes to This Policy" }]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "We may update this Privacy Policy as the Site changes or as the law requires. The revised version will be posted on this page with a new date at the top. Significant changes will be highlighted on the homepage."
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "level": 2,
+              "children": [{ "type": "text", "text": "Contact Us" }]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "If you have any question about this Privacy Policy, or a request about your personal data, write to nchan.bkho@gmail.com. You can also reach us through the "
+                },
+                {
+                  "type": "link",
+                  "url": "/contact-us",
+                  "children": [{ "type": "text", "text": "contact page" }]
+                },
+                { "type": "text", "text": "." }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "about-me",
+      "title": "About Me",
+      "appendOnly": true,
+      "sections": [
+        {
+          "__component": "sections.rich-text-section",
+          "content": [
+            {
+              "type": "heading",
+              "level": 2,
+              "children": [{ "type": "text", "text": "About This Site" }]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "bubuh.id is a personal website published and maintained by Sibubuh, a front-end developer, photographer and content creator based in Sukabumi, West Java, Indonesia. Every article, photograph and project note on this Site is produced first-hand by the site owner. Nothing here is auto-generated, spun or reprinted from another publisher."
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "level": 2,
+              "children": [{ "type": "text", "text": "What We Publish" }]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "The Site covers three things: stories about places, culture and events around Sukabumi and West Java; notes on web development, digital branding and the projects we work on; and practical write-ups aimed at readers who want to visit, build or learn something themselves."
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "The archive published here was migrated from our earlier Blogspot blog so that long-time readers keep access to the full back catalogue. Older posts retain their original publication dates, and the old links redirect here."
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "level": 2,
+              "children": [{ "type": "text", "text": "Editorial and Advertising" }]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "We write about products, places and businesses on our own initiative. When an article is sponsored or produced in collaboration with a brand, that relationship is stated inside the article itself. Running the Site is funded in part by display advertising, which is clearly separated from editorial content and never influences what we choose to write about."
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                { "type": "text", "text": "How advertising and analytics handle your data is explained in our " },
+                {
+                  "type": "link",
+                  "url": "/privacy-policy",
+                  "children": [{ "type": "text", "text": "Privacy Policy" }]
+                },
+                { "type": "text", "text": ". For anything else, use the " },
+                {
+                  "type": "link",
+                  "url": "/contact-us",
+                  "children": [{ "type": "text", "text": "contact page" }]
+                },
+                { "type": "text", "text": "." }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "contact-us",
+      "title": "Contact Us",
+      "appendOnly": true,
+      "sections": [
+        {
+          "__component": "sections.rich-text-section",
+          "content": [
+            {
+              "type": "heading",
+              "level": 2,
+              "children": [{ "type": "text", "text": "Contact Information" }]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "bubuh.id is published by Sibubuh from Sukabumi, West Java, Indonesia. Email is the fastest and most reliable way to reach us, and we normally reply within two to three business days."
+                }
+              ]
+            },
+            {
+              "type": "list",
+              "format": "unordered",
+              "children": [
+                {
+                  "type": "list-item",
+                  "children": [
+                    { "type": "text", "text": "General enquiries and collaboration: ", "bold": true },
+                    { "type": "text", "text": "nchan.bkho@gmail.com" }
+                  ]
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    { "type": "text", "text": "Advertising and sponsorship: ", "bold": true },
+                    { "type": "text", "text": "nchan.bkho@gmail.com" }
+                  ]
+                },
+                {
+                  "type": "list-item",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "Corrections, takedown and privacy requests: ",
+                      "bold": true
+                    },
+                    { "type": "text", "text": "nchan.bkho@gmail.com" }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "If you spot a factual error, a broken link or a photograph you would like removed, tell us which page it is on and we will correct or take it down. Requests about your personal data are handled under our "
+                },
+                {
+                  "type": "link",
+                  "url": "/privacy-policy",
+                  "children": [{ "type": "text", "text": "Privacy Policy" }]
+                },
+                { "type": "text", "text": ", and we answer them within 30 days. You can read more about who runs this Site on the " },
+                {
+                  "type": "link",
+                  "url": "/about-me",
+                  "children": [{ "type": "text", "text": "about page" }]
+                },
+                { "type": "text", "text": "." }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
