@@ -590,6 +590,33 @@ export async function getCsrDetail({
 	return result;
 }
 
+/**
+ * GA4 measurement id, kept in the Strapi "Analytic" single type so it can be
+ * changed without a redeploy. Cached because the root route reads it on every
+ * SSR render, and the value changes about once a year.
+ */
+let analyticsIdCache: { id: string | null; at: number } = { id: null, at: 0 };
+const ANALYTICS_TTL = 5 * 60 * 1000;
+
+export async function getAnalyticsId(): Promise<string | null> {
+	if (analyticsIdCache.at && Date.now() - analyticsIdCache.at < ANALYTICS_TTL) {
+		return analyticsIdCache.id;
+	}
+
+	// This runs in the root loader, so a CMS hiccup must degrade to "no
+	// analytics" rather than take the whole site down.
+	try {
+		const result = await fetchWithAuth("/api/analytic");
+		const id: string | null =
+			result?.data?.google_analytic_tracking_id?.trim() || null;
+
+		analyticsIdCache = { id, at: Date.now() };
+		return id;
+	} catch {
+		return analyticsIdCache.id;
+	}
+}
+
 export async function getWebIntro({
 	locale,
 }: {

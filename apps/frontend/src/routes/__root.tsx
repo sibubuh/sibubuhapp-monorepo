@@ -15,9 +15,11 @@ import { NotFound } from "#/components/errors/NotFound";
 import appCss from "../styles/global.css?url";
 import Navbar from "../components/ui/Navbar";
 import Footer from "../components/ui/Footer";
+import { getAnalyticsId } from "../../services/api";
 
 export const Route = createRootRoute({
-	head: () => ({
+	loader: async () => ({ gaId: await getAnalyticsId() }),
+	head: ({ loaderData }) => ({
 		meta: [
 			{ charSet: "utf-8" },
 			{ name: "viewport", content: "width=device-width, initial-scale=1" },
@@ -52,6 +54,19 @@ export const Route = createRootRoute({
 				href: "https://www.blogger.com/feeds/7588128007666021062/posts/default?alt=rss",
 			},
 		],
+		// GA4. Skipped entirely when the CMS has no id, so a missing or cleared
+		// value never ships a broken gtag call.
+		scripts: loaderData?.gaId
+			? [
+					{
+						src: `https://www.googletagmanager.com/gtag/js?id=${loaderData.gaId}`,
+						async: true,
+					},
+					{
+						children: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${loaderData.gaId}');`,
+					},
+				]
+			: [],
 	}),
 	errorComponent: (props: ErrorComponentProps) => (
 		<RootDocument>
