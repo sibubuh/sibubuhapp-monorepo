@@ -442,6 +442,10 @@ export interface ApiAnalyticAnalytic extends Struct.SingleTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    adsense_publisher_id: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 255;
+      }>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

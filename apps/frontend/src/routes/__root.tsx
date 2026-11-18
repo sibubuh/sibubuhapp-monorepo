@@ -15,10 +15,10 @@ import { NotFound } from "#/components/errors/NotFound";
 import appCss from "../styles/global.css?url";
 import Navbar from "../components/ui/Navbar";
 import Footer from "../components/ui/Footer";
-import { getAnalyticsId } from "../../services/api";
+import { getAnalyticsConfig } from "../../services/api";
 
 export const Route = createRootRoute({
-	loader: async () => ({ gaId: await getAnalyticsId() }),
+	loader: async () => await getAnalyticsConfig(),
 	head: ({ loaderData }) => ({
 		meta: [
 			{ charSet: "utf-8" },
@@ -54,19 +54,30 @@ export const Route = createRootRoute({
 				href: "https://www.blogger.com/feeds/7588128007666021062/posts/default?alt=rss",
 			},
 		],
-		// GA4. Skipped entirely when the CMS has no id, so a missing or cleared
-		// value never ships a broken gtag call.
-		scripts: loaderData?.gaId
-			? [
-					{
-						src: `https://www.googletagmanager.com/gtag/js?id=${loaderData.gaId}`,
-						async: true,
-					},
-					{
-						children: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${loaderData.gaId}');`,
-					},
-				]
-			: [],
+		// GA4 and AdSense Auto Ads. Each is skipped entirely when the CMS has no
+		// id, so a missing or cleared value never ships a broken tag.
+		scripts: [
+			...(loaderData?.gaId
+				? [
+						{
+							src: `https://www.googletagmanager.com/gtag/js?id=${loaderData.gaId}`,
+							async: true,
+						},
+						{
+							children: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${loaderData.gaId}');`,
+						},
+					]
+				: []),
+			...(loaderData?.adsensePubId
+				? [
+						{
+							src: `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${loaderData.adsensePubId}`,
+							async: true,
+							crossOrigin: "anonymous" as const,
+						},
+					]
+				: []),
+		],
 	}),
 	errorComponent: (props: ErrorComponentProps) => (
 		<RootDocument>
