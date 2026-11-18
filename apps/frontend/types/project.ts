@@ -48,7 +48,8 @@ export type Project = {
 	slug: string;
 	description: unknown;
 	category: ProjectCategory;
-	cover: ProjectCoverImage[];
+	/** transformCover() in services/api.ts returns one object, never a list. */
+	cover: ProjectCoverImage | null;
 	years: string;
 	gallery: ImageType[];
 	reelsandtiktok?: ReelsTikTok[];

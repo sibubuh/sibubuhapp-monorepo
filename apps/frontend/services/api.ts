@@ -867,17 +867,7 @@ export async function getProject({
 	}
 }
 
-function transformCover(cover: any): {
-	id: number;
-	image: {
-		id: number;
-		url: string;
-		width: number;
-		height: number;
-		name: string;
-		size: number;
-	};
-} | null {
+function transformCover(cover: any): { id: number; image: ImageType } | null {
 	if (!cover?.image) return null;
 
 	const imageData = cover.image?.data || cover.image;
@@ -892,18 +882,12 @@ function transformCover(cover: any): {
 			height: imgAttrs?.height || 0,
 			name: imgAttrs?.name || "",
 			size: imgAttrs?.size || 0,
+			formats: imgAttrs?.formats || undefined,
 		},
 	};
 }
 
-function transformGallery(gallery: any): {
-	id: number;
-	url: string;
-	width: number;
-	height: number;
-	name: string;
-	size: number;
-}[] {
+function transformGallery(gallery: any): ImageType[] {
 	if (!gallery) return [];
 
 	const items = Array.isArray(gallery)
@@ -925,6 +909,7 @@ function transformGallery(gallery: any): {
 				height: attrs?.height || 0,
 				name: attrs?.name || "",
 				size: attrs?.size || 0,
+				formats: attrs?.formats || undefined,
 			};
 		});
 }
@@ -1023,6 +1008,7 @@ function transformThumbnail(thumbnail: any): ImageType | null {
 		height: attrs.height || 0,
 		name: attrs.name || "",
 		size: attrs.size || 0,
+		formats: attrs.formats || undefined,
 	};
 }
 
@@ -1073,14 +1059,7 @@ export async function getSocialMedia({
 type ClientItem = {
 	id: number;
 	text: string;
-	image: {
-		id: number;
-		url: string;
-		width: number;
-		height: number;
-		name: string;
-		size: number;
-	};
+	image: ImageType;
 };
 
 type Client = {
@@ -1125,6 +1104,7 @@ export async function getClient({
 							height: imgAttrs.height || 0,
 							name: imgAttrs.name || "",
 							size: imgAttrs.size || 0,
+							formats: imgAttrs.formats || undefined,
 						}
 					: {
 							id: 0,

@@ -1,17 +1,24 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { retryImageWithoutCors, VHSHero } from "../src/components/ui/VHSHero";
-
-const BASE_URL = import.meta.env.VITE_PUBLIC_STRAPI_CMS_BASE_URL;
+import { resolveStrapiUrl } from "../libs/strapi-image";
 
 interface HeroSlide {
 	id: number;
 	title: string;
 	sub: string;
 	img: string;
+	srcSet?: string;
 	width?: number;
 	height?: number;
 }
+
+/**
+ * The hero panel is half the grid from lg, full width below it. Exported so the
+ * route's preload hint can declare the same sizes — a mismatch makes the
+ * browser pick a different variant and download the image twice.
+ */
+export const HERO_SIZES = "(min-width: 1024px) 50vw, 100vw";
 
 interface HeroSliderProps {
 	slides?: HeroSlide[];
@@ -39,9 +46,6 @@ const defaultSlides: HeroSlide[] = [
  */
 const FETCH_PRIORITY_HIGH = { fetchpriority: "high" } as Record<string, string>;
 
-/** CMS images are relative paths; the fallback slides are absolute URLs. */
-export const resolveSrc = (img: string) =>
-	/^(https?:)?\/\//.test(img) ? img : `${BASE_URL}${img}`;
 
 export default function HeroSlider({ slides }: HeroSliderProps) {
 	const [idx, setIdx] = useState(0);
@@ -128,7 +132,9 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
 							<AnimatePresence initial={false}>
 								<motion.img
 									key={active.id}
-									src={resolveSrc(active.img)}
+									src={resolveStrapiUrl(active.img)}
+									srcSet={active.srcSet}
+									sizes={HERO_SIZES}
 									alt=""
 									width={active.width}
 									height={active.height}

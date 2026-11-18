@@ -7,7 +7,7 @@ import {
 	getStories,
 	getWebIntro,
 } from "../../services/api";
-import HeroSlider, { resolveSrc } from "../../ui/HeroSlider";
+import HeroSlider, { HERO_SIZES } from "../../ui/HeroSlider";
 import WebIntro from "../components/ui/WebIntro";
 import PortfolioSlider from "../components/ui/PortfolioSlider";
 import SocialMediaSection from "../components/sections/SocialMediaSection";
@@ -23,6 +23,7 @@ import {
 } from "../components/seo";
 import ClientsParallax from "#/components/ui/ClientSection";
 import { STRAPI_CMS_BASE_URL } from "../../config/strapi";
+import { strapiImage } from "../../libs/strapi-image";
 
 const STORY_LIMIT = 6;
 const PROJECT_LIMIT = 6;
@@ -92,19 +93,21 @@ export const Route = createFileRoute("/")({
 		// connection early; the preload starts the download before React runs.
 		// crossOrigin must match the <img> in HeroSlider, otherwise the preload
 		// lands in a different cache slot and the image is fetched twice.
-		const heroImage = loaderData?.homeSlider?.slider?.[0]?.image;
+		const heroImage = strapiImage(loaderData?.homeSlider?.slider?.[0]?.image);
 
 		return {
 			...seo,
 			links: [
 				...seo.links,
 				{ rel: "preconnect", href: STRAPI_CMS_BASE_URL },
-				...(heroImage?.url
+				...(heroImage
 					? [
 							{
 								rel: "preload",
 								as: "image",
-								href: resolveSrc(heroImage.url),
+								href: heroImage.src,
+								imagesrcset: heroImage.srcSet,
+								imagesizes: HERO_SIZES,
 								fetchpriority: "high",
 								crossOrigin: "anonymous" as const,
 							},
@@ -122,14 +125,18 @@ function Index() {
 		Route.useLoaderData();
 
 	const slides =
-		homeSlider?.slider?.map((s) => ({
-			id: s.id,
-			title: s.title,
-			sub: extractStrapiText(s.content),
-			img: s.image?.url || "",
-			width: s.image?.width,
-			height: s.image?.height,
-		})) || [];
+		homeSlider?.slider?.map((s) => {
+			const image = strapiImage(s.image);
+			return {
+				id: s.id,
+				title: s.title,
+				sub: extractStrapiText(s.content),
+				img: image?.src || s.image?.url || "",
+				srcSet: image?.srcSet,
+				width: image?.width,
+				height: image?.height,
+			};
+		}) || [];
 
 	// Verified profile URLs from the CMS become sameAs links, which is what
 	// ties this site to the same person elsewhere in the Knowledge Graph.
