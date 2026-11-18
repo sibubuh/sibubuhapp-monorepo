@@ -15,6 +15,7 @@
     "test": "node --no-warnings --test src/utils/*.test.ts",
     "scrape:blogspot": "node scripts/scrape-blogspot.mjs",
     "import:stories": "node --no-warnings -r dotenv/config scripts/import-stories.cjs",
+    "import:pages": "node --no-warnings -r dotenv/config scripts/import-pages.cjs",
     "strapi": "strapi"
   },
   "dependencies": {
