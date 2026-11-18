@@ -138,3 +138,7 @@ TODO.md
 
 # Blogspot import artefacts (images are large; stories.json is committed)
 apps/backend/database/seeds/media/
+
+# Written by import:pages before it rewrites a page's dynamic zone, and kept
+# only when the write loses media — recovery data, never part of the repo.
+apps/backend/database/seeds/pages.backup-*.json
