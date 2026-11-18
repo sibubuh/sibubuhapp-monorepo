@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
+import { strapiImage } from "../../../libs/strapi-image";
 import type { Project } from "../../../types/project";
 
 interface ProjectCardProps {
@@ -9,11 +10,12 @@ interface ProjectCardProps {
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
+/** Cards sit in a three-column grid on desktop, one column on phones. */
+const CARD_SIZES = "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw";
+
 export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
-  // @ts-ignore
-  const coverImage = project.cover?.image?.url;
+  const coverImage = strapiImage(project.cover?.image);
   const projectUrl = `/projects/${project.slug}`;
-  const BASE_URL = import.meta.env.VITE_PUBLIC_STRAPI_CMS_BASE_URL;
 
   return (
     <motion.div
@@ -28,7 +30,11 @@ export default function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           <div className="relative aspect-[16/10] overflow-hidden bg-muted">
             {coverImage ? (
               <img
-                src={`${BASE_URL}${coverImage}`}
+                src={coverImage.src}
+                srcSet={coverImage.srcSet}
+                sizes={CARD_SIZES}
+                width={coverImage.width}
+                height={coverImage.height}
                 alt={project.title}
                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                 loading="lazy"

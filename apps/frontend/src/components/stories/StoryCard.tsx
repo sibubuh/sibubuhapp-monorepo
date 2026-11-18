@@ -1,15 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowUpRight, Calendar, Tag } from "lucide-react";
 import { motion } from "motion/react";
-import { STRAPI_CMS_BASE_URL } from "../../../config/strapi";
+import { strapiImage } from "../../../libs/strapi-image";
 import type { Story } from "../../../types/story";
 
-/** Uploads are served by Strapi, not by this app's origin. */
-function mediaUrl(url?: string): string | undefined {
-	if (!url) return undefined;
-	if (/^https?:\/\//i.test(url)) return url;
-	return `${STRAPI_CMS_BASE_URL ?? ""}${url}`;
-}
+/** Cards sit in a three-column grid on desktop, one column on phones. */
+const CARD_SIZES = "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw";
 
 function formatDate(value: string): string {
 	const date = new Date(value);
@@ -28,7 +24,7 @@ export default function StoryCard({
 	story: Story;
 	index?: number;
 }) {
-	const thumbnail = mediaUrl(story.thumbnail?.url);
+	const thumbnail = strapiImage(story.thumbnail);
 	const mainLabel = story.labels?.[0] || "Blog";
 
 	return (
@@ -48,7 +44,11 @@ export default function StoryCard({
 					<div className="relative aspect-[16/10] overflow-hidden bg-muted">
 						{thumbnail ? (
 							<img
-								src={thumbnail}
+								src={thumbnail.src}
+								srcSet={thumbnail.srcSet}
+								sizes={CARD_SIZES}
+								width={thumbnail.width}
+								height={thumbnail.height}
 								alt={story.title}
 								className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
 								loading="lazy"

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { motion, type Transition } from "framer-motion";
+import { motion, type Transition } from "motion/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export interface DiagonalCarouselItem {

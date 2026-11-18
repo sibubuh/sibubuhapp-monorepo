@@ -1,6 +1,12 @@
 "use client";
 
 import {
+  type ElementImageContext,
+  isHtmlInCanvasBlocked,
+  type PaintableCanvas,
+  supportsHtmlInCanvas,
+} from "./supportsHtmlInCanvas";
+import {
   useEffect,
   useRef,
   useState,
@@ -83,20 +89,6 @@ type HtmlInCanvasElement = HTMLCanvasElement & {
     options: { canvasTransform: DOMMatrix },
   ) => void;
 };
-
-/**
- * Android can expose the API, but renderer crashes were reported on effect
- * pages (issue #50). A process crash cannot be caught in JavaScript. Keep
- * Android on the DOM/overlay fallback until native capture is validated there.
- * Neither Chrome's flag nor its default-on support (Chrome 157+) may bypass it.
- */
-function isHtmlInCanvasBlocked(): boolean {
-  if (typeof navigator === "undefined") return false;
-  const platform = (navigator as Navigator & {
-    userAgentData?: { platform?: string };
-  }).userAgentData?.platform;
-  return platform === "Android" || /Android/i.test(navigator.userAgent);
-}
 
 /** Configure the capture subtree for both generations of the experimental API. */
 function prepareHtmlInCanvas(source: HTMLCanvasElement, content: HTMLElement) {
@@ -192,15 +184,6 @@ const DEFAULTS: Required<VHSOptions> = {
   barrel: 0,
   saturation: 1,
   exposure: 1,
-};
-
-type PaintableCanvas = HTMLCanvasElement & {
-  onpaint?: (() => void) | null;
-  requestPaint?: () => void;
-};
-
-type ElementImageContext = CanvasRenderingContext2D & {
-  drawElementImage?: (element: Element, x: number, y: number) => void;
 };
 
 const VERT = `#version 300 es
@@ -361,17 +344,6 @@ void main () {
   }
   outColor = vec4(col, alpha);
 }`;
-
-export function supportsHtmlInCanvas(): boolean {
-  if (typeof document === "undefined" || isHtmlInCanvasBlocked()) return false;
-  const probe = document.createElement("canvas") as PaintableCanvas;
-  const ctx = probe.getContext("2d") as ElementImageContext | null;
-  return Boolean(
-    ctx &&
-    typeof ctx.drawElementImage === "function" &&
-    typeof probe.requestPaint === "function",
-  );
-}
 
 export function createVHS(
   elements: VHSElements,

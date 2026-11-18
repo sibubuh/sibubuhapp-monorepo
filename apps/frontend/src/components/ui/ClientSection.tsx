@@ -3,22 +3,17 @@ import {
   useScroll,
   useTransform,
   useMotionTemplate,
-} from "framer-motion";
+} from "motion/react";
 import { useRef, useState, useEffect, useMemo } from "react";
 import { getClient } from "../../../services/api";
+import { strapiImage, type ResponsiveImage } from "../../../libs/strapi-image";
+import type { ImageType } from "../../../types/image";
 import StrapiBlocks from "../sections/StrapiBlocks";
 
 export type ClientItem = {
   id: number;
   text: string;
-  image: {
-    id: number;
-    url: string;
-    width: number;
-    height: number;
-    name: string;
-    size: number;
-  };
+  image: ImageType;
 };
 
 export type ClientData = {
@@ -38,7 +33,6 @@ type OrbitConfig = {
   opacity: number;
 };
 
-const BASE_URL = import.meta.env.VITE_PUBLIC_STRAPI_CMS_BASE_URL;
 
 /**
  * Spread logos across 3 elliptical orbit rings, each with slightly different
@@ -69,7 +63,7 @@ function OrbitingLogo({
   config,
   scrollYProgress,
 }: {
-  src: string;
+  src: ResponsiveImage | null;
   name: string;
   config: OrbitConfig;
   scrollYProgress: any;
@@ -106,8 +100,12 @@ function OrbitingLogo({
     >
       {src ? (
         <img
-          src={src}
+          src={src.src}
+          srcSet={src.srcSet}
+          /* Logos never render larger than the orbit radius allows. */
+          sizes={`${size}px`}
           alt={name}
+          loading="lazy"
           style={{ width: size, height: size }}
           className="object-contain mb-1 drop-shadow-lg"
         />
@@ -174,13 +172,13 @@ export default function ClientsParallax({
   const clients = useMemo(() => {
     if (clientData.length > 0) {
       return clientData.map((c, i) => ({
-        src: c.image?.url ? BASE_URL + c.image.url : "",
+        src: strapiImage(c.image),
         //name: c.text || `Client ${i + 1}`,
         config: orbitConfigs[i],
       }));
     }
     return orbitConfigs.map((config, i) => ({
-      src: "",
+      src: null,
       //name: `Logo ${i + 1}`,
       config,
     }));

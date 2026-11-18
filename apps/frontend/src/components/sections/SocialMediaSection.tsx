@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { getSocialMedia } from "../../../services/api";
+import { strapiImage } from "../../../libs/strapi-image";
 import type { SocialMedia, SocialMediaItem } from "../../../types/social-media";
 import StrapiBlocks from "../sections/StrapiBlocks";
 import TextAnimation from "../ui/staggerText";
@@ -155,7 +156,9 @@ const SocialMediaSection = ({
               viewport={{ once: true, margin: "-50px" }}
               className="mx-auto flex max-w-7xl gap-6 md:gap-8"
             >
-              {socialData.social.map((item, i) => (
+              {socialData.social.map((item, i) => {
+                const thumb = strapiImage(item.thumbnail);
+                return (
                 <motion.button
                   type="button"
                   key={item.id || i}
@@ -165,7 +168,11 @@ const SocialMediaSection = ({
                 >
                   <div className="aspect-[4/5] overflow-hidden rounded-lg bg-muted">
                     <img
-                      src={`${BASE_URL}${item.thumbnail?.url}`}
+                      src={thumb?.src}
+                      srcSet={thumb?.srcSet}
+                      /* The shelf card is 224px wide, 288px from md. */
+                      sizes="(min-width: 768px) 288px, 224px"
+                      loading="lazy"
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                       alt={item.name}
                     />
@@ -174,7 +181,8 @@ const SocialMediaSection = ({
                     {item.name}
                   </h3>
                 </motion.button>
-              ))}
+                );
+              })}
             </motion.div>
           </div>
         </div>
@@ -218,7 +226,10 @@ const SocialMediaSection = ({
               {/* IMAGE */}
               <div className="aspect-video bg-muted">
                 <img
-                  src={`${BASE_URL}${active.thumbnail?.url}`}
+                  src={strapiImage(active.thumbnail)?.src}
+                  srcSet={strapiImage(active.thumbnail)?.srcSet}
+                  /* The modal caps at max-w-3xl (768px). */
+                  sizes="(min-width: 768px) 768px, 100vw"
                   className="h-full w-full object-cover"
                   alt={active.name}
                 />

@@ -1,5 +1,22 @@
-import { useEffect, useState, type ReactNode, type SyntheticEvent } from "react";
-import { supportsHtmlInCanvas, VHS } from "../canvasui/VHS";
+import {
+	lazy,
+	Suspense,
+	useEffect,
+	useState,
+	type ReactNode,
+	type SyntheticEvent,
+} from "react";
+import { supportsHtmlInCanvas } from "../canvasui/supportsHtmlInCanvas";
+
+/**
+ * The WebGL module carries its own shaders and a 60fps render loop, and it was
+ * the biggest single contributor to the page's 863ms of total blocking time.
+ * Loading it on demand keeps it off the critical path: the CSS fallback below
+ * renders immediately and the canvas swaps in once its chunk arrives.
+ */
+const VHS = lazy(() =>
+	import("../canvasui/VHS").then((m) => ({ default: m.VHS })),
+);
 
 /**
  * API html-in-canvas (Chrome 157+) tidak melukis resource cross-origin ke
@@ -26,6 +43,22 @@ interface VHSHeroProps {
 }
 
 /**
+ * Efek VHS versi CSS murni (kelas .vhs-fx-* di src/styles/global.css). Dipakai
+ * sebagai fallback <VHSHero> sekaligus sebagai efek tetap di hero homepage,
+ * yang tidak lagi memuat WebGL sama sekali.
+ */
+export function CssVhs({ className, children }: VHSHeroProps) {
+	return (
+		<div className={`vhs-fx ${className ?? ""}`}>
+			<div className="vhs-fx-content">{children}</div>
+			<div className="vhs-fx-layer vhs-fx-scanlines" aria-hidden="true" />
+			<div className="vhs-fx-layer vhs-fx-grain" aria-hidden="true" />
+			<div className="vhs-fx-layer vhs-fx-roll" aria-hidden="true" />
+		</div>
+	);
+}
+
+/**
  * Preset efek VHS untuk hero section.
  *
  * Nilainya sengaja ditulis eksplisit (sama dengan default canvasui) supaya
@@ -49,18 +82,12 @@ export function VHSHero({ className, children }: VHSHeroProps) {
 		setCssFallback(!supportsHtmlInCanvas());
 	}, []);
 
-	if (cssFallback) {
-		return (
-			<div className={`vhs-fx ${className ?? ""}`}>
-				<div className="vhs-fx-content">{children}</div>
-				<div className="vhs-fx-layer vhs-fx-scanlines" aria-hidden="true" />
-				<div className="vhs-fx-layer vhs-fx-grain" aria-hidden="true" />
-				<div className="vhs-fx-layer vhs-fx-roll" aria-hidden="true" />
-			</div>
-		);
-	}
+	const fallback = <CssVhs className={className}>{children}</CssVhs>;
+
+	if (cssFallback) return fallback;
 
 	return (
+		<Suspense fallback={fallback}>
 		<VHS
 			className={className}
 			speed={0.5}
@@ -81,5 +108,6 @@ export function VHSHero({ className, children }: VHSHeroProps) {
 		>
 			{children}
 		</VHS>
+		</Suspense>
 	);
 }

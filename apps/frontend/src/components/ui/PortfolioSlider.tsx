@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { getProjects } from "../../../services/api";
+import { strapiImage } from "../../../libs/strapi-image";
 import type { Project } from "../../../types/project";
 
 function extractPlainText(content: unknown): string {
@@ -18,20 +19,18 @@ function extractPlainText(content: unknown): string {
 	return "";
 }
 
-/** CMS images are relative paths; external covers (if any) are absolute URLs. */
-const resolveSrc = (img: string, BASE_URL: string) =>
-	/^(https?:)?\/\//.test(img) ? img : `${BASE_URL}${img}`;
+/** Three columns from lg, two from md, one below that. */
+const CARD_SIZES = "(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw";
 
 function ProjectCard({
 	project,
 	index,
-	BASE_URL,
 }: {
 	project: Project;
 	index: number;
-	BASE_URL: string;
 }) {
 	const descText = extractPlainText(project.description);
+	const cover = strapiImage(project.cover?.image);
 
 	return (
 		<motion.div
@@ -44,7 +43,11 @@ function ProjectCard({
 				<div className="group rounded-xl border border-border bg-card overflow-hidden">
 					<div className="aspect-[16/10] overflow-hidden bg-muted">
 						<img
-							src={resolveSrc(project.cover?.image?.url ?? "", BASE_URL)}
+							src={cover?.src}
+							srcSet={cover?.srcSet}
+							sizes={CARD_SIZES}
+							width={cover?.width}
+							height={cover?.height}
 							alt={project.title}
 							className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
 							loading="lazy"
@@ -87,7 +90,6 @@ export default function PortfolioSlider({
 }: { initialProjects?: Project[] } = {}) {
 	const [projects, setProjects] = useState<Project[]>(initialProjects ?? []);
 	const [loading, setLoading] = useState(!initialProjects);
-	const BASE_URL = import.meta.env.VITE_PUBLIC_STRAPI_CMS_BASE_URL;
 
 	useEffect(() => {
 		if (initialProjects) return;
@@ -144,12 +146,7 @@ export default function PortfolioSlider({
 			{!loading && projects.length > 0 && (
 				<div className="px-6 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
 					{projects.map((project, i) => (
-						<ProjectCard
-							key={project.id}
-							project={project}
-							index={i}
-							BASE_URL={BASE_URL}
-						/>
+						<ProjectCard key={project.id} project={project} index={i} />
 					))}
 				</div>
 			)}

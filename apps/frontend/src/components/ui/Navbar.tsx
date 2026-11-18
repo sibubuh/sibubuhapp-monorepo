@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { Link } from "@tanstack/react-router";
 import { Search } from "lucide-react";
 import type { Navbar as NavbarType } from "types/navbar";

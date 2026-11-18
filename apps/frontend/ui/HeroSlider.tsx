@@ -1,19 +1,30 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { retryImageWithoutCors, VHSHero } from "../src/components/ui/VHSHero";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
+import { CssVhs } from "../src/components/ui/VHSHero";
+import { resolveStrapiUrl } from "../libs/strapi-image";
 
-const BASE_URL = import.meta.env.VITE_PUBLIC_STRAPI_CMS_BASE_URL;
-
-interface HeroSliderProps {
-	slides?: Array<{
-		id: number;
-		title: string;
-		sub: string;
-		img: string;
-	}>;
+interface HeroSlide {
+	id: number;
+	title: string;
+	sub: string;
+	img: string;
+	srcSet?: string;
+	width?: number;
+	height?: number;
 }
 
-const defaultSlides = [
+/**
+ * The hero panel is half the grid from lg, full width below it. Exported so the
+ * route's preload hint can declare the same sizes — a mismatch makes the
+ * browser pick a different variant and download the image twice.
+ */
+export const HERO_SIZES = "(min-width: 1024px) 50vw, 100vw";
+
+interface HeroSliderProps {
+	slides?: HeroSlide[];
+}
+
+const defaultSlides: HeroSlide[] = [
 	{
 		id: 1,
 		title: "Sibubuh Agency",
@@ -28,9 +39,13 @@ const defaultSlides = [
 	},
 ];
 
-/** CMS images are relative paths; the fallback slides are absolute URLs. */
-const resolveSrc = (img: string) =>
-	/^(https?:)?\/\//.test(img) ? img : `${BASE_URL}${img}`;
+/**
+ * React 18 does not know `fetchPriority` and warns when it sees the camelCase
+ * spelling, so pass the attribute through lowercase. Drop this once the app
+ * moves to React 19, which supports the prop directly.
+ */
+const FETCH_PRIORITY_HIGH = { fetchpriority: "high" } as Record<string, string>;
+
 
 export default function HeroSlider({ slides }: HeroSliderProps) {
 	const [idx, setIdx] = useState(0);
@@ -104,18 +119,30 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
 					)}
 				</div>
 
-				{/* Image panel — hanya panel gambar yang dibungkus VHS supaya kolom
-				    teks dan tombol navigasi slider tetap DOM murni & interaktif. */}
+				{/* Image panel — hanya panel gambar yang kena efek VHS supaya kolom
+				    teks dan tombol navigasi slider tetap DOM murni & interaktif.
+				    Versi CSS, bukan <VHSHero>: shader WebGL-nya ada di critical
+				    path homepage dan menyumbang mayoritas TBT, sementara efek yang
+				    terlihat nyaris sama. */}
 				<div className="lg:col-span-6">
-					<VHSHero className="relative aspect-[4/3] overflow-hidden rounded-xl bg-muted shadow-card sm:aspect-[16/10] lg:aspect-[4/5]">
+					<CssVhs className="relative aspect-[4/3] overflow-hidden rounded-xl bg-muted shadow-card sm:aspect-[16/10] lg:aspect-[4/5]">
 						<div className="relative h-full w-full">
-							<AnimatePresence>
+							{/* initial={false} skips the enter animation on the very first
+							    mount. Without it the LCP image is server-rendered with
+							    opacity:0 and only becomes visible after hydration, which
+							    cost 2.6s of LCP render delay. Slide transitions after that
+							    still fade. */}
+							<AnimatePresence initial={false}>
 								<motion.img
 									key={active.id}
-									src={resolveSrc(active.img)}
+									src={resolveStrapiUrl(active.img)}
+									srcSet={active.srcSet}
+									sizes={HERO_SIZES}
 									alt=""
-									crossOrigin="anonymous"
-									onError={retryImageWithoutCors}
+									width={active.width}
+									height={active.height}
+									{...FETCH_PRIORITY_HIGH}
+									decoding="async"
 									initial={{ opacity: 0 }}
 									animate={{ opacity: 1 }}
 									exit={{ opacity: 0 }}
@@ -124,7 +151,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
 								/>
 							</AnimatePresence>
 						</div>
-					</VHSHero>
+					</CssVhs>
 				</div>
 			</div>
 		</section>
