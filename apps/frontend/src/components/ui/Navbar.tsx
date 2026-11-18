@@ -124,7 +124,7 @@ const Navbar = () => {
 					<div className="hidden md:flex items-center gap-3">
 						<Link
 							to="/search"
-							aria-label="Cari"
+							aria-label="Search"
 							className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
 						>
 							<Search className="h-5 w-5" />
@@ -142,7 +142,7 @@ const Navbar = () => {
 
 					{/* MOBILE: SEARCH + HAMBURGER + THEME TOGGLE */}
 					<div className="flex items-center gap-2 md:hidden">
-						<Link to="/search" aria-label="Cari" className="p-2 text-foreground">
+						<Link to="/search" aria-label="Search" className="p-2 text-foreground">
 							<Search className="h-5 w-5" />
 						</Link>
 						<button

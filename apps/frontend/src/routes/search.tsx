@@ -41,9 +41,9 @@ export const Route = createFileRoute("/search")({
 	head: () =>
 		buildSeoHead({
 			path: "/search",
-			title: "Pencarian",
+			title: "Search",
 			description:
-				"Cari cerita, project dan halaman di bubuh.id dalam satu tempat.",
+				"Search stories, projects and pages on bubuh.id in one place.",
 			noIndex: true,
 		}),
 
@@ -62,7 +62,7 @@ function SearchPage() {
 			<div className="mx-auto max-w-7xl">
 				<header className="mb-12 max-w-2xl">
 					<h1 className="font-serif text-4xl font-medium leading-tight text-foreground md:text-5xl">
-						Pencarian
+						Search
 					</h1>
 
 					<form
@@ -82,28 +82,28 @@ function SearchPage() {
 							maxLength={MAX_QUERY_LENGTH}
 							// biome-ignore lint/a11y/noAutofocus: the page exists only to be typed into
 							autoFocus
-							placeholder="Cari cerita, project, atau halaman…"
-							aria-label="Kata kunci pencarian"
+							placeholder="Search stories, projects, or pages…"
+							aria-label="Search keyword"
 							className="w-full bg-transparent text-base text-foreground outline-none placeholder:text-muted-foreground"
 						/>
 						<button
 							type="submit"
 							className="shrink-0 rounded-full bg-foreground px-4 py-1.5 text-sm font-medium text-background transition-colors hover:bg-ink hover:text-ink-foreground"
 						>
-							Cari
+							Search
 						</button>
 					</form>
 
 					{q && (
 						<p className="mt-4 text-sm text-muted-foreground">
-							{total} hasil untuk “{q}”
+							{total} {total === 1 ? "result" : "results"} for “{q}”
 						</p>
 					)}
 				</header>
 
 				{q && total === 0 && (
 					<p className="text-muted-foreground">
-						Tidak ada hasil untuk “{q}”. Coba kata kunci lain.
+						No results for “{q}”. Try another keyword.
 					</p>
 				)}
 
@@ -128,7 +128,7 @@ function SearchPage() {
 				)}
 
 				{pages.length > 0 && (
-					<ResultGroup title="Halaman" count={pages.length}>
+					<ResultGroup title="Pages" count={pages.length}>
 						<ul className="divide-y divide-border border-y border-border">
 							{pages.map((page) => (
 								<li key={page.id}>
