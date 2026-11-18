@@ -24,6 +24,7 @@ import {
 import ClientsParallax from "#/components/ui/ClientSection";
 import { STRAPI_CMS_BASE_URL } from "../../config/strapi";
 import { strapiImage } from "../../libs/strapi-image";
+import type { HomeSlider } from "../../types/home-slider";
 
 const STORY_LIMIT = 6;
 const PROJECT_LIMIT = 6;
@@ -42,6 +43,24 @@ function extractStrapiText(content: unknown): string {
 		return ((content as Record<string, unknown>).text as string) || "";
 	}
 	return "";
+}
+
+/** Flattens the home-slider single type into exactly what HeroSlider renders. */
+function toSlides(homeSlider: HomeSlider | null) {
+	return (
+		homeSlider?.slider?.map((slide) => {
+			const image = strapiImage(slide.image);
+			return {
+				id: slide.id,
+				title: slide.title,
+				sub: extractStrapiText(slide.content),
+				img: image?.src || slide.image?.url || "",
+				srcSet: image?.srcSet,
+				width: image?.width,
+				height: image?.height,
+			};
+		}) ?? []
+	);
 }
 
 export const Route = createFileRoute("/")({
@@ -69,7 +88,10 @@ export const Route = createFileRoute("/")({
 			]);
 
 		return {
-			homeSlider,
+			// Mapped here, not in the component: returning the raw single type
+			// serialises every slide's full media object — name, hash, mime,
+			// provider, timestamps — into the hydration script for nothing.
+			slides: toSlides(homeSlider),
 			webIntro,
 			projects: projects?.data ?? [],
 			client,
@@ -91,20 +113,20 @@ export const Route = createFileRoute("/")({
 		// The hero image is the LCP element and lives on another origin, so the
 		// browser only discovers it after the HTML is parsed. Preconnect opens the
 		// connection early; the preload starts the download before React runs.
-		const heroImage = strapiImage(loaderData?.homeSlider?.slider?.[0]?.image);
+		const hero = loaderData?.slides?.[0];
 
 		return {
 			...seo,
 			links: [
 				...seo.links,
 				{ rel: "preconnect", href: STRAPI_CMS_BASE_URL },
-				...(heroImage
+				...(hero?.img
 					? [
 							{
 								rel: "preload",
 								as: "image",
-								href: heroImage.src,
-								imagesrcset: heroImage.srcSet,
+								href: hero.img,
+								imagesrcset: hero.srcSet,
 								imagesizes: HERO_SIZES,
 								fetchpriority: "high",
 							},
@@ -118,22 +140,8 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-	const { homeSlider, webIntro, projects, client, socialMedia, stories } =
+	const { slides, webIntro, projects, client, socialMedia, stories } =
 		Route.useLoaderData();
-
-	const slides =
-		homeSlider?.slider?.map((s) => {
-			const image = strapiImage(s.image);
-			return {
-				id: s.id,
-				title: s.title,
-				sub: extractStrapiText(s.content),
-				img: image?.src || s.image?.url || "",
-				srcSet: image?.srcSet,
-				width: image?.width,
-				height: image?.height,
-			};
-		}) || [];
 
 	// Verified profile URLs from the CMS become sameAs links, which is what
 	// ties this site to the same person elsewhere in the Knowledge Graph.

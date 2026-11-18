@@ -288,6 +288,24 @@ export async function getRelatedNews({
 }
 
 /**
+ * Everything a story card needs. Without this Strapi also returns `content`
+ * and `contentText` — the full Blogger HTML of every post — which TanStack
+ * then serialises into the page's hydration script. On the homepage that was
+ * 52KB of the 94KB payload, for text no card ever renders.
+ *
+ * Detail screens use getStoryDetail/getStoryByPath, which stay unrestricted.
+ */
+const STORY_LIST_FIELDS = [
+	"title",
+	"slug",
+	"excerpt",
+	"labels",
+	"publishedDate",
+	"updatedDate",
+	"blogspotPath",
+];
+
+/**
  * Stories are the bubuh.id blog posts imported into Strapi. The collection is
  * not localized, so these talk to the API directly instead of going through
  * getDataWithLocalization.
@@ -310,6 +328,7 @@ export async function getStories({
 		},
 		sort: ["publishedDate:desc"],
 		populate: ["thumbnail"],
+		fields: STORY_LIST_FIELDS,
 	};
 
 	return await fetchWithAuth(
@@ -384,6 +403,7 @@ export async function getRelatedStories({
 		},
 		sort: ["publishedDate:desc"],
 		populate: ["thumbnail"],
+		fields: STORY_LIST_FIELDS,
 	};
 
 	return await fetchWithAuth(
@@ -867,6 +887,28 @@ export async function getProject({
 	}
 }
 
+/**
+ * Strapi's `formats` entries carry ext, hash, mime, name, path, size and
+ * sizeInBytes alongside the url. All libs/strapi-image needs is url and width,
+ * and everything else is dead weight in the hydration payload — these objects
+ * are repeated for every image on the page.
+ */
+function pickFormats(formats: any): ImageType["formats"] | undefined {
+	if (!formats || typeof formats !== "object") return undefined;
+
+	const picked: Record<string, { url: string; width: number; height: number }> = {};
+	for (const [key, value] of Object.entries(formats as Record<string, any>)) {
+		if (!value?.url || !value?.width) continue;
+		picked[key] = {
+			url: value.url,
+			width: value.width,
+			height: value.height || 0,
+		};
+	}
+
+	return Object.keys(picked).length ? (picked as ImageType["formats"]) : undefined;
+}
+
 function transformCover(cover: any): { id: number; image: ImageType } | null {
 	if (!cover?.image) return null;
 
@@ -882,7 +924,7 @@ function transformCover(cover: any): { id: number; image: ImageType } | null {
 			height: imgAttrs?.height || 0,
 			name: imgAttrs?.name || "",
 			size: imgAttrs?.size || 0,
-			formats: imgAttrs?.formats || undefined,
+			formats: pickFormats(imgAttrs?.formats),
 		},
 	};
 }
@@ -909,7 +951,7 @@ function transformGallery(gallery: any): ImageType[] {
 				height: attrs?.height || 0,
 				name: attrs?.name || "",
 				size: attrs?.size || 0,
-				formats: attrs?.formats || undefined,
+				formats: pickFormats(attrs?.formats),
 			};
 		});
 }
@@ -1008,7 +1050,7 @@ function transformThumbnail(thumbnail: any): ImageType | null {
 		height: attrs.height || 0,
 		name: attrs.name || "",
 		size: attrs.size || 0,
-		formats: attrs.formats || undefined,
+		formats: pickFormats(attrs.formats),
 	};
 }
 
@@ -1104,7 +1146,7 @@ export async function getClient({
 							height: imgAttrs.height || 0,
 							name: imgAttrs.name || "",
 							size: imgAttrs.size || 0,
-							formats: imgAttrs.formats || undefined,
+							formats: pickFormats(imgAttrs.formats),
 						}
 					: {
 							id: 0,
