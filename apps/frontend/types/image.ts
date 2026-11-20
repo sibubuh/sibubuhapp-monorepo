@@ -14,6 +14,8 @@ export type ImageType = {
   width: number
   height: number
   name: string
+  /** Strapi's `alternativeText`, when the editor filled it in. */
+  alt?: string
   /** thumbnail/small/medium/large, present only when the source was larger. */
   formats?: Partial<Record<'thumbnail' | 'small' | 'medium' | 'large', ImageFormat>>
 }

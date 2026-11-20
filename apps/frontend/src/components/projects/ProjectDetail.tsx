@@ -5,7 +5,7 @@ import type { Project } from "../../../types/project";
 import StrapiBlocks from "../sections/StrapiBlocks";
 import InstagramReelsSection from "../sections/InstagramReelsSection";
 import TiktokReelsSection from "../sections/TiktokReelsSection";
-import DiagonalCarousel from "../ui/DiagonalCarousel";
+import ProjectGallery from "./ProjectGallery";
 
 interface ProjectDetailProps {
   project: Project;
@@ -18,7 +18,6 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
   // ✅ prevent scroll jump + lazy load reels
   const [showReels, setShowReels] = useState(false);
-  console.log("Data:", JSON.stringify(project.description));
   useEffect(() => {
     // lock scroll position on first render
     const x = window.scrollX;
@@ -93,28 +92,19 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
           <StrapiBlocks data={project.description} />
         </div>
 
-        {/* GALLERY - Diagonal Carousel */}
+        {/* GALLERY */}
         {galleryImages.length > 0 && (
-          <div className="mt-10">
-            <h2 className="mb-8 font-serif text-2xl font-medium text-foreground">
-              Project Gallery
-            </h2>
-
-            <div className="relative h-[700px] w-full overflow-hidden rounded-xl bg-card">
-              <DiagonalCarousel
-                items={galleryImages.map((img: any) => ({
-                  src: `${BASE_URL}${img.url}`,
-                  title: img.alt || project.title,
-                  alt: img.alt || project.title,
-                }))}
-                slideSize={420}
-                rotationStep={28}
-                verticalStep={100}
-                inactiveScale={0.55}
-                loop
-                showControls={false}
-              />
+          <div className="mt-16">
+            <div className="mb-8 flex items-baseline justify-between gap-4">
+              <h2 className="font-serif text-2xl font-medium text-foreground">
+                Project Gallery
+              </h2>
+              <span className="text-xs tracking-[0.12em] text-muted-foreground">
+                {galleryImages.length} FOTO
+              </span>
             </div>
+
+            <ProjectGallery images={galleryImages} title={project.title} />
           </div>
         )}
       </div>

@@ -923,6 +923,7 @@ function transformCover(cover: any): { id: number; image: ImageType } | null {
 			width: imgAttrs?.width || 0,
 			height: imgAttrs?.height || 0,
 			name: imgAttrs?.name || "",
+			alt: imgAttrs?.alternativeText || undefined,
 			size: imgAttrs?.size || 0,
 			formats: pickFormats(imgAttrs?.formats),
 		},
@@ -950,6 +951,7 @@ function transformGallery(gallery: any): ImageType[] {
 				width: attrs?.width || 0,
 				height: attrs?.height || 0,
 				name: attrs?.name || "",
+				alt: attrs?.alternativeText || undefined,
 				size: attrs?.size || 0,
 				formats: pickFormats(attrs?.formats),
 			};
